@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="RTI.CommunicationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="600">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+    	
+		<!--Next/Back/Exit button-->
+		<Grid Background="{StaticResource PulseBackBorderNavColor}" Grid.Row="0" Margin="0" >
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+			
+				<!--Back Button-->
+				<Button Command="{Binding Path=BackCommand}" Margin="2" Width="65" BorderBrush="Black" Background="{StaticResource PulseButtonBlackBackground}">
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="10" Height="10" Margin="2,0,2,0">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource ArrowHead-Left}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="Back" Foreground="{StaticResource PulseFontOrangeColor}" />
+					</StackPanel>
+				</Button>			
+				
+				<!--Next Button-->
+				<Button Command="{Binding Path=NextCommand}" Margin="2" IsDefault="True" Width="65" BorderBrush="Black" Background="{StaticResource PulseButtonBlackBackground}" >
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Next" Foreground="{StaticResource PulseFontOrangeColor}"  />
+						<Rectangle Width="10" Height="10" Margin="2,0,2,0">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource ArrowHead-Right}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+					</StackPanel>
+				</Button>
+				
+				<!--Exit Button-->
+				<Button Command="{Binding Path=ExitCommand}" Margin="10,2"  Width="65" BorderBrush="Black" Background="{StaticResource PulseButtonBlackBackground}" >
+					<TextBlock Text="Exit" Foreground="{StaticResource PulseFontOrangeColor}"  />
+				</Button>
+			</StackPanel>
+		</Grid>	
+		
+		<ScrollViewer Grid.Row="1">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+		
+				<!--Title-->
+				<TextBlock Grid.Row="0" Text="Set the communication to the ADCP and other hardware" HorizontalAlignment="Center" Margin="5,60"  FontSize="26.667" Foreground="#FF1585B5" />
+				
+				<!--Options-->
+				<Grid Grid.Row="1" HorizontalAlignment="Center" MinWidth="300" MinHeight="210">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"  />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					
+					<!--ADCP-->
+					<Image Grid.Row="0" Grid.Column="0"  Source="{Binding AdcpImageSrc}" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="ADCP" Foreground="{StaticResource PulseFontOrangeColor}" Margin="5" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+					<ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding Path=SelectedAdcpCommPort}" Margin="5" MaxHeight="40"  />
+					<ComboBox Grid.Row="0" Grid.Column="3" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding Path=SelectedAdcpBaudRate}" Margin="5" MaxHeight="40"  />
+					<!--ToggleButton Grid.Row="0" Grid.Column="5" Command="{Binding Path=SetAdcpConnCommand}" IsChecked="{Binding Path=IsAdcpSet}" Background="{StaticResource PulseButtonBlackBackground}" Margin="5" Height="40" Width="40" >
+						<TextBlock Text="SET" Foreground="{StaticResource PulseFontOrangeColor}" />
+					</ToggleButton-->
+					<Button Grid.Row="0" Grid.Column="7" Background="{StaticResource PulseButtonBlackBackground}" Margin="5" Command="{Binding Path=ScanAdcpCommand}" Height="40" >
+						<TextBlock Text="Find ADCP" Foreground="{StaticResource PulseFontOrangeColor}" />
+					</Button>
+					
+					<!--GPS 1-->
+					<Image Grid.Row="1" Grid.Column="0"  Source="../Images/gps.png" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />
+					<TextBlock Grid.Row="1" Grid.Column="1" Text="GPS 1" Foreground="{StaticResource PulseFontOrangeColor}" Margin="5" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+					<ComboBox Grid.Row="1" Grid.Column="2" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding Path=SelectedGps1CommPort}" Margin="5" MaxHeight="40"  />
+					<ComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding Path=SelectedGps1BaudRate}" Margin="5" MaxHeight="40"  />
+					
+					<!--GPS 2-->
+					<Image Grid.Row="2" Grid.Column="0"  Source="../Images/gps.png" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Visibility="{Binding Path=IsGps2Visible, Converter={StaticResource BoolToVisConverter}}" />
+					<TextBlock Grid.Row="2" Grid.Column="1" Text="GPS 2" Foreground="{StaticResource PulseFontOrangeColor}" Margin="5" FontWeight="Bold" FontSize="24" Visibility="{Binding Path=IsGps2Visible, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<ComboBox Grid.Row="2" Grid.Column="2" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding Path=SelectedGps2CommPort}" Margin="5" Visibility="{Binding Path=IsGps2Visible, Converter={StaticResource BoolToVisConverter}}" MaxHeight="40" />
+					<ComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding Path=SelectedGps2BaudRate}" Margin="5" Visibility="{Binding Path=IsGps2Visible, Converter={StaticResource BoolToVisConverter}}" MaxHeight="40" />
+					
+					<!--NMEA 1-->
+					<Image Grid.Row="3" Grid.Column="0"  Source="../Images/compass.png" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Visibility="{Binding Path=IsNmea1Visible, Converter={StaticResource BoolToVisConverter}}" />
+					<TextBlock Grid.Row="3" Grid.Column="1" Text="NMEA 1" Foreground="{StaticResource PulseFontOrangeColor}" Margin="5" FontWeight="Bold" FontSize="24"  Visibility="{Binding Path=IsNmea1Visible, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+					<ComboBox Grid.Row="3" Grid.Column="2" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding Path=SelectedNmea1CommPort}" Margin="5"  Visibility="{Binding Path=IsNmea1Visible, Converter={StaticResource BoolToVisConverter}}" MaxHeight="40" />
+					<ComboBox Grid.Row="3" Grid.Column="3" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding Path=SelectedNmea1BaudRate}" Margin="5"  Visibility="{Binding Path=IsNmea1Visible, Converter={StaticResource BoolToVisConverter}}" MaxHeight="40" />
+					
+					<!--NMEA 2-->
+					<Image Grid.Row="4" Grid.Column="0"  Source="../Images/compass.png" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Visibility="{Binding Path=IsNmea2Visible, Converter={StaticResource BoolToVisConverter}}" />
+					<TextBlock Grid.Row="4" Grid.Column="1" Text="NMEA 2" Foreground="{StaticResource PulseFontOrangeColor}" Margin="5" FontWeight="Bold" FontSize="24"  Visibility="{Binding Path=IsNmea2Visible, Converter={StaticResource BoolToVisConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+					<ComboBox Grid.Row="4" Grid.Column="2" ItemsSource="{Binding CommPortList}" SelectedItem="{Binding Path=SelectedNmea2CommPort}" Margin="5"  Visibility="{Binding Path=IsNmea2Visible, Converter={StaticResource BoolToVisConverter}}" MaxHeight="40" />
+					<ComboBox Grid.Row="4" Grid.Column="3" ItemsSource="{Binding BaudRateList}" SelectedItem="{Binding Path=SelectedNmea2BaudRate}" Margin="5"  Visibility="{Binding Path=IsNmea2Visible, Converter={StaticResource BoolToVisConverter}}" MaxHeight="40" />
+					
+				</Grid>
+				
+			</Grid>
+		</ScrollViewer>
+
+    </Grid>
+</UserControl>

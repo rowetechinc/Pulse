@@ -1,0 +1,12 @@
+﻿- Update the Version and Revision Number of Pulse_AppCast.xml
+- Update the Installer.exe file name in Pulse_AppCast.xml to a random name.
+- Update the releasenotes.html with the latest changes.
+- Upload the Installer to the website.
+- Upload the Pulse_AppCast.xml to the website.
+- Upload the releasenotes.html to the website.
+
+Website FTP:
+IP: 66.147.244.164 
+Port: Default
+User: rowetech
+PW: same as website admin

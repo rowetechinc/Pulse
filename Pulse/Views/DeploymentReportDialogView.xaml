@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="RTI.DeploymentReportDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+    <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />  	
+		</Grid.RowDefinitions>
+		
+		<Grid Grid.Row="0" Margin="10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			
+			<!--Deployment Time-->
+			<WrapPanel Grid.Row="0">
+				<TextBlock Text="Pinging will begin at: " FontSize="21.333" />
+				<TextBlock Text="{Binding Path=Configuration.Commands.CETFP}" FontSize="21.333" Foreground="{StaticResource PulseFontBrightColor}" />
+			</WrapPanel>
+			
+			<!--Deployment Duration-->
+			<WrapPanel Grid.Row="1">
+				<TextBlock Text="ADCP Time: " FontSize="21.333" />
+				<TextBlock Text="{Binding Path=AdcpClock}" FontSize="21.333" Foreground="{StaticResource PulseFontBrightColor}" />
+			</WrapPanel>
+			
+			<!--Deployment Duration-->
+			<WrapPanel Grid.Row="2">
+				<TextBlock Text="It will be deployed for " FontSize="21.333" />
+				<TextBlock Text="{Binding Path=DeploymentDuration}" FontSize="21.333" Foreground="{StaticResource PulseFontBrightColor}" />
+			</WrapPanel>
+			
+			<!--Memory and Battery Usage-->
+			<WrapPanel Grid.Row="3">
+				<TextBlock Text="It will consume " FontSize="21.333" />
+				<TextBlock Text="{Binding Path=BatteriesRequiredStr}" FontSize="21.333" Foreground="{StaticResource PulseFontBrightColor}" />
+				<TextBlock Text=" and " FontSize="21.333" />
+				<TextBlock Text="{Binding Path=MemoryCardRequiredStr}" FontSize="21.333" Foreground="{StaticResource PulseFontBrightColor}" />
+				<TextBlock Text=" of disk storage. " FontSize="21.333" />
+			</WrapPanel>
+			
+			<!--CERECORD-->
+			<Grid Grid.Row="4">
+				<TextBlock Text="{Binding Path=CERECORDStr}" FontSize="21.333" Foreground="{StaticResource PulseFontBrightColor}"/>
+			</Grid>
+			
+			<!--CERECORD-->
+			<!--Grid Grid.Row="5" Margin="20">
+				<TextBlock Text="IT IS OK TO DISCONNECT THE ADCP." FontSize="21.333" HorizontalAlignment="Center" Foreground="{StaticResource PulseFontBrightColor}"/>
+			</Grid-->
+			
+		</Grid>
+		
+		<StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button Content="OK" Margin="5" Command="{Binding OkCommand}" IsDefault="True" Width="75" />
+            <Button Content="Cancel" Margin="5" Command="{Binding CancelCommand}" IsCancel="True" Width="75" />
+        </StackPanel>
+            
+    </Grid>
+</UserControl>

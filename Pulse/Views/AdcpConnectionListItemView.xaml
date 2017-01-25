@@ -1,0 +1,181 @@
+﻿<UserControl x:Class="RTI.AdcpConnectionListItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+			 Height="250" Width="250">
+	
+	<UserControl.Resources>
+		<Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
+			<Setter Property="Background" Value="Black" />
+		</Style>
+		
+	</UserControl.Resources>
+	
+    <Grid Background="Black">
+    	<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		
+		<Grid Grid.Row="1">
+			<!--Project Image-->
+			<Viewbox Stretch="Fill" MaxWidth="250" MaxHeight="150">
+				<Image Source="{Binding AdcpImage}" />
+			</Viewbox>
+		</Grid>
+		
+		<!--Port and Baudrate-->
+		<Grid Grid.Row="2" Margin="2,0">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Port: " />
+				<TextBlock Text="{Binding Options.Options.SerialOptions.Port}" />
+				<TextBlock Text=" Baud: " />
+				<TextBlock Text="{Binding SelectedBaudRate}" />
+			</StackPanel>
+		</Grid>
+			
+		<!--Firmware and Hardware-->
+		<Grid Grid.Row="3" Margin="2,0" Visibility="{Binding Path=IsAdcpFound, Converter={StaticResource BoolToVisConverter}}">
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="FW: " />
+					<TextBlock Text="{Binding Options.Options.Firmware}" />
+					<TextBlock Text="; HW: " />
+					<TextBlock Text="{Binding Options.Options.Hardware}" />
+				</StackPanel>
+				<TextBlock Text="{Binding Options.Options.SerialNumber}" FontWeight="Bold" />
+			</StackPanel>
+		</Grid>
+		
+		<!--Baudrate if not set-->
+		<Grid Grid.Row="4" Margin="2,0" Visibility="{Binding Path=IsAdcpNotFound, Converter={StaticResource BoolToVisConverter}}">
+			<ComboBox ItemsSource="{Binding Options.Options.SerialOptions.BaudRateOptions}" SelectedItem="{Binding SelectedBaudRate}" />
+		</Grid>
+		
+		<!--Project Name-->
+		<Grid Grid.Row="5" Margin="2,0" Visibility="{Binding Path=IsAdcpFound, Converter={StaticResource BoolToVisConverter}}">
+            <TextBox IsEnabled="{Binding Options.IsConnected}" Text="{Binding Path=Options.NewProjectName}" mahapps:TextBoxHelper.Watermark="Deployment Name" mahapps:TextBoxHelper.ClearTextButton="True" />
+		</Grid>
+		
+		<Grid Grid.Row="6">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			
+			<!--WrapPanel Grid.Column="0" Orientation="Vertical" Margin="5" Background="{StaticResource PulseBackBorder1Color}">
+				<RadioButton Style="{StaticResource RadioButtonToggleButton}" IsChecked="{Binding Path=Options.IsConnected, Mode=OneWay}" Command="{Binding Path=DataContext.ConnectAdcpCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Margin="5" ToolTip="Connect To ADCP" >
+					<StackPanel>
+						<Image Source="../Images/adcp_white_small.png" Width="25" Height="25" />
+					</StackPanel>
+				</RadioButton>
+				
+				<RadioButton Style="{StaticResource RadioButtonToggleButton}" IsChecked="{Binding Path=Options.IsConnected, Mode=OneWay}" Command="{Binding Path=DataContext.ConnectGpsCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Margin="5" ToolTip="Connect to GPS">
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="25" Height="25">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource gps}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+					</StackPanel>
+				</RadioButton>
+			</WrapPanel-->
+			
+			<ListBox Grid.Column="0" Margin="5" Style="{StaticResource ToggleButtonListBoxAdcpConnection}" ItemsSource="{Binding Path=ConnOptionList}" SelectedItem="{Binding Path=SelectedConnectionOption}" SelectionMode="Single" HorizontalAlignment="Left" VerticalAlignment="Top" >
+				<ListBox.Resources>
+					<Style TargetType="ListBoxItem">
+						<Style.Resources>
+							<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+							<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+							<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+						</Style.Resources>
+					</Style>
+				</ListBox.Resources>
+			</ListBox>
+			
+			<!--Display a popup to allow the user to create a deployment for the ADCP-->
+			<WrapPanel Grid.Column="1" Orientation="Horizontal" Margin="5" >
+				
+				<!--Configure-->
+				<Button Visibility="{Binding Path=IsAdcpFound, Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding Options.IsConnected}" Margin="2" Command="{Binding Path=DataContext.ConfigureAdcpCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" ToolTip="Configure ADCP" Background="#FFF1961F" Height="50" Width="50" >
+					<StackPanel>
+						<Rectangle Width="25" Height="25">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource configure}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="Configure" HorizontalAlignment="Center" FontSize="8" />
+					</StackPanel>
+				</Button>
+				<!--View Data-->
+				<Button Visibility="{Binding Path=IsAdcpFound, Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding Options.IsConnected}" Margin="2" Command="{Binding Path=DataContext.ViewDataCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" ToolTip="View Data" Background="#FFF1961F" Height="50" Width="50" >
+					<StackPanel>
+						<Rectangle Width="25" Height="25">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource plot}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="View Data" HorizontalAlignment="Center" FontSize="8" />
+					</StackPanel>
+				</Button>
+				
+				<!--Compass Cal-->
+				<Button Visibility="{Binding Path=IsAdcpFound, Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding Options.IsConnected}" Margin="2" Command="{Binding Path=DataContext.CompassCalCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" ToolTip="Compass Calibration" Background="#FFF1961F" Height="50" Width="50" >
+					<StackPanel>
+						<Rectangle Width="25" Height="25">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource compass}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="Compass Cal" HorizontalAlignment="Center" FontSize="7" />
+					</StackPanel>
+				</Button>
+				
+				<Button Visibility="{Binding Path=IsAdcpFoundAndAdmin, Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding Options.IsConnected}" Margin="2" Command="{Binding Path=DataContext.CompassUtilityCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" ToolTip="Compass Utility" Background="#FFF1961F" Height="50" Width="50" >
+					<StackPanel>
+						<Rectangle Width="25" Height="25">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource compass_util}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="Compass Util" HorizontalAlignment="Center" FontSize="7" />
+					</StackPanel>
+				</Button>
+				
+				<Button Visibility="{Binding Path=IsAdcpFound, Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding Options.IsConnected}" Margin="2" Command="{Binding Path=DataContext.DownloadDataCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" ToolTip="Download Data" Background="#FFF1961F" Height="50" Width="50">
+					<StackPanel>
+						<Rectangle Width="25" Height="25">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource appbar_download}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="Download" HorizontalAlignment="Center" FontSize="8" />
+					</StackPanel>
+				</Button>
+				
+				<Button Visibility="{Binding Path=IsAdcpFound, Converter={StaticResource BoolToVisConverter}}" IsEnabled="{Binding Options.IsConnected}" Margin="2" Command="{Binding Path=DataContext.UpdateFirmwareCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" ToolTip="Upload Data" Background="#FFF1961F" Height="50" Width="50">
+					<StackPanel>
+						<Rectangle Width="25" Height="25">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource appbar_upload}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="Update" HorizontalAlignment="Center" FontSize="8" />
+					</StackPanel>
+				</Button>
+			</WrapPanel>
+			
+		</Grid>
+		
+    </Grid>
+</UserControl>

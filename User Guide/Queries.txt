@@ -1,0 +1,55 @@
+Ensemble
+-----------------------
+SELECT
+DISTINCT
+  ens.ID as ID,
+  ens.EnsembleNum as EnsembleNum,
+  ens.DateTime as DateTime,
+  ens.Heading as Heading,
+  ens.Pitch as Pitch,
+  ens.Roll as Roll,
+  b00.BeamVel as B00,
+  b01.BeamVel as B01,
+  b02.BeamVel as B02,
+  b03.BeamVel as B03,
+  b04.BeamVel as B04
+FROM
+   (SELECT * FROM tblEnsemble WHERE ID=1) as ens
+      LEFT OUTER JOIN tblBeam b00 ON b00.EnsembleId = 1 AND b00.BinNum = 0 AND b00.BeamNum = 0
+      LEFT OUTER JOIN tblBeam b01 ON b01.EnsembleId = 1 AND b01.BinNum = 0 AND b01.BeamNum = 1
+      LEFT OUTER JOIN tblBeam b02 ON b02.EnsembleId = 1 AND b02.BinNum = 0 AND b02.BeamNum = 2
+      LEFT OUTER JOIN tblBeam b03 ON b03.EnsembleId = 1 AND b03.BinNum = 0 AND b03.BeamNum = 3
+      LEFT OUTER JOIN tblBeam b04 ON b04.EnsembleId = 1 AND b04.BinNum = 0 AND b04.BeamNum = 4
+;
+
+Subsystem Config
+----------------------
+SELECT DISTINCT *
+FROM
+  (SELECT * FROM tblEnsemble ensembles
+     LEFT OUTER JOIN tblBeam beams ON ensembles.ID = beams.EnsembleId
+     WHERE ensembles.SubsystemIndex=51 AND ensembles.SubsystemConfig=0) as ens
+;
+
+SELECT DISTINCT
+  ens.ID as ID,
+  ens.EnsembleNum as EnsembleNum,
+  ens.DateTime as DateTime,
+  ens.Heading as Heading,
+  ens.Pitch as Pitch,
+  ens.Roll as Roll,
+  b00.BeamVel as B00,
+  b01.BeamVel as B01,
+  b02.BeamVel as B02,
+  b03.BeamVel as B03,
+  b04.BeamVel as B04
+FROM
+  (SELECT * FROM tblEnsemble ensembles
+     LEFT OUTER JOIN tblBeam beams ON ensembles.ID = beams.EnsembleId
+     WHERE ensembles.SubsystemIndex=51 AND ensembles.SubsystemConfig=0) as ens
+     LEFT OUTER JOIN tblBeam b00 ON b00.EnsembleId = ens.ID AND b00.BinNum = 0 AND b00.BeamNum = 0
+     LEFT OUTER JOIN tblBeam b01 ON b01.EnsembleId = ens.ID AND b01.BinNum = 0 AND b01.BeamNum = 1
+     LEFT OUTER JOIN tblBeam b02 ON b02.EnsembleId = ens.ID AND b02.BinNum = 0 AND b02.BeamNum = 2
+     LEFT OUTER JOIN tblBeam b03 ON b03.EnsembleId = ens.ID AND b03.BinNum = 0 AND b03.BeamNum = 3
+     LEFT OUTER JOIN tblBeam b04 ON b04.EnsembleId = ens.ID AND b04.BinNum = 0 AND b04.BeamNum = 4
+;

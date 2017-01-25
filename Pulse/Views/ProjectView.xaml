@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="RTI.ProjectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		
+		<!--Title-->
+		<TextBlock Grid.Row="0" Text="Create a new project or load a project" HorizontalAlignment="Center" Margin="5,60"  FontSize="26.667" Foreground="#FF1585B5" />
+		
+		<Grid Grid.Row="1" HorizontalAlignment="Center">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<!--New Project button-->
+			<Button Grid.Column="0" Command="{Binding NewProjectCommand}" Margin="5" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel Margin="5">
+					<Image Source="../Images/new_project.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="New Project" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12" />
+					<TextBlock Text="Create a new project.  A project will store the ADCP settings and ensembles." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+					
+				</StackPanel>
+			</Button>
+			
+			<!--Load Project button-->
+			<Button Grid.Column="1" Command="{Binding LoadProjectCommand}" Margin="5" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel Grid.Column="1" Margin="5">
+					<Image Source="../Images/load_project.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Load Project" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12" />
+					<TextBlock Text="Select a project and load the settings and ensembles." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+		</Grid>
+		
+    </Grid>
+</UserControl>

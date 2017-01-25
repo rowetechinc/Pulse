@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="RTI.BackscatterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+             xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit" 
+             mc:Ignorable="d" 
+             xmlns:cal="http://www.caliburnproject.org">
+    <ScrollViewer>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Title}" Margin="5" />
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Max Ensembles:" Margin="5" />
+                        <extToolkit:IntegerUpDown Value="{Binding Path=MaxEnsembles}" Margin="5" Background="White" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <!--East Velocity Plot-->
+            <Grid Grid.Row="1" Background="Black" MinHeight="200">
+                <ContentControl cal:View.Model="{Binding AmpltiduePlot}" />
+        </Grid>
+
+        <!--North Velocity Plot-->
+            <!--Grid Grid.Row="2" Background="Black" MinHeight="200">
+            <ContentControl cal:View.Model="{Binding NorthVelPlot}" />
+        </-->
+
+        <!--Vertical Velocity Plot-->
+            <!--Grid Grid.Row="3" Background="Black" MinHeight="200">
+            <ContentControl cal:View.Model="{Binding VerticalVelPlot}" />
+        </-->
+
+        <!--Backscatter Plot-->
+        <!--Grid Grid.Row="4" Background="Black" MinHeight="200">
+            <ContentControl cal:View.Model="{Binding AmpltiduePlot}" />
+        </-->
+
+    </Grid>
+    </ScrollViewer>
+</UserControl>

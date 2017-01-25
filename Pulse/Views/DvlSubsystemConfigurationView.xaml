@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="RTI.DvlSubsystemConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400">
+    <Border Background="{StaticResource PulseBackBorder3Color}" Margin="5" >
+        <StackPanel>
+            <Grid>
+                <TextBlock FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" Text="DVL Setup" Margin="5" />
+            
+                    <!--Remove Button-->
+                <Button Margin="5" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Command="{Binding Path=RemoveSubsystemCommand}">
+                    <Rectangle Width="12" Height="12">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource remove}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Button>
+            </Grid>
+
+            <TextBlock FontWeight="Bold" Foreground="{StaticResource PulseFontColor}" Text="{Binding Path=Desc}" Margin="5" />
+            <StackPanel Orientation="Horizontal">            
+                
+                <!--Bottom Track-->
+                <Border Background="{StaticResource PulseBackBorder2Color}" Margin="5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource PulseFontBrightColor}" Text="Bottom Track     " Margin="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <CheckBox IsChecked="{Binding CBTON}" Margin="5" Style="{StaticResource OnOffSwitchStyle}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource PulseFontColor}" Text="Max Range (m): " Margin="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <extToolkit:DecimalUpDown Foreground="Black" Background="White" Value="{Binding Path=CBTMX}" Minimum="5.0" Maximum="10000.0" Margin="5" />
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Path=CBTMX_Desc}" FontFamily="Courier New" />
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource PulseFontColor}" Text="Long Range (m):" Margin="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <extToolkit:DecimalUpDown Foreground="Black" Background="White" Value="{Binding Path=CBTBB_LongRangeDepth}" Minimum="0" Margin="5" />
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Path=CBTBB_Desc}" FontFamily="Courier New" />
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource PulseFontColor}" Text="Sing Around:       " Margin="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <ComboBox ItemsSource="{Binding Path=BtBeamMultiplexList}" SelectedValue="{Binding Path=CBTBB_BeamMultiplex}" />
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Path=CBTBB_Desc}" FontFamily="Courier New" />
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!--Water Track-->
+                <Border Background="{StaticResource PulseBackBorder2Color}" Margin="5">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource PulseFontBrightColor}" Text="Water Track  " Margin="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <CheckBox IsChecked="{Binding CWTON}" Margin="5" Style="{StaticResource OnOffSwitchStyle}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource PulseFontColor}" Text="Bin Size (m): " Margin="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <extToolkit:DecimalUpDown Foreground="Black" Background="White" Value="{Binding Path=CWTBS}" Minimum="0" Margin="5" />
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Path=CWTBS_Desc}" FontFamily="Courier New" />
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="{StaticResource PulseFontColor}" Text="Blank (m):     " Margin="5" VerticalAlignment="Center" FontWeight="Bold" />
+                            <extToolkit:DecimalUpDown Foreground="Black" Background="White" Value="{Binding Path=CWTBL}" Minimum="0" Maximum="100" Margin="5" />
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Path=CWTBL_Desc}" FontFamily="Courier New" />
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</UserControl>

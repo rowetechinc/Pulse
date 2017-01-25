@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="RTI.ProjectListItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100"
+			 Height="250" Width="250">
+
+    <!--Set the tooltip background to transparent-->
+    <UserControl.Resources>
+        <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">
+            <Setter Property="Background" Value="Black" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+				
+		<!--Project Image-->
+		<Grid Grid.Row="1" Background="Black">
+			<!--Project Image-->
+			<Viewbox Stretch="Fill" Width="250" Height="150">
+				<Image Source="{Binding ProjectImage}" />
+			</Viewbox>
+			
+			<!--Refresh Project Image-->
+			<Button Command="{Binding RefreshProjectImageCommand}" Style="{DynamicResource MetroCircleButtonStyle}" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,0,0,0" >
+                <StackPanel Orientation="Horizontal">
+					<Rectangle Width="15" Height="15">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource appbar_refresh}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+				</StackPanel>
+            </Button>
+		</Grid>
+		
+		<!--Delete Project-->
+		<Grid Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" >
+			<Button Command="{Binding Path=DataContext.RemoveProjectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Style="{DynamicResource MetroCircleButtonStyle}" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,0,0,0" >
+                <StackPanel Orientation="Horizontal">
+					<Rectangle Width="15" Height="15">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource appbar_delete}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+				</StackPanel>
+            </Button>
+		</Grid>
+		
+		<Grid Grid.Row="2" Background="Black" >
+			<StackPanel>
+                <TextBlock Text="{Binding Project.SerialNumber}" FontWeight="Bold" Margin="5,0" />
+                <TextBlock Text="{Binding Project.ProjectName}" ToolTip="{Binding Path=Project.ProjectFolderPath}" Margin="5,0" />
+            </StackPanel>
+		</Grid>
+		
+		<!--Buttons for Project-->
+		<WrapPanel Grid.Row="3" Orientation="Horizontal" Background="Black" >
+			
+			<!--Configure-->
+			<Button Command="{Binding Path=DataContext.ConfigureDeploymentCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Margin="2" ToolTip="Configure ADCP" Background="#FFF1961F" Height="50" Width="50" >
+				<StackPanel>
+					<Rectangle Width="25" Height="25">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource configure}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+					<TextBlock Text="Configure" HorizontalAlignment="Center" FontSize="8" />
+				</StackPanel>
+			</Button>
+			
+			<!--View Data-->
+			<Button Margin="2" Command="{Binding Path=DataContext.ViewDataCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" ToolTip="View Data" Background="#FFF1961F" Height="50" Width="50" >
+				<StackPanel>
+					<Rectangle Width="25" Height="25">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource plot}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+					<TextBlock Text="View Data" HorizontalAlignment="Center" FontSize="8" />
+				</StackPanel>
+			</Button>
+			
+			<!--Screen Data-->
+			<Button Command="{Binding Path=DataContext.ScreenDataCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Margin="2" ToolTip="Screen Data" Background="#FFF1961F" Height="50" Width="50">
+				<StackPanel>
+					<Rectangle Width="25" Height="25">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource filter}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+					<TextBlock Text="Screen" HorizontalAlignment="Center" FontSize="8" />
+				</StackPanel>
+			</Button>
+			
+			<!--Export Data-->
+			<Button Command="{Binding Path=DataContext.ExportDataCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Margin="2" ToolTip="Export Data" Background="#FFF1961F" Height="50" Width="50">
+				<StackPanel>
+					<Rectangle Width="25" Height="25">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource export}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+					<TextBlock Text="Export" HorizontalAlignment="Center" FontSize="8" />
+				</StackPanel>
+			</Button>
+			
+			<!--Download Data-->
+			<Button Command="{Binding Path=DataContext.DownloadDataCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Margin="2" ToolTip="Download Data" Background="#FFF1961F" Height="50" Width="50">
+				<StackPanel>
+					<Rectangle Width="25" Height="25">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource appbar_download}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+					<TextBlock Text="Download" HorizontalAlignment="Center" FontSize="8" />
+				</StackPanel>
+			</Button>
+			
+			<!--Import Data-->
+			<Button Command="{Binding Path=DataContext.ImportGpsChinaCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" Margin="2" ToolTip="Import GPS Data" Background="#FFF1961F" Height="50" Width="50">
+				<StackPanel>
+					<Rectangle Width="25" Height="25">
+	                    <Rectangle.Fill>
+	                        <VisualBrush Visual="{StaticResource appbar_import}" />
+	                    </Rectangle.Fill>
+	                </Rectangle>
+					<TextBlock Text="Import GPS" HorizontalAlignment="Center" FontSize="7" />
+				</StackPanel>
+			</Button>
+			
+		</WrapPanel>
+	</Grid>
+</UserControl>

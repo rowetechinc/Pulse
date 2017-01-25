@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="RTI.StorageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+			 xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="600">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+    	
+		<!--Next/Back/Exit button-->
+		<Grid Background="{StaticResource PulseBackBorderNavColor}" Grid.Row="0" Margin="0" >
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+			
+				<!--Back Button-->
+				<Button Command="{Binding Path=BackCommand}" Margin="2" Width="65" BorderBrush="Black" Background="{StaticResource PulseButtonBlackBackground}">
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="10" Height="10" Margin="2,0,2,0">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource ArrowHead-Left}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="Back" Foreground="{StaticResource PulseFontOrangeColor}" />
+					</StackPanel>
+				</Button>			
+				
+				<!--Next Button-->
+				<Button Command="{Binding Path=NextCommand}" Margin="2" IsDefault="True" Width="65" BorderBrush="Black" Background="{StaticResource PulseButtonBlackBackground}" >
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Next" Foreground="{StaticResource PulseFontOrangeColor}"  />
+						<Rectangle Width="10" Height="10" Margin="2,0,2,0">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource ArrowHead-Right}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+					</StackPanel>
+				</Button>
+				
+				<!--Exit Button-->
+				<Button Command="{Binding Path=ExitCommand}" Margin="10,2"  Width="65" BorderBrush="Black" Background="{StaticResource PulseButtonBlackBackground}" >
+					<TextBlock Text="Exit" Foreground="{StaticResource PulseFontOrangeColor}"  />
+				</Button>
+			</StackPanel>
+		</Grid>	
+		
+		<ScrollViewer Grid.Row="1">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+    
+				<!--Title-->
+				<TextBlock Grid.Row="0" Text="Set the storage options" HorizontalAlignment="Center" Margin="5,60"  FontSize="26.667" Foreground="#FF1585B5" />	
+				
+				<!--Options-->
+				<Grid Grid.Row="1" HorizontalAlignment="Center">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					
+					<!--External Storage-->
+					<Border Grid.Row="0" Background="{StaticResource PulseBackBorder2Color}" Margin="0,5">
+						<Grid Margin="5">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+											
+							<!--Border Grid.Column="1" Background="Black" Width="80" Height="80" Margin="5" >
+								<Image Source="../Images/laptop.png" Width="70" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" />
+							</Border-->
+							<Image Grid.Column="1" Source="../Images/laptop.png" Width="70" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />
+							
+							<!--Disk-->
+							<Grid Grid.Column="2">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								
+								<!--Title-->
+								<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="External Storage" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="18.667"/>
+								
+								<!--Disk 1-->
+								<TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="Disk 1" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" />
+								<TextBox Grid.Row="2" Grid.Column="0" Margin="5" MinWidth="200" Text="{Binding Path=Disk1FolderPath}" />
+								<Button Grid.Row="2" Grid.Column="1" Content="..." Margin="5" Command="{Binding Path=BrowseProjectFolderCommand}" CommandParameter="DISK_1"  />
+								
+								<!--Disk 2-->
+								<TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Disk 2" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" />
+								<CheckBox Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=IsDisk2Enabled}" Style="{StaticResource OnOffSwitchStyle}" Margin="5" x:Name="IsDisk2ExtStrgEnabled" />
+								<TextBox Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding Path=Disk2FolderPath}" IsEnabled="{Binding ElementName=IsDisk2ExtStrgEnabled, Path=IsChecked}"  />
+								<Button Grid.Row="5" Grid.Column="1" Content="..." Command="{Binding Path=BrowseProjectFolderCommand}" CommandParameter="DISK_2" Margin="5" IsEnabled="{Binding ElementName=IsDisk2ExtStrgEnabled, Path=IsChecked}"  />
+								
+							</Grid>
+							
+							<!--Max File Size-->
+							<Grid Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								
+								<TextBlock Grid.Row="0" Text="Max Size" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}"/>
+								
+								<StackPanel Grid.Row="1" Orientation="Horizontal">
+									<extToolkit:IntegerUpDown MinWidth="50" Margin="5" Text="{Binding Path=MaxFileSize}" Minimum="1" Maximum="2048"  />
+									<TextBlock Text="MB" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" /> 
+								</StackPanel>
+							</Grid>	
+						</Grid>
+					</Border>
+			
+					<!--Internal Storage-->
+					<Border Grid.Row="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="2" Margin="0,20,0,5">			
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+							
+							<!--Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" Background="Black" Width="80" Height="80" Margin="5">
+								<Image Source="{Binding ImageSrc}" Width="70" Height="70" HorizontalAlignment="Center" VerticalAlignment="Center" />
+							</Border-->
+							<Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"  Source="{Binding ImageSrc}" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5,10.065,5,0" />
+							
+							<!--Title-->
+							<TextBlock Grid.Row="0" Grid.Column="2" Text="Internal Storage" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="18.667" />
+							
+							<!--Enable-->
+							<CheckBox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource OnOffSwitchStyle}" IsChecked="{Binding Path=IsInternalStorageEnabled}" Margin="5" />
+												
+							<!--ADCP Storage space size-->
+							<StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal">
+								<TextBlock  Text="{Binding Path=AdcpInternalStorageUsed}" Margin="5" />
+								<TextBlock Text="of" Margin="5" />
+								<TextBlock Text="{Binding Path=AdcpInternalStorageSize}" Margin="5" />
+								<Button Content="Refresh" Command="{Binding Path=RefreshAdcpInternalStorageCommand}" Margin="10,5,5,5" />
+								<Button Content="Format" Command="{Binding Path=FormatInternalStorageCommand}" Margin="10,5,5,5" />
+							</StackPanel>
+							
+							<!--Progress Ring-->	
+							<Viewbox Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Height="50" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >
+					        	<mahapps:ProgressRing IsActive="{Binding IsLoading}" Foreground="Red" Height="100" Width="100" />
+					        </Viewbox>
+							
+						</Grid>
+					</Border>
+					
+				</Grid>
+			</Grid>
+		</ScrollViewer>
+				
+    </Grid>
+</UserControl>

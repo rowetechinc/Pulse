@@ -1,0 +1,307 @@
+﻿<UserControl x:Class="RTI.AdcpSubsystemConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:cal="http://www.caliburnproject.org"   
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="400">
+    <Border Background="{StaticResource PulseBackBorder3Color}" CornerRadius="5" Margin="5">
+		<Grid Margin="5">
+	    	<Grid.RowDefinitions>
+	    		<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />  	
+			</Grid.RowDefinitions>
+	    	<Grid.ColumnDefinitions>
+	    		<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />  	
+			</Grid.ColumnDefinitions>
+			
+			<!--Title-->
+			<Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="5,3" Background="{StaticResource PulseBackBorder1Color}" BorderBrush="Black" BorderThickness="2" CornerRadius="3">
+	    		<Grid>
+					<!--Title-->
+					<TextBlock  Text="{Binding Path=ConfigKey}" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5" />				
+					
+					<!--Remove Button-->
+					<Button Margin="5" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Command="{Binding Path=RemoveCommand}">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource remove}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+					</Button>
+				</Grid>
+			</Border>		
+			
+			<!--Predictor-->
+			<Grid Grid.Row="1" Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				
+				<!--Range Animation-->
+				<Viewbox Grid.Row="0" MaxHeight="150" Margin="10">
+					<ContentControl cal:View.Model="{Binding RangeVM}"/>
+				</Viewbox>
+				
+				<!--Predictions-->
+				<Border Background="{StaticResource PulseBackBorder1Color}" Grid.Row="1" Margin="5" CornerRadius="5">
+					<Grid Margin="5">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>	
+						
+						<!--Data Size-->
+						<TextBlock Grid.Row="0" Grid.Column="0" Text="Data Size:" Foreground="Gray" />
+						<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=DataSize}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						
+						<!--Num Batteries-->
+						<TextBlock Grid.Row="1" Grid.Column="0" Text="Number of Batteries:" Foreground="Gray" />
+						<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=NumberBatteryPacks}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="1" Grid.Column="2" Text="packs" Foreground="Gray" />
+						
+						<!--Maximum Velocity-->
+						<TextBlock Grid.Row="2" Grid.Column="0" Text="Maximum Velocitiy:" Foreground="Gray" />
+						<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=MaximumVelocity}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="2" Grid.Column="2" Text="m/s" Foreground="Gray" />
+					
+						<!--Standard Deviation-->
+						<TextBlock Grid.Row="3" Grid.Column="0" Text="Standard Deviation:" Foreground="Gray" />
+						<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=StandardDeviation}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="3" Grid.Column="2" Text="m/s" Foreground="Gray" />
+
+						<!--First Bin-->
+						<TextBlock Grid.Row="4" Grid.Column="0" Text="First Bin Position:" Foreground="Gray" />
+						<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=ProfileFirstBinPosition}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="4" Grid.Column="2" Text="m" Foreground="Gray" />
+						
+						<!--Profile Range-->
+						<TextBlock Grid.Row="5" Grid.Column="0" Text="Profile Range:" Foreground="Gray" />
+						<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Path=PredictedProfileRange}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="5" Grid.Column="2" Text="m" Foreground="Gray" />
+						
+						<!--Bottom Track Range-->
+						<TextBlock Grid.Row="6" Grid.Column="0" Text="Bottom Track Range:" Foreground="Gray" />
+						<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=PredictedBottomRange}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="6" Grid.Column="2" Text="m" Foreground="Gray" />
+					
+					</Grid>
+				</Border>
+				
+			</Grid>
+			
+			<!--Commands-->
+			<Grid Grid.Row="1" Grid.Column="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				
+				<!--CWPBB Pulse Type-->
+				<Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Margin="6,6,4,4" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CWPBB" >
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CWPBB" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="White" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="5" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CWPBB" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="0" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CWPBB_TransmitPulseType}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="0" Grid.Column="3" Text="Broadband Pulse Type" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+				
+				<!--CWPBB Lag Length-->
+				<!--Button Grid.Row="1" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" >
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CWPBB" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="White" />
+					</StackPanel>
+				</Button-->
+				<!--Border Grid.Row="6" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CWPBB" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="1" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CWPBB_LagLength}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="1" Grid.Column="3" Text="Broadband Lag Length" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+				
+				<!--CBTON-->
+				<Button Grid.Row="2" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CBTON" >
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CBTON" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="White" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="7" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CBTON" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="2" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CBTON}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="2" Grid.Column="3" Text="Botton Track On/Off" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+				
+				<!--CWPBL-->
+				<Button Grid.Row="3" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CWPBL" >
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CWPBL" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="White" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="4" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CWPBL" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="3" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CWPBL}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="3" Grid.Column="3" Text="Blank Size (m)" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+				
+				<!--CWPBS-->
+				<Button Grid.Row="4" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CWPBS" >
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CWPBS" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="White" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="2" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CWPBS" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="4" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CWPBS}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="4" Grid.Column="3" Text="Bin Size (m)" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+								
+				<!--CWPBN-->
+				<Button Grid.Row="5" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CWPBN" >
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CWPBN" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="White" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="3" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CWPBN" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="5" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CWPBN}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="5" Grid.Column="3" Text="Number of Bins" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+								
+				<!--CWPP-->
+				<Button Grid.Row="6" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CWPP">
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CWPP" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="{DynamicResource PulseFontColor}" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="0" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="CWPP" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="6" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CWPP}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontWeight="Bold" FontSize="10.667" />
+				</Border>
+				<TextBlock Grid.Row="6" Grid.Column="3" Text="Number of Pings" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+				
+				<!--CWPTBP-->
+				<Button Grid.Row="7" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CWPTBP">
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CWPTBP" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="{DynamicResource PulseFontColor}" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="1" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CWPTBP" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="7" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CWPTBP}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="7" Grid.Column="3" Text="Time Between Pings (sec)" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+				
+				<!--CBI-->
+				<Button Grid.Row="8" Grid.RowSpan="2" Grid.Column="0" Margin="5" Background="{StaticResource PulseBackBorder2Color}" BorderBrush="Transparent" Command="{Binding Path=EditCommand}" CommandParameter="CBI">
+					<StackPanel Orientation="Horizontal">
+						<Rectangle Width="12" Height="12">
+		                    <Rectangle.Fill>
+		                        <VisualBrush Visual="{StaticResource settings}" />
+		                    </Rectangle.Fill>
+		                </Rectangle>
+						<TextBlock Text="CBI" Margin="5,0,0,0" HorizontalAlignment="Center" FontWeight="Normal" FontSize="9.333" Foreground="{DynamicResource PulseFontColor}" />
+					</StackPanel>
+				</Button>
+				<!--Border Grid.Row="1" Grid.Column="1" Background="{StaticResource PulseBackBorder2Color}" CornerRadius="3" Margin="5">
+					<TextBlock Text="CWPTBP" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10.667" Foreground="Gray" />
+				</Border-->
+				<Border Grid.Row="8" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CBI_BurstInterval}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="8" Grid.Column="3" Text="Burst Time length" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />
+				
+				<Border Grid.Row="9" Grid.Column="2" Background="{StaticResource PulseBackBorder4Color}" CornerRadius="3" Margin="5">
+					<TextBlock  Text="{Binding Path=CBI_NumEnsembles}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" FontSize="10.667" FontWeight="Bold" />
+				</Border>
+				<TextBlock Grid.Row="9" Grid.Column="3" Text="Number of ensembles in burst" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Gray" FontSize="9.333" />				
+				
+			</Grid>
+			
+	    </Grid>
+	</Border>
+</UserControl>

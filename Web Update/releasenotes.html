@@ -1,0 +1,50 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Version 4.3.2 ChangeLog</title>
+		<style type="text/css">
+.auto-style1 {
+	text-decoration: underline;
+}
+</style>
+	</head>
+	<body>
+	<p>
+<br><span class="auto-style1">Pulse-4.3.2</span>
+<br> - In ExportDataViewModel, fixed setting the min and max ensemble index.
+<br> - Added Pulse.Version to keep track of the version number.
+<br> - In AboutVeiwModel, added version number for Pulse Display.
+<br> - In ViewDataTextEnsembleViewModel, added timer to limit the update speed.
+<br> - In ViewDataTextViewModel, added RangeTracking info.
+<br> - Added threads to all the view pages.
+<br> - In DvlSetupViewModel, added timer to update terminal display.
+<br> - In SelectedPlaybackViewModel, LoadProjectsViewModel and NavBarViewModel, select ENS and BIN as default options for playback files.
+<br> - Changed dictionary to ConcurrentDicitionary for the VM list in the base views.
+<br> - Added Magnitude and Direction and Speed to TimeSeries.
+<br> - Added NMEA Heading and speed in TimeSeries.
+<br> - Changed dictionary to ConcurrentDicitionary for the VM list in the base views.
+<br> - Changed namespace in Commons to PulseDisplay.Version.
+<br> - Updated Waves Prediction.
+<br> - Added Waves Plots to TimeSeries plots.
+<br> - In TimeSeries, added new constructor.  Added Transducer Depth plot. 
+<br> - In DistanceTraveled, fixed AccumulateWpEarth() to remove the boat speed.  Changed Direction error to an angle and not a percentage.
+<br> - Update the AdcpPredictionModel display to help users determine which values to change.
+<br> - In PlaybackViewModel, fixed bug in ChangePlaybackSpeed() setting the speed to high or low.
+<br>
+<br><span class="auto-style1">RTI-3.2.1</span>
+<br> - CsvExportWriter, fixed bug in EncodeCSV() if bin sizes were different between configurations.
+<br> - In SerialConnection, in Connect(), reinitialize the Read thread when reconnecting.
+<br> - In CsvExportWriter, fixed missing Range Tracking Header.  Fixed Correlation header.  Fixed Bottom Track extra ,.  Made it handle any number of beams in BT.
+<br> - In MathHelper, added AngleDiff() to calculate the difference between 2 heading values.
+<br> - In Ensemble, added WaterTracking in DecodePd0Ensemble().
+<br> - In PD0, added WaterTracking in DecodeRtiEnsemble().
+<br> - In AdcpSubsystemCommands, update GetWavesCommandList() to include CBTON.
+<br> - In AdcpConfiguration, added AdditionalCommands to store additional commands.
+<br> - In BottomTrackDataSet, fixed bug in IsEarthVelocityGood.
+<br> - In AverageManager, make a clone of the ensemble to ensure not using the same reference.
+<br> - Changed the version number.
+<br> - In Pd6_13Codec, set the BT range values in SetBD().
+<br> - In SystemSetupDataSet, check for missing JSON values in ReadJson.
+ </p>
+	</body>
+</html>

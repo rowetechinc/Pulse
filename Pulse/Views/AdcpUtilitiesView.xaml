@@ -1,0 +1,143 @@
+﻿<UserControl x:Class="RTI.AdcpUtilitiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="600">
+    <Grid>
+    	
+		<WrapPanel>
+			
+			<!--Compass Cal button-->
+			<Button Grid.Row="1" Grid.Column="1" Command="{Binding CompassCalCommand}" Margin="10"  Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/compass_cal.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Compass Calibration" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+						<TextBlock.Effect>
+							<DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+						</TextBlock.Effect>
+					</TextBlock>
+					<TextBlock Text="Calibrate the ADCP's compass." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+			
+			<!--Compass Utilities button-->
+			<Button Grid.Row="1" Grid.Column="1" Command="{Binding CompassUtilityCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/compass_utility.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Compass Utilities" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+						<TextBlock.Effect>
+							<DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+						</TextBlock.Effect>
+					</TextBlock>
+					<TextBlock Text="ADCP Compass Utilities." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+			
+			<!--Terminal button-->
+			<Button Grid.Row="1" Grid.Column="1" Command="{Binding TerminalCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/terminal.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Terminal" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+						<TextBlock.Effect>
+							<DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+						</TextBlock.Effect>
+					</TextBlock>
+					<TextBlock Text="ADCP Terminal to communicate with the ADCP." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+			
+			<!--Download button-->
+			<Button Grid.Row="1" Grid.Column="1" Command="{Binding DownloadCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/download.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Download Data" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12" />
+					<TextBlock Text="Download the data from the ADCP." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+			
+			<!--Upload button-->
+			<Button Grid.Row="1" Grid.Column="1" Command="{Binding UploadCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/update_firmware.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Upload Firmware" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+						<TextBlock.Effect>
+							<DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+						</TextBlock.Effect>
+					</TextBlock>
+					<TextBlock Text="Upload new firmware to the ADCP." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+			
+			<!--Screen button-->
+			<Button Grid.Row="1" Grid.Column="1" Command="{Binding ScreenCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/screen.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Screen Data" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+						<TextBlock.Effect>
+							<DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+						</TextBlock.Effect>
+					</TextBlock>
+					<TextBlock Text="Screen the incoming ADCP data." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+			
+			<!--Vessel Mount button-->
+			<Button Grid.Row="1" Grid.Column="1" Command="{Binding VmOptionsCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/satellite.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="Vessel Mount Options" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+						<TextBlock.Effect>
+							<DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+						</TextBlock.Effect>
+					</TextBlock>
+					<TextBlock Text="Vessel Mount screening and options." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+			
+			<!--Predicition Model button-->
+			<Button Command="{Binding PredicitionModelCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+				<StackPanel>
+					<Image Source="../Images/calibration.png" Width="200" Height="200" Margin="5" />
+					<TextBlock Text="ADCP Predicition Model" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+						<TextBlock.Effect>
+							<DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+						</TextBlock.Effect>
+					</TextBlock>
+					<TextBlock Text="Modify commands to see how the battery usage, storage usage, max range, max speed and standard deviation will be affected." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+				</StackPanel>
+			</Button>
+
+            <!-- RTI Compass Cal button-->
+            <Button Command="{Binding RtiCompassCalCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+                <StackPanel>
+                    <Image Source="../Images/compass_cal.png" Width="200" Height="200" Margin="5" />
+                    <TextBlock Text="RTI Compass Calibration" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+                        <TextBlock.Effect>
+                            <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock Text="An experimental compass calibration specific for an RTI ADCP." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+                </StackPanel>
+            </Button>
+
+            <!-- Diagnostics button-->
+            <Button Command="{Binding DiagnosticsCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+                <StackPanel>
+                    <Image Source="../Images/terminal.png" Width="200" Height="200" Margin="5" />
+                    <TextBlock Text="Diagnostics" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+                        <TextBlock.Effect>
+                            <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock Text="Test for a conneciton to the ADCP and verify it is working." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+                </StackPanel>
+            </Button>
+
+        </WrapPanel>
+		
+		
+            
+    </Grid>
+</UserControl>

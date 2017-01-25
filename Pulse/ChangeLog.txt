@@ -1,0 +1,1308 @@
+﻿Pulse Changelog
+
+Pulse-4.4.17
+ - In EnsembleIntervalViewModel, fixed the CEI command only being an integer.
+ - Added PredictionModel image to Home page.
+ - In DownloadedDataViewModel, add ability to download any data that starts with .EN
+ 
+
+Pulse-4.4.13
+ - In ExportDataViewModel, added Velocity Vector export to csv.
+ - Fixed background colors in textboxes.
+ - Fixed download data button for ethernet.
+ - Fixed selecting subsystems in DVL Setup.
+ - Maded the default BT mode in Project prediction model Narrowband.
+
+Pulse-4.4.12
+ - In BackscatterViewModel, removed 3 plots and left only 1.
+ - In ViewDataGraphicalViewModel, removed contour plot and replaced with heatmap plot.
+
+Pulse-4.4.11
+ - Updated Distanced Traveled calculation.
+
+Pulse-4.4.10 
+ - Check if the data is valid before converting it in ExportDataViewModel.
+
+Pulse-4.4.9
+ - Updated the prediction model.
+
+Pulse-4.4.8
+ - In TimeViewModel, fixed crash when selecting date.
+
+Pulse-4.4.7
+ - In ExportDataViewModel, when exporting data, use the VM and Screening options on the data.
+ - In ViewDataDvlViewModel, added GPS Heading.
+ - In ViewDataTextEnsembleViewModel, added GPS Heading.
+
+Pulse-4.4.6
+ - Fix playback.
+ - Fix missing heading.
+
+Pulse-4.4.5
+ - Fixed the font colors in Windows 10.
+ - Updated the prediction model to Rev M.
+
+Pulse-4.4.4
+ - Fixed Export of RangeTracking data. And added to RangeTracking to project.
+ 
+Pulse-4.4.0
+ - In NavBar added record button and recording to file to the record button.
+ - In CompassRoseViewModel, added try catch for averaging. Put a thread in to buffer the data.
+ - Added DVL data to TimeSeries.  This includes Ship Velocity.
+
+Pulse-4.3.1
+ - In ExportDataViewModel, fixed setting the min and max ensemble index.
+ - Added Pulse.Version to keep track of the version number.
+ - In AboutVeiwModel, added version number for Pulse Display.
+ - In ViewDataTextEnsembleViewModel, added timer to limit the update speed.
+ - In ViewDataTextViewModel, added RangeTracking info.
+ - Added threads to all the view pages.
+ - In DvlSetupViewModel, added timer to update terminal display.
+ - In SelectedPlaybackViewModel, LoadProjectsViewModel and NavBarViewModel, select ENS and BIN as default options for playback files.
+
+Pulse-4.3.0
+ - Changed dictionary to ConcurrentDicitionary for the VM list in the base views.
+
+Pulse-4.2.2
+ - In ViewDataBaseViewModel, update warning message using a timer.
+ - Fixed the display to not refresh as fast as the incoming data.  This will allow higher speed data.
+
+Pulse-4.2.0
+ - Changed to version 4.2.0
+ - Made the ContourLegend Tooltip be a larger version of the legend.
+ - In DownloadDataViewModel, create a timer to update the terminal display to reduce refreshes.
+
+Pulse-4.1.5
+ - Changed to version 4.1.5
+ - In ShellViewModel, added Environment.Exit(Environment.ExitCode) to shutdown all threads.
+ - In RtiCompassCalViewModel, commented out the calibration results for performance for Paul.
+ - In PlaybackViewModel, set the playback name on a PlaybackEvent.
+ - In LoadProjectsView, moved the Import button to the top.
+ - In LoadProjectViewModels, changed importing a file to FilePlayback.
+ - In ViewDataGraphicalViewModel, fixed bug with CheckData() not checking for bad ensembles.
+
+Pulse-4.1.4
+ - Changed to version 4.1.4
+ - In AdcpUtilitiesViewModel, only load the advanced compass cal view.
+ - Check for null ensembles in the ensemble event.
+
+Pulse-4.1.3
+ - Changed to version 4.1.3
+ - Removed the margins around all the plots so copy and pasting them will give the entire plot.
+ - In LoadProjectViewModel, changed the import to record the data without publishing it.
+ - In PlaybackViewModel, only blink the recorder light if not importing.
+
+Pulse-4.1.2
+ - Change to version 4.1.2
+ - In ExportDataViewModel, added GageHeight dataset.
+ - In ViewDataGraphicalViewModel, added TimeSeriesOptions.
+ - Added Playback button to NavBar.
+
+Pulse-4.1.1
+ - Changed to version 4.1.1.
+
+Pulse-4.1.0
+ - Changed to version 4.1.0.
+ - Added DvlSetupViewModel.
+ - Added GetAdcpConfiguration() to AdcpConnection.
+ - Adding DvlSetup.
+ - In AdcpConnection, added STIME commands.
+ - Added DvlSubsystemConfiguration.
+ - In CompassUtilityViewModel, added ability to record the compass data and set what output.
+ - Add ViewDataBaseDvlViewModel and ViewDataDvlViewModel.
+ - Updated Helix 3D toolkit.
+ - Added CompassRoseViewModel.
+ - In CompassRoseViewModel, added averaging.
+ - In PageEvents, added RtiCompassCal.
+ - In AdcpUtilitiesViewModel, added RtiCompassCalCommand.
+ - In ShellViewModel, added RtiCompassCalView.
+ - In SeriesType, added Base_Velocity to eBaseSeriesType.
+ - In TimeSeriesPlotViewModel, added Bottom Track speed and Water Track plots.
+ - In TimeSeries, added Bottom Track speed and Water Track plots.
+ - Fixed bugs with DmgPlotViewModels.
+ - Added Waves calculations.
+ - Added WavesViewModel and View.
+ - In AdcpConnection, added PublishEnsembleData() to publish data from the importer that has already been decoded.
+ - In LoadProjectsViewModel, changed the importer to process the raw data into ensembles. 
+ - Removed Waves viewmodel.
+ - In ContourPlot, added plot types to Contour plot.
+ - In ViewDataGraphicalViewModel, all the user to choose different contour plot types.
+ - In ViewDataGraphicalViewModel, display the selected ensemble in the text area.
+ - In ContourPlot, added remaining plots.
+ - In ContourPlot, fixed bug in DrawPlot() checking for the max bin.
+ - Redid the layout of the ValidationTest view and also made it calculate all the time now.
+ - Added MinMaxAvgStdSeries to take the min, max, avg and std of a profile plot.
+ - In ProfilePlotViewModel, added the option to turn on or off the profile plots.
+ - In MinMaxAvgStdSeries, added standard deviation.
+ - In ExportDataViewModel, fixed some bugs with missing flags.
+ - In Commons, added DEFAULT_CONFIG_DIR.
+ - In ValidationTestBaseViewModel, check for a configuration file for fresh and salt or use default commands
+ - In SeriesType, TimeSeries and TimeSeriesPlotViewModel, added SystemSetup and Range Tracking.
+
+Pulse-4.0.3
+ - Changed to version 4.0.3.
+ - Updated AutoUpdater to 1.3.1.
+ - Created an Update and Full installer.
+ - Changed PlaybackViewModel to use ProjectPlayback.cs.  Moved project playback logic to ProjectPlayback.cs in RTI.
+ - In PageNavEvent, added SelectPlaybackView.
+ - In AppBootstrapper, added SelectPlaybackViewModel.
+ - Added SelectedPlayback to pulsemanager to allow many sources of playback.
+ - In PlaybackViewModel, use SelectedPlayback in pulsemanager.
+ - Added SelectedPlaybackView to decided to playback a file or project.
+ - Added PlaybackEvent to know when a new playback is selected.
+ - In PlaybackViewModel, handle PlaybackEvent to know when a new playback settings is received.
+ - Replaced all the seperate codecs in AdcpConnection with AdcpCodec.
+
+Pulse-4.0.2
+ - Changed to version 4.0.2.
+ - In Commons, added DEFAULT_RECORD_DIR_TANK and DEFAULT_RECORD_DIR.
+ - In ValidationTestBaseViewModel, moved DEFAULT_RECORD_DIR_TANK and DEFAULT_RECORD_DIR to Pulse.Common.
+ - In AdcpConnection, Shutdown the GPS and NMEA serial ports properly.  Added raw recording for all the serial ports.
+ - In TerminalAdcpViewModel, added raw recording.
+ - In TerminalNmeaViewModel, added raw recording.
+
+Pulse-4.0.1
+ - Changed to version 4.0.1.
+ - In ShellViewModel, check for updates on startup.
+ - Removed AdcpPlotEvent.
+ - In ViewDataGraphicalViewModel, removed AdcpPlotEvent.  Added CloseVMCommand.
+ - In ViewDataBaseGraphicalViewModel, added CloseVmEvent event.
+ - In ViewDataBaseTextViewModel, changed the list of VM to match ViewDataGraphicalViewModel.
+ - In ViewDataTextViewModel, added CloseVMCommand.
+ - Used InactiveSelectionHighlightBrushKey in ListView tabs to ensure the background color is transparent.
+ - In ValidationTestViewModel, added CloseVMCommand.
+ - In ValidationTestBaseViewModel, changed the list of VM to match ViewDataGraphicalViewModel.
+ - In ScreenDataBaseViewModel, added CloseVmEvent event.  Changed the list of VM to match ViewDataGraphicalViewModel.
+ - In AveragingBaseViewModel, added CloseVmEvent event.  Changed the list of VM to match ViewDataGraphicalViewModel.
+ - In AveragingViewModel, added CloseVMCommand.
+ - In ScreenDataViewModel, added CloseVMCommand.
+ - In ValidationTestBaseViewModel, ScreenDataBaseViewModel, ViewDataBaseTextViewModel, ViewDataBaseGraphicalViewModel, AveragingBaseViewModel, clear all the VM properly when changing projects.  On activate, make sure the VM will display.
+ - In ValidationTestViewModel, await on Clear() in DisplayBulkDataExecute().
+ - In LoadProjectViewModel, fixed importing the data and loading the image in sync.
+
+Pulse-4.0.0
+ - Changed to version 4.0.0.
+ - Updated to .NET 4.5.1.
+ - Updated to Newtonsoft.JSON 6.0.4.
+ - Updated SQLite to 1.0.93.0.
+ - Updated Extended Toolkit to 2.2.1.
+ - Updated NUnit to 2.6.3.
+ - In ValidationTestViewModel, added missing properties.
+ - Updated EntityFramework to 6.1.1.
+ - Changed build to AnyCPU.
+ - Updated Wpf Localize Extension to 2.2.1.
+ - Updated Mahapps.Metro to 0.13.1.0.
+ - Updated Caliburn.Micro to 2.0.0.
+ - In AppBootstrapper, updated Bootstrapper for Caliburn.Micro 2.0.
+ - Updated all the Events.Publish to Events.PublishOnUIThread.
+ - Updated ReactiveCommand to 6.0.3.
+ - In ViewDataTextEnsembleViewModel, removed the plots.
+ - In UpdateFirmwareViewModel, stop pinging and reboot when updating the firmware.
+ - In ScreenDataViewModel, fixed a bug with CanUseGpsVel storing the value.
+ - Updated Oxyplot to 2014.1.319.1.
+ - Updated Splat to 1.4.1.
+ - Load projects async.
+ - In CompassCalViewModel, removed Vault and storing the data to database.
+ - Removed the Vault project.
+ - Installed Foody.Costura to create 1 dll for the Pulse software.
+ - In ProjectManagerDatabaseWriter, removed all the function calls associated with tblAdcpSubsystemConfigOptions.
+ - In DbCommons, removed TBL_PULSE_ADCP_SUBSYSTEM_CONFIG_OPTIONS.
+ - In PulseManager, removed all the function calls associated with tblAdcpSubsystemConfigOptions.
+ - In LoadProjectsViewModel, in ImportDb() and ImportBinary, refresh the image on the UI thread.
+ - Changed ContourPlot1 back to ContourPlot.
+ - In ValidationTestViewModel, removed setting NavBin in the constructor so it will use the proper default value.
+ - In ViewDataGraphicalViewModel, changed the returns to continue in DisplayDataExecute().
+ - In ContourPlot, removed clearing the plot in CheckPlotHeight().
+
+Pulse-3.4.0
+ - Changed to version 3.4.0
+ - In ViewDataGraphicalViewModel, ViewDataTextViewModel and ValidationTestViewModel, check for new sources of data from averaging.
+ - In AdcpConnections, set the source and type when receiving the data from the codecs.  Added Source and Type to EnsembleData struct.
+ - In TerminalAdcpViewModel, fixed a bug in ScanSerialPorts() where if no port is found, do not set SelectedSerialPort.
+ - Added DmgPlotView and DmgPlotViewModel.
+ - In ValidationTestViewModel, moved Dmg Plot to DmgPlotViewModel.
+ - In AppBootstrapper, changed AveragingViewModel to AveragingBaseViewModel and made it a singleton.
+ - In NavBarViewModel, added AveragingCommand.
+ - Added AveragingViewModel and AveragingBaseViewModel. 
+ - In ValidationTestViewModel, added ActualPingCount.
+ - In ViewDataTextViewModel and ViewDataGraphicalViewModel, moved TextEnsembleVM from the base view to each view.
+ - In PlaybackViewModel, average the data.
+ - In AdcpConnection, average the incoming data.
+ - In SerialNumberGeneratorViewModel, changed the default serial number.  Also i have the subsystem type expanded by default.
+ - In TimeSeries, fixed bug in UpdateSeries() when DVL data has no bins.
+ - In ViewDataTextEnsemble, check if the Subsystem is given for a DVL.
+ - Added TCP connection to AdcpConnection and TerminalViewModel.
+ - In AveragingViewModel, added IsRecording.
+ - In ViewDataTextViewModel, added Water Track data.
+ - In ShellViewModel, fixed a bug with shutdown the application and put the AdcpConnection as the last singleton to shutdown.
+ - In ProfilePlotViewModel, ValidationTestViewModel, DmgPlotViewModel, and TimeSeriesPlotViewModel, fixed bug with refreshing the plot.
+ - In UpdateFirmwareViewModel, removed the TerminalVM reference.
+ - In AdcpConnection, shutdown all the connections properly.
+
+Pulse-3.3.1
+ - Changed to version 3.3.1
+ - In ValidationTestViewModel and ProjectReportText, added Profile Range and Signal to Noise results.
+ - TerminalAdcpViewModel, make a connection after the scan in ScanSerialPorts().
+ - In ValidationTestBaseViewModel, added a button to import commands and added a flag to say if tank testing to store results in a different folder.
+ - In AdcpConnection, added PD6_13Codec.
+ - In ValidationTestBaseViewModel, removed using the dispatcher in the EnsembleEvent eventhandler.
+
+Pulse-3.3.0
+ - Changed to version 3.3.0
+ - In DeployAdcpViewModel and AdcpConfigurationViewModel, added saving the commands to a text file. 
+ - In AdcpCommands, fixed finding the Hardware in DecodeBREAK().
+ - In ValidationTestBaseViewModel and ViewDataBaseViewModel, added a warning if not recording live data.
+
+Pulse-3.2.4
+ - Changed to version 3.2.4
+ - In PulseConfigurations, changed ExportDataOptions to ExportOptions.
+ - In LoadProjectViewModel, if the file is not a DB file, then consider it a binary file in ImportFiles().
+ - In CommunicationViewModel, set the Selected ADCP port and baudrate from the current connection.
+ - Allow PD0 viewing.
+ - In ValidationTestViewModel, allow display of Single beam ADCPs.
+ - In ViewDataTextViewModel, allow display of Single beam ADCPs.
+ - In DistanceTraveled, set default declination to 0. 
+ - In ValidationTestBaseViewModel, in On_ConfigureAdcpFresh() and On_ConfigureAdcpSalt() removed setting CHO.
+ - In ExportDataViewModel, allow the user to set which datasets, bins and ensembles to export.  Export PD0.
+ - In ViewDataTextViewModel, check for any exceptions in UpdateBinList().
+ - In DistanceTraveled, check for any NaN position in AccumulateGps().
+ - In ScreenSubsystemConfigOptions, added Correlation Threshold and SNR threshold for retransforming the data.
+ - In ScreenDataViewModel, when Retransform is selected, also retransform BT data.  Added Correlation and SNR threshold to retransform.
+ - In ViewDataTextViewModel, in UpdateBinList(), display the data even when datasets are missing.
+ - In ViewDataGraphicalViewModel, in CheckData(), fixed checking if the ensembles are out of sync when playing back.
+ - In ValidationTestBaseViewModel, in On_ConfigureAdcpSalt(), set the CHS (heading source) to use the GPS.
+ - In ValidationTestViewModel, removed Small Plots and the UpdatePlot event.
+ - In ValidationTestViewModel, update the plots after the series are updated.
+ - In AdcpConfigurationViewModel, fixed a bug updating the Predictor.
+ - In AdcpSubsystemConfigurationViewModel, fixed a bug updating the Predictor.
+ - In ValidationTestView, moved updating the plots to the ViewModel.
+ - In ValidationTestViewModel, added syncrhonization to the updating of the plots.  Optimized the plot updates.
+ - In ProfilePlotView, removed the event handler.  Plot is updated in the view model now.
+ - In ProfilePlotViewModel, refresh the plot here and remove the event to tell the view to refresh the plot.  Added locks to the updating the plot.
+ - In ValidationTestViewModel, created global line series for each plot and update the points in the line series only.
+
+Pulse-3.2.3
+ - Changed to version 3.2.3
+ - In ViewDataTextViewModel, made DisplayData() work async.  The data is buffered when it is recieved so the event handler can return immediately.
+ - In ProfilePlotViewModel, made AddIncomingData() work async.  The data is buffered when it is recieved so the event handler can return immediately.
+ - In TimeSeriesPlotViewModel, made AddIncomingData() work async.  The data is buffered when it is recieved so the event handler can return immediately.
+ - In ViewDataGraphicalViewModel, made DisplayData() and DisplayBulkData() work async.  The data is buffered when it is recieved so the event handler can return immediately.
+ - Added WriteableBitmapEx to the installer.
+ - Updated Oxyplot to 2014.1.1.1.  The OxyColor has changed so that ARGB set methods are private.  So converting to and from JSON needed to change.  Now the stored colors are strings.
+ - In BeamColor, changed the default colors to a string.
+ - In TimeSeriesPlotViewModel, changed SetDefaultBeamColor() to convert the default colors to an OxyColor.
+ - In ProfilePlotViewModel, changed SetDefaultBeamColor() to convert the default colors to an OxyColor.
+ - In ViewDataGraphicalOptions, changed the beam colors to a string.
+ - In ValidationTestViewModel, changed the default colors to strings so need to parse them back to OxyColor.
+ - In PulseManager, put a try/catch in GetPulseConfig() so if the configuration could not be properly converted from JSON, the default configuration would be used.
+ - In ViewDataGraphicalViewModel, removed the plot color properties.  Convert the option's colors from strings to OxyColor.
+ - In PulseOptions, added GPS1, GPS2, NMEA1 and NMEA2 serial options.
+ - In AdcpConnection, added GPS1, GPS2, NMEA1 and NMEA2 serial ports.
+ - In AdcpConnection, initalize the GPS connections.
+ - In TerminalAdcpViewModel and TerminalNmeaViewModel, added warning message if not connected.
+ - In AdcpConnection, update the serial number to the project list in PulseDB in SetAdcpConfiguration().
+ - In ViewDataTextEnsembleViewModel, added VoltageRounded property.
+ - In TerminalNmeaViewModel, save the GPS options to the selected project.
+ - In AdcpConnection, added AdcpGpsBuffer to store the data in a seperate column in the project file.
+ - In Ensemble, added AdcpGpsData, Gps1Data, Gps2Data, Nmea1Data and Nmea2Data.
+ - In AppBootstrappers, added VesselMountViewModel.
+ - In ShellViewModel, added VesselMountViewModel.
+ - In PulseConfiguration, added VesselMountOptions.
+ - ValidationTestViewModel, allow DVL data to be recorded.
+ - In PulseConfiguration, fixed bug in AddConfiguration() to check if the key already exist.
+ - In AdcpUtilitiesViewModel, added VmOptionsCommand.
+ - In CompassCalViewModel, fixed bug with getting Firmware property.
+ - In PingModelViewModel, fixed spacing for TotalPingTime in AddTotalConfigTime().
+ - In ViewDataTextEnsembleViewModel, changed the display of SystemSerialnumber and Subsystems if in DVL mode.
+ - In AdcpConnection, in CreateValidationTestWriter(), if the ADCP is in DVL mode, do not use the serial number for the file name.
+
+Pulse-3.2.2
+ - Changed to version 3.2.2.
+ - Fix AutoUpdater so it will shutdown Pulse when installer starts.
+ - In ProjectListItemViewModel, added IsSelected property.
+ - In PulseOptions, added SelectedProjectID to know the last selected project.
+ - In PulseManager, get and set the Selected Project ID to the PulseOptions.
+ - In LoadProjectsViewModel, stop clearing the ProjectList in ClearProjectList().  Set the IsSelected property for the selected project.
+
+Pulse-3.2.1
+ - Changed to version 3.2.1
+ - Reduced file sizes of images and removed font folder to reduce installer size.
+ - In AboutViewModel, updated the URL in CheckForUpdates() for the new pulse location.
+ - In AdcpPredictor, updated all the default values for all the subsystem types.
+ - Update AdcpPredictor Unit Test.
+ - In PulseOptions, added PredictorUserInput.
+ - In PulseManager, added method to get and set the last AdcpPredictorUserInput value.
+ - In PlaybackViewModel, added IsLoading to display a loading icon.
+
+Pulse-3.2.0
+ - Changed to version 3.2.0.
+ - Added ModeView and ModeViewModel.
+ - Added ProjectView and ProjectViewModel.
+ - Added NewProjectView and NewProjectViewModel.
+ - Added LoadProjectView and LoadProjectViewModel.
+ - Added Added StorageView/Model and CommunicationView/Model.
+ - In CommunicationViewModel, got connections to work with ADCP serial port.
+ - In StorageViewModel, added Backup location and added button get to the ADCP internal storage.
+ - In AdcpConnection, added IsAdcpSerialConnected() to know if the serial port is connected.
+ - In AdcpConnection, added ReconnectAdcpSerial().
+ - In CommunicationViewModel and TermianalAdcpViewModel, save the ADCP serial port options to the Pulse Database.
+ - In PulseManager, create methods to save and get Pulse options from the database.
+ - In AdcpConfiguration, added GetCepoDescString() to get a string for the CEPO command.
+ - In PageNavEvent, added AvergingView and BottomTrackOnView.    
+ - In AdcpConnection, added SetAdcpConfiguration() to set the configuration properly to a project.
+ - In DownloadDataViewModel, removed AdcpSerialPort and only use AdcpConnection so it can also use ethernet.
+ - In TerminalAdcpViewModel, added Ethernet options.  Made the terminal work with serial and ethernet by passing all commands to AdcpConnection.
+ - Added more graphics.
+ - Updated installer with the latest MahApps.Metro.
+ - In AdcpSubsystemConfigurationViewModel, added UpdateBatteryType().
+ - In PulseManager, added GetProject, GetProjectID and RemoveProject that take just the project name.
+ - In ProjectListItemViewModel, removed the project object so it would not be leftover when shutdowning.
+ - In ShellViewModel, added DeactivateItem(ActiveItem, true) to Deactivate to ensure the last activated item gets deactivated.
+ - In TerminalAdcpViewModel, added Scan button to scan for new serial ports.
+ - Added BurstModeView and ViewModel.
+ - In ContourPlot, added LeftMouseButtonEvent.
+ - In EnsembleEvent, added BulkEnsembleEvent and SelectedEnsembleEvent.
+ - In PlaybackViewModel, Added displayAllDataCommand to display all the data.
+ - In PulseConfiguration, added ScreenOptions.
+ - In TimeSeriesPlotViewModel, added IntervalLength = 20 to data axis to ensure the axis display values.
+ - In ProfileSeries, changed UpdateWPCorrelationPlot() axis from bin to depth.
+ - In AdcpUtilitiesViewModel, added ScreenCommand.
+ - In ProfilePlotViewModel, added IntervalLength = 20 to the plot axis to display more axis values.
+ - In ValidationTestViewModel, removed the background worker and replaced it with a ReactiveAsyncCommand for DisplayData.
+ - In CommunicationViewModel, reset the CommPortList in ScanForAdcp().
+ - In StorageViewModel, added FormatInternalStorageCommand to format the internal storage.
+ - In AboutViewModel, added OpenUserGuideCommand to open the user guide.
+ - In PlaybackViewModel, in IsRecordEnabled give warning is no project is selected.
+
+Pulse-3.1.0
+ - Changed to version 3.1.0.
+ - Replaced all the tab panels with buttons that lead to views.
+ - In ProfilePlotViewModel, removed backgroundworkers and replaced with ReactiveAsyncCommands.
+ - In TimeSeriesPlotViewModel, removed backgroundworkers and replaced with ReactiveAsyncCommands.
+ - In ValidationViewModel, added SelectedValidationTestVM to know which view to display.
+ - In ViewDataBaseGraphicalViewModel, added SelectedGraphicalVM to know which view to display.
+ - In SmartPageViewModel, added SelectedPredictorVM and SelectedPingControlVM because using a button list stead of TabPanel.
+ - Change to version 3.1.1.
+ - In HomeViewModel, check if project exist before creating the project in ImportBinary().
+ - In HomeViewModel, user gives the project name when importing a project.
+ - In HomeViewModel, check if the user wants to merge the project if duplicate project names given.
+ - Added ImportNameDialogView and ViewModel.
+ - In PulseViewModel, changed in constructor setting DisplayName to setting base.DisplayName.
+ - Change to version 3.1.2.
+ - Added AdcpRangePlannerViewModel.
+ - In SmartPageViewModel, fixed bug where the CEPO command was sent in ConfigureAdcp() towards the end causing all default values to be set for every configuration.
+ - In SmartPageViewModel and View, added Water Profile Time Between Pings (CWPTBP) and Number of Profile Pings (CWPP).
+ - In TerminalAdcpViewModel, added SendCommandSet, ClearCommandSet and ImportCommandSet to send a bulk set of commands.
+ - In SmartPageViewModel, added CERECORD command to Ping Control.
+ - Changed to version 3.1.3.
+ - In ValidationTestBaseViewModel, added San Diego declination (CHO) to On_ConfigureAdcpSalt() and On_ConfigureAdcpFresh() command sets.
+ - In SmartPageViewModel, added SetLocalDateTimeStartTimeCommand, ReportAdcpCommand and DecployAdcpCommand.
+ - Added DeploymentReportDialogViewModel.
+ - In SmartPageViewModel, added CheckSPOS() to get the SPOS command values.
+ - In SmartPageViewModel, display a report when deploying the system.
+ - Changed to version 3.1.4.
+ - In SmartPageViewModel and SmartPagePingControlViewModel, save the settings for the ADCP configuration to the project.
+ - In PlaybackViewModel, reset the recorded file size when a new project is selected.
+ - In HomeViewModel, added SetAdcpConnectionOfProject() to connect the serial port when a project is selected.
+ - In HomeViewModel, store the adcp serial options to the project's AdcpConfiguration.
+ - Changed to version 3.1.5
+ - In ViewDataGraphicalViewModel, changed VelPlot to a BinPlot3D.
+ - Moved Exporters to RTI.
+ - Added Exporter to matlab format.
+
+Pulse-3.0.0
+ - Changed from Prism to Caliburn.Micro and ReactiveUI.
+ - Added HomeView and HomeNavView and put in View directory.
+ - Created AdcpConnection to maintain a connection to the ADCP.
+ - Added ability to scan and display all serial ports with an ADCP.
+ - Setup Caliburn and ReactiveUI to work together to display binded data with commands.
+ - Added Caliburn.Mirco.SimpleContainer to Dependency Injection and have a container for singleton objects.
+ - Removed all old files and updated installer.
+ - Using MahApps for the UI.
+ - Added SmartPage.
+ - Added WPF Localization Extension.
+ - In AdcpPredictor, updated the code to Adcp Predictor Rev H.  
+ - Updated SmartPage will more features.
+ - Changed to version 3.0.1.
+ - In SmartPageViewModel, added Default and Rescan commands.  Changed ConfigureAdcp() to only use the Deployment command list.
+ - In SmartPageViewModel and SmartPagePingControlViewModel, added UpdateAllProjectProperties() and UpdateAllProperties().
+ - In SmartPagePredictorViewModel, added UpdateAllProperties().
+ - Changed Extended WPF Toolkit to 2.0.0 and updated installer.
+ - Fixed DateTimePicker style.
+ - In AdcpConnection, added DisplayDataMode. Added AdcpBinaryCodec and EventHandler. Added Eventhandlers for the serial port when receiving data. Added ProjectManager.  Added events to publish ensembles.
+ - In HomeViewModel, added SelectedSerialConn and set when a serial port connection is made.
+ - Added ViewDataBase, ViewDataTabular and ViewDataGraphical.
+ - Renamed VelocityPlot to ContourPlot.
+ - Changed to version 3.0.2.
+ - Added PlaybackViewModel and PlaybackView.
+ - In AdcpConnection, use EventAggregator to publish the ensembles.
+ - In ViewDataGraphicalViewModel and ViewDataBaseViewModel, use EventAggregator to receive the ensembles.
+ - Changed ProjectManager name to PulseManager.
+ - Replaced Shutdown() with IDisposable.
+ - In DistanceTraveled, fixed bug plot gps and bt distanced traveled plots.
+ - Added ValidationTestViewModel and view.
+ - Updated Installer with ReactiveUI 4.5.0.
+ - Changed to version 3.0.3.
+ - In ProfileSeries, fixed bug when updating plot and checking for valid beam and bin.  Handle single beam.
+ - In HomeViewModel, changed ProjectList to hold ProjectListItemViewModel.  Allow the list to be viewed with project image.
+ - In HomeViewModel, changed AdcpConnList to hold AdcpConnectionListItemViewModel.  Allow the list to be viewed with connection info.
+ - In ShellViewModel, added ErrorLog setup. 
+ - Changed to version 3.0.4.
+ - Added CompassCalViewModel and view.
+ - In AdcpConnection, added ClearMaintenceLog() and change AddMaintenceEntry().
+ - Added ScreenDataViewModel and view.
+ - Added ValidationTestBaseViewModel and view.  Moved things around.
+ - Changed to version 3.0.5.
+ - In AdcpConnectionListItemViewModel, fixed bug where it always set baud to default.
+ - Added Project name to PlaybackView.
+ - In PlaybackViewModel, flush project when stop recording.
+ - In HomeViewModel, do not Dispose() when deactivate ViewModel.
+ - Changed to version 3.0.6.
+ - In TimeSeries, fixed a bug for vertical beams. 
+ - In PulseManager, Subscribe to the selected project to know when files are written to the project and binary file.
+ - Create WriteEnsembleEvent.
+ - In PlaybackViewModel, subscribe to know when EnsembleWriteEvent occurs to monitor file writing.
+ - Added DownloadDataViewModel and view.
+ - In AdcpConnection, subscribe to AdcpSerialPort Download Events.
+ - In AdcpConnection, pass serial port DownloadEvents to others.
+ - Added UpdateFirmwareViewModel and view.
+ - In AdcpConnection, subscribe to AdcpSerialPort Upload Events.
+ - In AdcpConnection, pass serial port UploadEvents to others.
+ - Added CompassUtilityViewModel and view.
+ - In AdcpConnectionListItemViewModel, added IsAdcpFoundAndAdmin to know if the button should be loaded for Admin.
+ - In TerminalViewModel, added CompassDisconnectCommand.
+ - Changed to version 3.0.7.
+ - In DistanceTraveled, in AccumulateData(), nnsure bottom track and gps data exist to take accumulate data.
+ - In AdcpConnection, added GpsSerialPort and AdcpDvlCodec.
+ - In ProjectImage::GenerateImage() remove the old image before creating the new file.
+ - In ProjectListItemViewModel, made ProjectImage a BitmapImage so it can be disposed correctly and image can be refreshed.
+ - Added TerminalGpsViewModel and view and TerminalAdcpViewModel and view.
+ - In SmartPageViewModel, changed TerminalViewModel to TerminalAdcpViewModel.
+ - In SmartPageViewModel, fixed bug in CheckWaterDepthStatus() when check the depth against the settings.
+ - In AdcpConnection, added SerialConnectEvent and SerialDisconnectEvent.
+ - In AdcpConnectionListItemViewModel, fixed a bug when changing connection types.  It would not disconnect and connect correctly.
+ - In Project, added AppConfiguration to the tblOptions.
+ - In TerminalGpsViewModel, added GpsSendEscCommand.
+ - In ViewDataGraphicalViewModel, handle ProjectEvent.  Save options to the Project DB.
+ - In ViewDataTextViewModel, save options to the Project DB.
+ - Added PulseConfiguration.
+ - In PulseManager, save Pulse options to the Project db.  Remove all methods that saved the options to the Pulse db.
+ - In LimitedList, added CheckSize() to check if the size has exceed the limit.
+ - In ContourPlot, made the incoming data an Ensemble so it can get all the data it needs.
+ - Added BottomTrack range to the Contour Plot.
+ - In ViewDataGraphicalViewModel, pass ensemble to ContourPlot instead of VelocityVectors.
+ - In ScreenDataViewModel, added IsMarkBadBelowBottom.
+ - In AdcpConnectionListItemViewModel, fixed logic in SelectedConnectionOption to make the connection and disconnect properly.
+ - In ContourPlot, fixed bug setting _ensemblesList.Limit in MaxEnsemble, was using the previous value.
+ - In PlaybackViewModel, added StepEnsembleBackward and StepEnsembleForward.  Made PlayCommand start or stop playback.
+ - In ScreenSubsystemConfigOptions, added GpsHeadingOffset for GPS heading offset to ADCP.
+ - In ScreenSubsystemConfigOptions, changed default DEFAULT_IS_REMOVE_SHIP_SPEED to true.
+ - In ScreenSubsystemConfigOptions, changed default DEFAULT_MARK_BAD_BELOW_BOTTOM to true.
+ - In ProjectImage, added Bottom Track Line and screen the data before creating the image.
+ - In HomeViewModel, in GoToViewData(), made the AdcpConnection create a new project.
+ - Setup NavBarViewModel.
+ - In PlaybackViewModel, changed how EnsembleWriteEvent handles the events to give live updates.
+ - In HomeViewModel, in RemoveProject(), added a second messagebox to verify the project should be deleted.
+ - In SmartPageViewModel and SmartPagePingControlViewModel, make the Selected Project write the new options to the DB file when changed.
+ - In SmartPageViewModel, load project and options when a project is selected.
+ - In NavBarViewModel, added ScreenDataCommand.
+ - Changed to version 3.0.8.
+ - Updated AboutView and AboutViewModel.
+ - Updated AutoUpdater.NET to 1.2.
+ - Added ExportDataView and ExportDataViewModel and ExportDataOptions.
+ - In PulseConfiguration, Added ExportDataOptions.
+ - Put a title for the Contour Plot in ViewDataGraphicalView.
+ - Moved Loading animation in front of the deployments listed in HomeView.
+ - Added a loading animate to AboutView when waiting to check for updates.
+ - In ViewDataTextViewModel, changed _subsystemConfig from SubsystemConfiguration to SubsystemDataConfig so the data source is known.
+ - In ViewDataBaseTextViewModel, filter ensembles on SubsystemDataConfig instead of SubsystemConfiguration to know where the data source is.
+ - In ProjectListItemViewModel, fixed bug with DEFAULT_IMAGE_PATH where the path was not known when installed.
+ - In ViewDataTextViewModel, fixed bug in SaveOptionsToDatabase() where the SubsystemDataConfig was passed to AppConfiguration when it should be a SubsystemConfiguration.
+ - Changed to version 3.0.9.
+ - In SmartPageViewModel, added IsAdmin to hide some features.  In CheckAllStatus() fixed bug with a null DateTime.
+ - In HomeViewModel, fixed bug in AddProject() where the VM had to be created by the Dispatcher.
+ - In SmartPageViewModel, fixed bug where the Selected Project does not contain a Configuration.
+ - In HomeViewModel, display the projects is descending order in GetProjectList(). 
+ - In TimeSeriesPlotViewModel, added RemoveAllSeriesCommand command to remove all the series at once.
+ - In HomeViewModel, In ImportFiles() check if two different types of files were given and give a warning.
+ - In PulseManager, display the projects is descending order in GetProjectList().
+ - In ViewDataGraphicalViewModel, check if ensemble numbers are jumping around in CheckData() to clear the plots.
+ - Changed WPFLocalizeExtension to 2.1.4 and updated installer.
+ - Updated Installer with the license and end user rights text file.
+ - Updated User Guide.
+
+
+Pulse-2.18
+ - Changed the version number.
+ - In SerialPortViewModel::On_AdcpSerialCommands(), check if any commands are special before sending the command.
+ - In NavigationViewModel, added commands for Start and Stop pinging.
+ - Renamed LakeTestView/VM to ValidationTestView/VM.
+ - In ValidationTestViewModel, count the bad status.
+ - In NavigationViewModel, display the current file size when recording.
+ - In RecorderManager, made a property to get the current recording file size.
+ - In SerialPortViewModel, added a command to sleep.
+ - Put a title for the predictor section.
+ - In AdcpPlotOutputViewModel, removed GoodPing plot and added Velocity plot that will plot Beam, Earth or Instrument Velocity data for each ensemble.
+ - In AdcpRangeViewModel, added Water Profile First Bin Postion.
+ - In AdcpPredictorSubsystemViewModel, added Water Profile First Bin Postion.
+ - Made the settings for AdcpPlotOutputView, AdcpTextOutputView and ValidationTestView not move the screen.  It will overlap now.
+ - In TimeSeriesSubsystemConfigOptions, added TimeSeries Plot width and height.
+ - In TimeSeriesSubsystemConfigOptions, added ProfileSeries Plot width and height.
+ - In AdcpOutputPresenter, add and remove the TimeSeries view when a new configuration is given.
+ - In ProjectViewModel, when importing, use the imported file as the project name.
+ - In TimeSeriesSubsystemConfigViewModel, added UpdateData() to display the data and added profile plots.
+ - In TimeSeriesSubsystemConfigViewModel, added a shutdown method.
+ - In AdcpOutputPresenter::RemoveView(), removed the TimeSeries plot.
+ - In TimeSeries, changed GetTitle() to set the beam title to the coordinate transform description.
+ - In ProfileSeries, changed GetTitle() to set the beam title to the coordinate transform description.
+ - In TimeSeriesSubsystemConfigViewModel, make the Profile plot take selected data.  In AddProfilePlot(), added the latest selected data to the plot.
+ - In TimeSeriesPlotViewModel, added property, IsFixBin to not take bin selections if set true.  Now check for IsFixBin in UpdateBinSelection().
+ - In TimeSeriesSubsystemConfigViewModel::AddTimeSeriesPlot(), add default series.
+ - In TimeSeriesSubsystemConfigViewModel, removed UserTimeSeriesPlotList.  Combined with DefaultTimeSeriesPlotList to make TimeSeriesPlotList and stored MaxEnsemble in options.
+ - In TimeSeriesSubsystemConfigView and TimeSeriesSubsystemConfigViewModel, added On_Loaded to know when the page is loaded.
+ - In TimeSeriesSubsystemConfigViewModel, updated NotifyOptionPropertyChange() with MaxEnsemble.
+ - In BaseSubsystemConfigViewModel, if it is a DVL serial number, make the description string say DVL in CreateViewButtons().
+ - In CurrentEnsembleManager, in ScreenAverageEnsemble(), if no project is selected, Average Dictionary has no entries so just publish the ensemble.
+ - In VelocityPlot::AddIncomingData(), check for null vectors.Vectors when receiving DVL data.
+ - In TimeSeriesPlotViewModel, added a Try/Catch in UpdatePlot() to check if the BackgroundWorker is busy when trying to use it.  This happens when update is fast from DVL data.
+ - Check if the received ensemble is valid and can be displayed DisplayEnsembleEvent event filters.
+ - In ProjectViewModel, check the version of the Project when a project is selected.
+ - In TimeSeriesSubsystemConfigViewModel, set a max ensemble when a project is loaded so the number is not outragely huge.
+ - In TimeSeriesSubsystemConfigViewModel, check for a null ID before trying to set the bin selection in UpdatePlotSelection().
+ - In TimeSeriesPlotViewModel, removed the background workers and used the Dispatcher thread to update the plots.
+ - Updated OxyPlot dlls to 2013.1.1.1.  Updated all include paths to new version.
+ - In BinPlot3D, ProjectImage, VelocityPlotSpectrum, ColorMapHelper and VelocityPlot, improved the performance of GetBrush().
+ - In ColormapBrush, added ColormapBrushArray so the array would not have to be regenerated for each draw.
+ - In ColormapBrush, added GetColormapColor() to get the color based off a value given and the min and max of the colormap.
+ - In AdcpSetupSubsystemViewModel::SendCommand(), save the configuration after sending the command.
+ - In AdcpSetupViewModel::SendCommand(), save the configuration after sending the command.
+ - In AdcpSetupViewModel::On_SalinitySetting() save the salinity setting to the ADCP.
+ - In BinPlot3D, updated the Helix package and changed the 3D text prorperties.
+ - In ProjectViewModel, validate the project version in AddProject() when importing.
+ - In TimeSeriesSubsystemConfigViewModel, do not reset MaxEnsemble in ClearContourPlot().
+ - In ProjectViewModel::On_ExportCsvProject(), check if the directory exist before exporting.
+
+Pulse-2.17
+ - Changed the version number.
+ - Added TimeSeries View and ViewModel.
+ - Make the Color contour plot fit the entire plot regardless of the number of bins chosen.
+ - In SerialPortViewModel, subscribe to receive serial ADCP commands.
+ - Change to check for SerialNumber.IsEmpty() for the serial number and removed SerialNumber.Empty. 
+ - Moved the MouseSelection from the AdcpPlotOutputViewModel to the VelocityPlot object.
+ - Added Reading and Writing TimeSeries options to the Pulse database under settings.
+ - Added COL_ADCP_SUB_TIMESERIES_OPTIONS to DBCommons.
+ - Added DragDropListBox code.  This allows listbox items order to be dragged around.
+ - In SimpleBitmap, added a try/catch block in SetPixelUnlocked().  Error occured when the ADCP hung.
+ - In AdcpPlotViewModel and AdcpTextViewModel, changed to using the BaseSubsystemConfigViewModel, sinces the method calls are the same for other classes.
+ - Added Direction Error to ProjectReportText and DistanceTraveled.
+ - In LakeTestViewModel, output Direction Error to test results file.
+ - In LakeTestViewModel, added IsAdmin to determine if the user is an admin and can use additional buttons.
+ - In LakeTestViewModel, added a fresh and salt water configure button.
+ - In LakeTestViewModel, added Tank test and Ringing test configure buttons.
+ - In SerialPortViewModel, made On_AdcpSerialCommands use a background worker.
+ - In SerialPortViewModel, added a command to send CDEFAULT.
+ - Moved the VelocityPlot and VelocityPlotSurface legend to its own ItemControl.
+ - In CurrentEnsembleManager, ScreenEnsembleManager and AverageScreenSubsystemOptions,  added Screen for Error Velocity and Vertical Velocity.
+ - Moved creating AverageScreen Views from AverageScreenViewModel to SettingsViewModel.
+ - Changed DEFAULT_RANGE_600000 from 65 to 50 and DEFAULT_RANGE_300000 from 155 to 125 per Steve Maier.
+ - In AdcpSetupViewModel, added CEOUTPUT so the user can set the value.
+ - In AdcpAverageViewModel and AdcpScreenViewModel, added CreateView() so that CreateSubsystemConfigView() can call it using the Dispatcher.
+ - In DbCommons, added COL_ADCP_SUB_CFG_XXX variables.
+ - In ProjectManager and ProjectManagerDatabaseWriter, added Get/Set AverageSubsystemConfigurationOptions.
+ - In AverageSubsystemConfigViewModel, save the options to the database.
+ - Added AverageSubsystemConfigOptions object to save Average SubsystemConfiguration options to the database.
+ - Added ScreenSubsystemConfigOptions object to save Screen SubsystemConfiguration options to the database.
+ - In ScreenSubsystemConfigViewModel, changed the Options object and made the options get stored to the database.
+ - In ProjectManager and ProjectManagerDatabaseWriter, added Get/Set ScreenSubsystemConfigurationOptions.
+ - Renamed PlotSubsystemOptions to PlotSubsystemConfigOptions and changed to be associated with a SubsystemConfiguration.
+ - In AdcpPlotOutputViewModel, changed _options from PlotSubsystemOptions to PlotSubsystemConfigOptions.
+ - In ProjectManager and ProjectManagerDatabaseWriter, added Get/Set PlotSubsystemConfigurationOptions.
+ - In ProjectManager and ProjectManagerDatabaseWriter, added Get/Set TextSubsystemConfigurationOptions.
+ - Renamed TextSubsystemOptions to TextSubsystemConfigOptions and changed to be associated with a SubsystemConfiguration.
+ - In AdcpTextOutputViewModel, changed _options from TextSubsystemOptions to TextSubsystemConfigOptions.
+ - In ProjectManager and ProjectManagerDatabaseWriter, added Get/Set TimeSeriesSubsystemConfigurationOptions.
+ - Renamed TimeSeriesSubsystemOptions to TimeSeriesSubsystemConfigOptions and changed to be associated with a SubsystemConfiguration.
+ - In TimeSeriesSubsystemConfigViewModel, changed _options from TimeSeriesSubsystemOptions to TimeSeriesSubsystemConfigOptions.
+ - In DbCommons, removed the COL_ADCP_SUB_XXX variables and replaced them with COL_ADCP_SUB_CFG_XXX variables.
+ - In ScreenSubsystemConfigView, removed the option to screen for Bottom Track Range in the UI.  The algorithm does not work well.
+ - In ProjectManagerDatabaseWriter, changed the DB index for the new SubsystemConfig table.
+ - In AdcpSetupViewModel, set the selected project's AdcpConfiguration when found in SetAdcpConfiguration().
+ - In ProjectViewModel, changed the order of the file selection filter for Import.
+ - In CurrentEnsembleManager::GetAdcpConfiguration(), change the AdcpConfiguration and send event of new Configuration if the serial number matches the selected project.
+ - In SettingsViewModel, added LoadProjectSettings() to be called when a new project is selected.
+ - In AdcpSetupViewModel, made LoadProjectSettings() get called from SettingsViewModel.
+ - In CommonEvents, added AdcpSubsystemConfigurationConfigureEvent to make a different event from AdcpConfigurationEvent.
+ - In AdcpCommands, made CEPO command the first command in the list because CEPO will change all values to defaults.
+ - In AdcpSetupViewModel, removed the newline from the commands sent in OnSendToAdcp(). 
+ - Added AdcpStatus as a seperate object.
+ - In SerialPortsViewModel, AdcpImportBinaryFiles, DownloadStatViewModel and CompassCalViewModel, made AdcpStatus an object and not an enum.
+ - In ProjectViewModel, publish AdcpStatus event for importing a file in workerImportFiles_BinaryFiles(). 
+ - In ProjectReportText, fixed Date/Time not being updated in SetReportInfo().
+ - In CurrentEnsembleManager::DisplayLiveEnsemble(), check if we are downloading data before displaying the data.  This will allow higher download baud rates.
+ - In AdcpSetupViewModel::SetAdcpConfiguration(), publish event for all the new AdcpSubsystemConfig found when the configuration is gotten from the ADCP.
+ - In UpdateFirmwareViewModel, reboot the ADCP after firmware has been uploaded.
+ - In SerialPortViewModel::OnRebootAdcp(), use AdcpSerialPort.Reboot() method now.
+ - In AdcpTextOutputViewModel::UpdateBinList(), check if the bin number is above the array size because a project was selected with number of bins different from live data.
+ - In VelocityPlotSurface::DrawPlot(), check if the number of bins is correct.  If we have a project and live data with different number of bins.
+ - In CurrentEnsembleManager::ScreenAverageEnsemble(), check if the configuration is added to AdcpConfiguration to determine if the ensemble configuration needs to be added.
+ - In SerialNumberGeneratorViewModel::SerialNumValue, allow the value to be 0.
+ - In AdcpSetupViewModel::CreateSubsystemConfigView(), publish the AdcpSubsystemConfigurationConfigureEvent event so other views know about the new configuration.
+
+Pulse-2.16
+ - Changed the version number.
+ - Check if the Serial port is open before sending commands to the ADCP.
+ - In SerialPortsViewModel, do not need to reconnect the serial port when creating the connection.
+ - Added the complete CompassCal process.
+ - Store the CompassCal results in the same folder as the error log.
+ - In CompassCalViewModel, send event for ADCP status when status changes.
+ - Added SerialNumberGeneratorViewModel and View.
+ - In ProjectViewModel, set the serial number when creating the project.  Use the serial number generator to create a serial number.
+ - In AdcpSetupViewModel, use the SubsystemCodeDesc for the CEPO combobox descriptions. 
+ - In AdcpSetupSubsystemViewModel, added SerialPort to pass commands to the ADCP.
+ - In AdcpSetupViewModel, add the serial port to the Subsystem Configuration view models.
+ - Added buttons in AdcpSetupViewModel and AdcpSetupSubsystemViewModel for each command so an individual command can be sent to the ADCP.
+ - In AdcpTextOutputViewModel::UpdateBinList(), changed Magnitude and Direction title to ENU Mag and ENU Direction.
+
+Pulse-2.15
+ - Changed the version number.
+ - In ProjectManagerDatabaseWriter, in CreateMainDbTables() made AdcpSubsystemSettings table take JSON objects instead of individual values.
+ - Changed the Subsystem commands and options stored in the database to a JSON object.
+ - Fixed bug in AdcpPredictorViewModel::UpdateValues() that did not update the RangePlanner view values.
+ - In AdcpSetupViewModel, fixed bug setting CETFP_Sec and CETFP_HunSec.
+ - In ProjectManager, removed AdcpSettings struct and replaced with AdcpOptions.cs.
+ - In ProjectViewModel, changed the way the Pulse Options are set and gotten (ProjectFolder).
+ - Added to Commons.cs a check if the app should enable admin features by checking for a file.
+ - In ProjectManagerDatabaseWriter::GetAdcpSettings(), use the last good ADCP/GPS serial options by default.  They are overwritten if options have already been saved.
+ - In AdcpPlotOutputViewModel, changed default number of bins to display to 50.
+ - Fixed bug in AdcpPredictor with getting the frequency by creating FREQ_DIV_1200/600/300/150. 
+ - Moved FREQ_BASE and FREQ_DIV to from AdcpPredictor.cs to RTI.Commons.cs.
+ - IN AdcpPredictor.cs, changed CWPBB to CWPBB_TransmitPulseType.  Also changed its type to eCWPBB_TransmitPulseType.
+ - In ProjectManagerDatabaseWriter, removed deleting the project id row from the AdcpSettings table in RemoveProject().  The table does not exist anymore.
+ - Removed TBL_PULSE_ADCP_SETTINGS in DbCommons.
+ - In AdcpSetupViewModel and AdcpSubsystemSetupViewModel, removed EnableDisableList.
+ - Added DeploymentOptions to ProjectManagerDatabaseWriter::WriteAdcpSettings().
+ - In AdcpSetupSubsystemViewModel, set the Water Profile and Bottom Track Blank to 0 if they are turned off.
+ - In AdcpPredictor, set the WpRange to 0 if Water Profile is disabled.
+ - Added DeploymentOptions to ProjectManager::WriteAdcpSettings().
+ - In AdcpPredictorViewModel, in the constructor and in SetSubsystemCommands(), if Water Profile or Bottom Track is disabled, set the blank to 0.
+ - In AdcpSetupViewModel, added SetDeploymentDefaults() to set the Deployment defaults.
+ - Update AdcpPredictorTest and AdcpPredictorInputTest to Adcp Manual Revision G.
+ - In LakeTestViewModel, calculate the percentage of good ensembles.  
+ - In LakeTestViewModel, do not pass any ensembles that are not good to the DMG calculator.
+ - Added the DeploymentOptions class.
+ - Update the AdcpSetupView and AdcpSetupSubsystemView to show the command next to the values.
+ - Removed the Deployment and Save button from the AdcpSetupView.
+ - In AboutViewModel, added Newtonsoft Json credit. Added a property for the path to the error log so the user can get to it.
+ - In AdcpPredictor, check for divide by 0 in calculations.
+ - Added Newtonsoft.Json.dll to the installer.
+ - In AdcpSetupViewModel, added SalinitySettingCommand.
+ - In RecorderManager, only display Error and Fatal errors in the log file if not an admin.
+ - In RecorderManager, added the program version to the error log output.
+ - Changed version to 2.15.1.0 in AssemblyInfo.cs to account for a prelease sent.
+ - Added AutoUpdater.NET.dll to the Installer.
+ - In PulseMainModule.cs, check the version with the AutoUpdater to see if an update is available.
+ - In Commons.cs, made version number get retrieved from AssemblyInfo.cs.
+ - Added AutoUpdater.NET credit in AboutViewModels.
+ - Added Pressure Series Plot to AdcpPlotOutputView/ViewModel.
+ - In SimpleBitmap, added a try/catch block in SetPixelRect().  When debugging and creating a break, the code would throw an exception.
+ - In AdcpTextOutputViewModel::ReceiveCurrentDataSetFilter(), if the subsystem is set to empty, display all incoming data.
+ - In AdcpTextViewModel::CreateViewButtons(), if no serial number is set, then display a default page to see data.
+ - In AdcpPlotOutputViewModel::ReceiveCurrentDataSetFilter(), if the subsystem is set to empty, display all incoming data.
+ - In AdcpPlotViewModel::CreateViewButtons(), if no serial number is set, then display a default page to see data.
+ - In SerialPortsViewModel, do not store the serial port options to the project.
+ - In AdcpOptions.cs, remove storing the serial port options to a project.
+ - In ProjectManagerDatabaseWriter::WriteAdcpSettings(), remove saving the serial port options for a project.
+ - In SerialPortsViewModel, remove monitoring a selected project.
+ - Added a lock to the lake test binary writer when writing in RecorderManager::WriteLakeTest() to prevent multithreading issues. 
+ - Moved the DeploymentOptions.cs to RTI dll.
+ - Moved AdcpPredictorUserInput.BatteryType to DeploymentOptions.
+ - In AdcpSetupViewModel and AdcpSetupSubsystemViewModel, Get and Set the commands to the project database file and not the Pulse db file.
+ - In ProjectViewModel, load the settings from the database for the project when selected.
+ - Changed to version 2.15.2
+ - In ProjectManagerDatabaseWriter, moved the AdcpCommands and AdcpSubsystemCommands to the project database. Updated CreateMainDbTables().
+ - Removed COL_ADCP_SUB_COMMANDS and COL_PRJ_ADCP_OPTIONS from DbCommon.cs.
+ - In ProjectManager, removed the Getting and Setting AdcpCommands and AdcpSubsystemCommands.  Moved to the project database.
+ - In AdcpTextViewModel and AdcpPlotViewModel, view buttons are now created dynamically based off ensemble's Subsystem and SubsystemConfiguration.
+ - In AdcpTextOutputViewModel and AdcpPlotOutputViewModel, filter ensemble data to display based Subsystem and SubsystemConfiguration.
+ - In AdcpOutputPresenter, dynamically create the views based off the Subsystem and SubsystemConfiguration.  Remove views based off a new serial number.
+ - In AdcpSetupViewModel, added the GetAdcpSettingsCommand to get the settings from the ADCP using the CSHOW command.  This will then create the proper views based off the settings.
+ - In AdcpSetupViewModel, made the constructor take a reference to SettingsViewModel, so it can tell it when to create new views.
+ - Added a quick export to CSV in ProjectViewModel.
+ - Added CsvExportWriter to export to CSV format.
+ - Set LakeTestViewModel::TestOrientationColor to a default color so at startup it is not null.
+ - In CommonEvents.cs, added AdcpConfigurationEvent to pass the AdcpConfiguration.
+ - Added RecorderManager::WriteAdcpConfiguration() to write the AdcpConfiguration to the project DB.
+ - Added ProjectManager::IsProjectSelected().  Add SetProjectSerialNumber().
+ - In AdcpSetupViewModel, removed the SelectedProject and get the SelectedProject from the ProjectManager.
+ - In AdcpSetupViewModel, when getting the AdcpConfiguration set the AdcpConfiguration to SettingsVM and store it to the DB.
+ - In SettingsViewModel, removed the SelectedProject, get it from the ProjectManager.
+ - In ReportViewModel, removed SelectedProject, get it from ProjectManager.
+ - In AdcpSetupViewModel, added the CVSF command.
+ - In AdcpSetupSubsystemViewModel, added the CWPST, CWPBP, CWPAP, CBI, CBTST and CBTT command.
+ - Added Validator::ValidateMinMax().
+ - In AdcpSetupSubsystemViewModel, added RemoveConfigurationCommand and SettingsViewModel to the constructor to remove this AdcpSubsystemConfig from the configuration.
+ - Added SettingsViewModel::RemoveConfiguration().
+ - In CurrentEnsembleManager, make _ensembleMgrDict use the Subsystem Code as the key.
+ - Updated AdcpPredictor to Rev E.
+ - In CurrentEnsembleManager, allow for backward compatibility for the SubsystemIndex change in the firmware number to SubsystemCode when publishing the ensemble in ScreenAverageEnsemble().
+ - In AdcpSetupViewModel, validate the the commands before storing them.
+ - In AdcpOutputPresenter, create and remove the Configuration views based off the received events and do not decode the ensembles.
+ - In SettingsViewModel, create and remove Configuration views based off received events and do not decode the ensembles.
+ - In CurrentEnsembleManager, send events when find a new Configuration for the ADCP in an ensemble.
+ - In AdcpSetupSubsystemViewModel, validate all the command values.
+ - In DownloadDataViewModel, stop pinging when downloading starts.
+ - In DownloadDataViewModel, when downloading more than 1 file, wait before starting the next file to allow the RS-485 to transition.
+ - In CurrentEnsembleManager, added CheckSubsystemCompatibility() to determine based off the the firmware for the ADCP how the display should create the views.
+ - In SystemTest, added StopPinging to RunSystemTest().
+ - In AverageScreenSubsystemOptions and PlotSubsystemOPtions, changed the default values.
+
+Pulse-2.14
+ - Changed the version number.
+ - Fixed the viewing of AdcpPlotOutputView so it will fit on almost all screen sizes.
+ - In VelocityPlot, fixed bug when playing realtime and playback data at the same time with different settings in ShiftPlot().  Basically the number of bins was different between the old settings and the new data coming in and it would crash.
+ - In LakeTestViewModel, in AccumulateCorrelationData() and AccumulateAmplitudeData(), fixed a bug when playing realtime and playback data with different settings.
+
+Pulse-2.13
+ - Changed the version number.
+ - Moved file information in DownloadFile to AdcpSerialPort to reuse the decoding of the file info.
+ - Updated unittest for DownloadFile.
+ - Added DownloadTotalSpace and DownloadUsedSpace to AdcpSetupViewModel to display the space on the ADCP.
+ - In AdcpSetupView.xmal.cs, added AdcpSubsystemPredictorPanel to display the Subsystem ADCP Predictor views.  
+ - In AdcpSetupView.xmal.cs, added event handlers to add or remove the views for the ADCP Predictors.
+ - Added AddSubsystemPredictorsToDisplayEvent and ClearAllSubsystemPredictorsEvent to AdcpSetupViewModel to add and remove ADCP Subsystem Predictors from the display.
+ - In AdcpPredictorUserInput, removed BatteryWattHr from User input and replaced with battery type.
+ - Added AdcpCommandEvent to CommonEvents.cs to send commands that change.
+ - In AdcpSetupSubsystemViewModel, get EventAggregator in constructor and send event when a command changes.
+ - In AdcpPredictor, changed defaults to match commands defaults per frequency.  Changed DEFAULT_DEPLOY_DUR to 1 and DEFAULT_CEI to 1.
+ - Added software rendering checks in AboutViewModel.
+ - Created PulseAnime UserControl to display a ping from the ADCP.
+ - Created AdcpRangePlannerView and ViewModel to display the range of the ADCP with animation.
+ - Reduce the size of the on/off switch.
+ - Created AdcpPredictorSubystemView and Viewmodel to display the prediction for the ADCP based off the settings.
+ - Moved the default styles from app.xmals to Styles/Default.xmal.
+ - Added Try/Catch to the LakeTest file creation and destruction.
+ - In ProjectManagerDatabaseWriter, for GenerateUpdateAdcpSettingString() and WriteNewAdcpSettings(), allow null values, so only parts of the settings can be added or set.
+ - Modified Settings View to be a new region with each page being viewed in the same page.
+ - In LakeTestView changed the color of the font for the number ensembles collected.
+ - In NavigationViewModel, changed the navigation from SetupView to SettingsView.
+ - Removed registering SetupView to RegionManager to SettingsView in PulseMainModule.cs.
+ - Added Average amplitude calculations to LakeTestViewModel.
+ - In LakeTestViewModel, record test results to a file in CSV format.
+ - In ProjectManagerDatabaseWriter::WriteNewAdcpSettings() if any options are null, create the option with the default values.
+ - In In SerialPortsViewModel::GpsReconnect(), i check if the serial port is enabled before trying to reconnect.
+ - Added Microsoft.Expression.Drawing.dll to the installer.  Used to draw an arc for PulseAnime.xmal.
+ - Added an event handler for unhandled exceptions to display a messagebox and log the error in App.xmal.cs.
+ - Display test orientation validation test.
+ - In ValidationTestViewModel, get shutdown event to know when shutting down.  Close all files when shutting down.
+ - In ValidationTestViewModel, turn on IsCalculateDmg when starting the test.
+ - In AdcpImportBinaryFile::Open(), check if the file is in use, if it is, give the user a message box.  Return a bool if the file could be opened.
+ - In AdcpImportBinaryFile::ImportFiles(), if the file cannot be opened, do not continue processing that file.
+ - In CurrentEnsembleManager::PublishRawEnsemble(), clone the ensemble so the reference will not be passed.  The referenced ensemble will later will screened and modified.
+ - In RecorderManager, added LakeTestFileName so other objects can get the current Lake Test File name.
+ - Changed the name of the lake test recorded files to VT_XXXXX.bin in RecorderManager.cs.
+ - In LakeTestViewModel, added Lat/Lon so the value can be recorded seperately.
+ - In LakeTestViewModel, changed the name of the results files to ValidationTestResults.txt.
+ - Added Average Screen View to Setting View.
+ - Added a test for EngHelp.txt and maint.txt to SystemTest::SysTest_AdcpFirmwareFiles().
+ - In PlotSubsystemOptions, changed the default plot sizes.
+ - In AdcpSetupView/ViewModel, moved the ADCP Predictor view to the ADCP Subsystem view.
+ - In AdcpPredictorView, made the ViewModel a public property.
+ - In PulseAnime, start the animation in the code to prevent resource issues.
+ - In AdcpSetupViewModel, update the predictor view with the new commands when SetDefaultCommand is called.
+ - In AdcpPredictorViewModel, added SetSubsystemCommands() and UpdateSubsystemCommands() to update all subsystem commands at one time.
+ - In AdcpPredictorViewModel, added SetCommands() and UpdateCommands() to update all commands at one time.
+ - In ProjectManagerDatabaseWriter.cs, fixed bug in GenerateUpdateAdcpSettingString() where a comma was in the wrong spot.
+ - In DownloadFile.cs, added properties for the file information so they can be binded to the list.
+ - In LakeTestViewModel, in AccumulateCorrelationData(), changed the loop to check the length from the parameter to using the array _accumCurr to prevent a miss match in length.
+
+Pulse-2.12
+ - Changed the version number.
+ - Changed the RTI branch to RTI-2.12-E0.
+ - In DragDockLinePlotPanel, screen the data for Bad velocity and bad range.
+ - Fixed DragDockVelocityPlotSurfacePanelView.xmal not updating the legend image.
+ - Added Bottom Track Velocity Series plot to Plot and Report page.
+ - Initialize and clear data properly in ProjectReportText.cs.
+ - Add percent error to DistanceTraveled and ProjectReportText.
+ - Include the scale with the value for ProjectReportText.
+ - Added lake test methods to RecorderManager.
+ - Record lake test data to lake test folder and also to a project is selected.
+ - In AdcpSetupViewModel call AdcpReconnect() in CreateSerialPort() to try and use the currently selected serial port.
+ - Display average amplitude and correlation plot in LakeTest page.
+ - Added AdcpSerialCommandsEvent to CommonEvents.cs.
+ - In AdcpSetupViewModel, handle AdcpSerialCommandsEvent to send commands to the ADCP serial port. 
+ - In LakeTestViewModel, send AdcpSerialCommandsEvent to configure the ADCP for a lake test.
+ - Added a Start and Stop Ping button to Lake Test page.
+ - Display the beam colors in the LakeTest view.
+ - Check for a null _velocityBitmap in VelocityPlot::ShiftPlot().
+ - In RecorderManager, changed the Lake Test File name hour to 24 hours instead of 1-12.
+ - Create DisplayRawEnsembleEvent event to receive raw, unscreened ensembles.
+ - Added CurrentEnsembleManager::PublishRawEnsemble() to subscribe to receive raw ensembles.
+ - In DbCommon.cs, added Last ADCP and GPS Comm settings to Pulse Table to load default settings at startup.
+ - Added last ADCP and GPS Comm settings to Settings table in ProjectManagerDatabaseWriter.cs.
+ - Added SystemTests to the AdcpSetupView.
+ - Created seperate viewmodels and views for SystemTest and Compass Cal.
+ - Added AdcpSerialPort::SysTestI2cMemoryDevices() to test boards and registers in the system.
+ - Added a test to check the board revision and serial number in SystemTest.cs.
+ - In SystemTest.cs, test the status in the Water Profile and Bottom Track ensemble.
+ - Changed AdcpSerialPort::SysTestI2cMemoryDevices() to check for bad serial and revision if not testing for a specific serial and revision. 
+ - In CompassCalViewModel.cs, removed checking if _isReadingCompass is set when received kDataResponse from the compass.
+ - Give a warning in Plot, Data, Avg/Screen and Report if a project is not selected with a button to Project page.
+ - Call VelocityPlotSurface::ResetMinMaxVelocity() when clearing the plot.
+ - Made serial port a property in CompassCalViewModel and SystemTestViewModel so it can be set by AdcpSetupViewModel when settings change.
+ - In SystemTest.cs, added a timeout check in the Water Profile and Bottom Track status to check if an ensemble was received.
+ - In AdcpSetupViewModel, added disconnect from compass to SerialCommunicationIssue().
+
+
+Pulse-2.11
+ - Changed the version number.
+ - Created a constructor with no subsystem given in PlotSubsystemOptions.cs.
+ - Added VelocityPlot::DrawPlot() to draw a large amount of data quickly.
+ - Added VelocityPlotSurface::AddIncomingData() that takes a list.
+ - Create a page to display a complete project view.
+ - Updated Installer to use log4net 1.2.10.0.
+ - Verify the serial port is even possible when setting it from the database settings.
+ - Added ability to cancel updating the firmware.
+ - Passed the min/max velocity and colormap to the VelocityPlot::DrawPlot().
+ - Passed the colormap to the VelocitySurfacePlotModel::DrawPlot().
+ - Made MaxEnsemble a property in AdcpPlotOutputViewModel and make it dynamic based off the project.
+ - In VelocityPlot, resize the plot if the MaxEnsemble changes.
+ - Moved the cache logic and database query from PlaybackProjectManager to AdcpDatabaseReader.
+ - Fixed bug with updating the legend in VelocityPlot.
+ - Added VelocityPlotSurfaceModel::ScaleLabel and VelocityPlotSurface::ScaleLabel  property to change the scale label for the legend.
+ - Updated Oxplot to changeset aa903a4ed6b3 (06/04/2012). (Fixed minWidth/minHeight issue).
+ - Added Backlight::DragDockPanelHost to the Report page to display multiple plots on one page.
+ - Create views and panels for the DragDockPanelHost for Velocity, Amplitude and Bottom Track Range
+ - Added ColormapComboBox template to the app.xml
+ - Added ColormapBrushSelection property to VelocityPlotSurfaceModel to cause a property change on the plot when changed.
+ - Redraw the plot when the colormap is changed in VelocityPlotSurface.
+ - Create BeamColors to get a list of all colors and convert colors.
+ - Moved all Beam Color logic from PlotSubsystemOptions.cs to BeamColor.cs.
+ - Set the Min and Max bin for the VelocityPlot and VelocityPlotSurface.
+ - Added BoolToVisibleOrCollapsed.cs to convert between bool and Visibility.
+ - Set the Min and Max Amplitude and Velocity for the ReportSubsystem page.
+ - Make the load button disappear when the project is loaded in Report page.
+ - Fixed bug importing a project, then loading a project.  Clearing the data for the Velocity Plot was on the Dispatcher and did not happen in the correct order.
+ - In ReportViewModel, set the project when new project selected and set the serial number to the project, if the serial number is not set.
+
+Pulse-2.10
+ - Changed the version number.
+ - Removed RTI from this project.
+ - Check if bottom track data exist in TextOutputViewModel before displaying.
+ - Moved the Sleep for SerialConnection::SendData() commands to the method.
+ - Added a download timeout in AdcpSetupViewModel so program can continue if download fails.
+ - Removed DotSpatial.dll from the installer.
+
+Pulse-2.09
+ - Changed the version number.
+ - Changed Serial Port disconnect to use UnsubscribeAdcpSerialEvents() and UnsubscribeGpsSerialEvents() in AdcpSetupViewModel.
+ - Enlarged the calibration icon.
+
+Pulse-2.08
+ - Changed version number.
+ - Made serial output display everything again.
+ - Removed the DisconnectCompass() from AdcpSetupViewModel::SerialConnectionIssue()
+ - Fixed bug in AdcpPlotOutputViewModel::SetupAxis() to check for GoodBeamData before trying to determine how many bins exist.
+ - Added the ability to download the data from the ADCP.
+ - Added Status Bar to NavigationViewModel to give warning messages.  Used EventAggregator to set the StatusBar.
+ - Got Download Cancel to work int AdcpSetupViewModel.  Reset the Wait Handler.
+ - Send a D if cannot connect to ADCP in AdcpSetupViewModel.
+ - Added Upload progress bar in AdcpSetupViewModel.
+ - Added a message box before doing a compass calibration in AdcpSetupViewModel.
+
+Pulse-2.07
+ - Changed version number.
+ - Changed GoodPingTransform in database to IsGoodPingEarth.
+ - Put the AdcpPlotOutputView Settings expander in a viewbox so all values can be seen on any screen size.
+ - Made Good Ping Plot a single plot and not a tab with both plots.
+ - In AdcpPlotOutputViewModel, set the GoodPingPlot axis in SetupAxis().  When bin sizes change, this will be updated.
+ - Added BinHistoryMaxCount and IsBinHistoryRealtime for updating the Bin History Plot in AdcpPlotOutputViewModel.  Save the values to the database.
+ - Added BinHistoryMaxCount and IsBinHistoryRealtime to the database.
+ - Set new location for the Bin History to account for a smaller default number of bins shown.
+ - Added seeing the framerate in the PlotView to see the effects of changing settings.
+ - Set the min/max x axis for the correlation plot.
+ - Display a warning and navigate to the project page if playback is pressed and a project is not selected.
+ - Changed the name of the Checkbox switch to OnOffSwitchStyle.
+ - Check if Bottom Track data exist before screening with Bottom Track Data in ScreenEnsembleManager.
+ - Added new options for the Compass.  Read data, display compass data in AdcpSetupViewModel.  
+ - Added a ADCP status, so you know if there is possibly an issue with the ADCP in AdcpSetupViewModel.
+ - Added the methods CompassConnect() and CompassDisconnect() in AdcpSetupViewModel.
+ - Added the command SetDefaultCompassCalMagCommand and SetDefaultCompassCalAccelCommand in AdcpSetupViewModel.
+ - Added AdcpSetupViewModel::SerialCommunicationIssue() to try to resolve ADCP comm issues or give a warning.
+ - Cleaned up the compass button commands in AdcpSetupViewModel.
+ - Added NUnit package so the unit test can be run during a build.  NUnit must be run as x86 because sqlite is x86.
+ - Check for a break state when sending data.
+ - Stop playback when a new project is selected or when importing.
+
+Pulse-2.06
+ - Changed version number.
+ - Changed the on/off switch style to say On/Off and match Apples.
+ - Created ColormapToBrushConverter.cs to view the colormaps in the combobox in the views.
+ - In VelocityPlot, use the absolute value of the magnitude value to plot.
+ - Removed VelocityPlot3D and added VelocityPlotSurface in AdcpPlotOutputViewModel.
+ - Added SelectedEnsemblePlot using a BinPlot3D to AdcpPlotOutputViewModel.
+ - Renamed the PlotSize to PlotSize2D to PlotSubsystemOptions.
+ - Added PlotSize3D to PlotSubsystemOptions.
+ - Added BinHistoryPlot to AdcpPlotOutputViewModel.
+ - Updated HelixToolkit to date 03/19/2012.
+ - To the SubsystemOptions in the database, added PlotSize3D and BinPlotRadius, renamed PlotSize to PlotSize2D, and renamed GoodBeamTransform to GoodPingTransform.
+ - Only draw the BinPlot base models when changes occur.
+ - Do not continously update the Bin History plot.
+
+Pulse-2.05
+ - Changed the version number.
+ - Added VelocityPlot3D.
+ - Added Magnitude and Direction to the text output.
+ - Added a screening option to screen the velocity and velocity error value against a threshold.
+ - Added Mark Bad Below Bottom Screening option.
+ - Added AdcpTextOutputViewModel::SetDegreeValue() for degree values to be displayed.
+
+Pulse-2.04
+ - Changed the version number.
+ - Set My Documents as default folder path for projects.
+ - Added SimpleBitmap to read and write to a WriteableBitmap.
+ - Allow unsafe code to use WriteableBitmap.
+ - Create VelocityPlot which is a WriteableBitmap of the velocity data.
+ - In AdcpPlotOutputViewModel, removed VelocityListBoxPlot and added VelocityPlot.
+ - In AdcpPlotOutputViewModel, set initial values of _prevBinSize and _prevNumBin to negative so we know if they have been initialized.
+ - Select bin and ensemble in VelocityPlot in AdcpOutputViewModel, display the BinSeries and EnsembleSeries plot.
+ - Pass mouse event for VelocityPlotImage from View to ViewModel to VelocityPlot object to get selected ensemble and bin.
+ - Clone the ensemble when recording in RecorderManager::On_BinaryProcessData and RecorderManager::On_DvlProcessData, because the reference value will be modified when screening.
+ - Changed method name from AdcpPlotOutputViewModel::CreateSelectedDataSetPlot() to AdcpPlotOutputViewModel::CreateSelectedEnsemblePlot().
+ - Replaced the word DataSet with ensemble in AdcpPlotOutputViewModel.
+ - When AverageScreenSubsystemViewModel::IsDisplayAveraged property is turned on, turn on ReferenceAverageLayer mode.
+ - Clear the AdcpTextOutputViewModel display when a new project is selected.
+ - Fixed a bug where if the index given in PlaybackProjectManager::PlaybackEnsemble() is less than 0, do not get the ensemble.
+ - Send a clone of the data gotten from the cach or database in PlaybackProjectManager to ensure the data in the cache is not modified when screening because the data is sent as a reference.
+ - Removed turning off HitTestable for the subsystem plot and text views.
+ - Added CurrentEnsembleManager::ImportMode() and the flag to set when importing.
+ - Made all the method calls to a SimpleBitmap use the UI thread in VelocityPlot.  Not using the UI thread caused the error: "Must create DependencySource on same Thread as the DependencyObject".  This error was seen when trying to import 2 consecutive projects.
+ - Added Pulse::Commons::GetProjectDefaultFolderPath() to get a default folder path for projects.
+ - Added a Project default name in Commons and will index the project name when a new project is created.
+ - Changed VelocityPlotSelection::EnsembleNumber to VelocityPlotSelection::Index.  It is the index within the list.  View uses the VelocityPlotSelection::Id.EnsembleNumber to get the ensemble number.
+ - Added a border and increased font size of the Selected Bin and Ensemble in the AdcpPlotOutputViewModel.
+ - Changed the license file of the installer.
+
+Pulse-2.03
+ - Changed the version number.
+ - Screen Bottom Track Range in ScreenEnsembleManager.
+ - When import is complete, an event will be sent to display a single ensemble to get the serial number.
+ - Use Dispatcher to remove views in AdcpOutputPresenter.
+ - Removed setting RecorderManager::IsRecording in ProjectViewModel::AddProject().  It is done when the project is selected.
+ - Remove waiting for serial number in ProjectManager::AddProject().  It will be done when the SelectedProject is set.
+ - Remove the Text/Plot View button background to see the button glow effect.
+ - Optimized the Button style in App.xaml.
+ - When getting the gps speed, get the speed in meters per second.
+ - If the Bottom Track Velocity Error value is bad, then the Bottom Track Velocity is bad.
+ - Add Filter setting to Plot Bottom Track Range and Speed.
+ - Get subsystem values from AdcpSubsystemCommand in AdcpSetupSubsystemViewModel.cs
+ - Fix bug in calculating scale values for ListBoxVelocityPlot.
+ - In AdcpOutputPresenter, store the selected project and pass the selected project to the PlotOutputViewModel and TextOutputViewModel constructors.
+ - Moved the buttons to show the Text and Plot display to the left so all display sizes can see the button.
+ - Moved the coordinate transform enum to RTI.Commons.cs
+ - AdcpPlotOutputViewModel : Relayed out the Options display.  
+ - AdcpPlotOutputViewModel : Added PlotSubsystemOptions object to store the options and get/set from the database.
+ - AdcpPlotOutputViewModel : Added a command and button to set the default options.
+ - AdcpPlotOutputViewModel : Added a command and button to clear the plots.
+ - Turn on busy indicator before displaying import dialog so any delays after hitting OK will not be noticed.
+ - Added option to allow/not allow Bottom Track velocity or GPS velocity to be used to remove ship speed.
+ - Display warning and navigate to project page if record is pressed and project not selected.
+ - Added Reference Layer Min and Max option to AverageScreenViewModel. 
+
+Pulse-2.02
+ - Changed the version number.
+ - Added ClearAllViewButtons() to Text and Plot viewmodel to clear all buttons when no serial number is given.
+ - Clear all buttons in AdcpOutputPresenter when a project is given without a serial number.
+ - AdcpSetupVeiwModel unsubscribe from serial number when a new project is selected to prevent the serial number being set twice.
+ - Create a Deployment section in AdcpSetupView and moved "Time of First Ping" command to this section.
+ - Moved common ADCP commands sent to ADCP from AdcpSetupView to AdcpSerialPort.
+ - Check for serial connection when pressing any of the buttons that send commands to the ADCP.  Will display warning if not connected.
+ - In AdcpOutputPresenter, Create blank views at startup.
+ - In AdcpOutputPresenter, if the selected project has no serial number, set the serial number to empty.  This prevents the class from believing the previous serial number had views.
+ - Resize the user control buttons content.  Set background color for the user controls to stand out.
+ - Use the same button sytle in app.xml in all the views.
+ - Added a glow effect to buttons when highlighted in App.xml.
+
+Pulse-2.01
+ - Changed the version number.
+ - Update installer to use System.Data.SQLite v1.0.79.0.
+ - Update installer to uninstall correctly.
+ - Have installer store version numbers for future installs.
+
+Pulse-2.00
+ - Changed the version number.
+ - Fixed a bug where a single frequency system would not display text or plot view.
+ - Do not need to give serial number in project creation.
+ - Remove buffer from AdcpSetupViewModel and use the one from the serial connection.
+ - Save the AdcpSubsystemCommands to the database to be reused.
+ - Added a Set Default values for Settings.
+ - Set and Get the font size for the Text output view from the database.
+ - Updated AdcpSettings table to User Guide Rev F commands.
+ - Removed PropertyChanged event from AdcpImportBinaryFile.cs.
+
+Pulse-1.14
+ - Changed the version number.
+ - Make PlaybackProjectManager simpler by removing the thread and adding background worker.
+  - Changed the layout of About view.
+ - Changed the name of CurrentDatasetManager to CurrentEnsembleManager.
+ - Changed the name of ScreenDataSetManager to ScreenEnsembleManager.  Made it not a singleton.
+ - Added EnsembleEvents.cs to hold the events used by EventAggregator to pass ensembles to subscribers.
+ - Use EventAggregator to pass ensembles to all viewmodels.  Allows filtering on subscribe.
+ - Clear the cache when a new project is selected.
+ - Went from using page load and unload to navigation aware interface.
+ - Fixed bug when a project is not selected or contains no ensembles and play is hit.
+ - Updated SQLite to 1.0.79.0.  Fixes a trace message.  Updated packages folder.
+ - Updated installer SQLite to 1.0.79.0.
+ - Renamed AdcpGraphOutputView/ViewModel to AdcpPlotOutputView/ViewModel.
+ - Added ability to view and configure each subsystem seperately.
+ - Removed SQLite 1.0.79.0 for now.  Requires .Net 4.0 SP ? requirement.
+
+Pulse-1.13
+ - Changed version number.
+ - Removed unused resources in project property.
+ - Modified README.txt.
+ - Moved Cache and LruCache from RTI to Pulse.
+
+Pulse-1.12
+ - Changed version number.
+ - Changed version number in installer.
+ - Improve performance in ProjectImage.  Dispose of graphics, images and brushes.  Created a thread and queue.
+ - Changed CurrentDataSetManager.RecordDataSet to DisplayDataSet.
+ - Created an IsImporting Flag in RecorderManager to know if data is live or importing.
+ - Clear the VelocityListbox and Selected Ensemble/Bin plot when new project selected in AdcpGraphViewModel.
+ - Do not move slider if not recording and stop playback is clicked.
+ - Allow Plot area to be reduced to a size of 100.
+ - Created DbCommon for connecting and reading and writing to Pulse database.
+ - Added an event in ProjectImage to prevent the file being open while the file is being modified.
+ - Added ParseImportedData() to RecorderManager to prevent the codec buffer from being corrupted from live and imported data.
+ - Update the ProjectImage in the Navigation View as a new image is produced and an event is sent.
+ - Removed displaying project image in Project View.
+ - Added commands and buttons to increase and decrease playback speed and move the selected index backwards and forward.
+ - Added Playback Speed Indicator to navigation view.
+ - Added Try/Catch block when trying to open Error Log.
+ - Added Cache back to improve playback speed.
+
+Pulse-1.11
+ - Changed version number.
+ - Removed RTI core files to seperate project.
+ - Removed ErrorLog and added log4net.
+ - Changed namespace of commons to RTI.Pulse.Commons.
+ - Receive data from serial ports through events.
+ - Added RTI.dll, DotSpatial.dll and log4net.dll to installer.
+ - Removed unused paramaters in CreatePlot() in Graph ViewModel.
+ - Added RTI Version number to About view.
+ - Prevent importing a file if the project could not be added.
+ - Removed creating Project database file in ProjectManagerDatabaseWriter and added to Project constructor.
+ - Create a Project object in ProjectViewModel and pass as reference to set the ID.
+ - Set the font size for the data in TextOutputViewModel.  Settings allow changing.
+ - Changing spacing on amplitude data in TextOutputViewModel.
+ - Display an image of the project based off the last view of the Velocity Plot.
+ - Removed the Image blob from the Project table.  
+ - Added FontSize to the Settings table.
+ - Improved screening Bottom Track Range values.
+ - Added PlotSize and set Velocity plot in a viewbox in AdcpGraphViewModel.  PlotSize sets size of plot area.
+ - Fix all the documentation to create an XML file.
+ - Added Documentation project that creates a SandCastle help file.
+
+Pulse-1.10
+ - Changed version number.
+ - Added credit for DotSpatial and Helix to about.
+ - Fix bug in AdcpBinaryWriter where if mission not selected, name cannot be set.
+ - Add a lock around NmeaBuffer in DVL Codec.
+ - Changed to thread-safe singleton - http://csharpindepth.com/Articles/General/Singleton.aspx
+ - Fixed bug where GetDataTableFromProjectDB() would throw an exception when Project is NULL but use Project in error message and throw a NULL exception.
+ - Create Cache class to make a data structure that is limited in size with quickly finding data.
+ - Made UniqueID a seperate file.
+ - Allow ListBox Plot to take MagDir arrays.
+ - Changed XMAL for ListBox Plot to remove unneeded settings.
+ - Fixed bug in Ensemble DataSet where date time values could be out of range.
+ - Added Firmware and SysSerialNum to Ensemble DataSet.
+ - Added Bad Temp variable to Ancillary DataSet.
+ - If system temp is bad, do not display anything.
+ - Display System Serial Number and Firmware in text display.
+ - Fixed a bug in NmeaDataSet checking if data is available.
+ - Fixed parsing the string of NMEA data in NmeaDataSet.
+ - AdcpBinaryCodec pass data to record in an event.
+ - Added NmeaBuffer lock to Binary codec.pa
+ - In DVL Codec, continue to ProcessData if contains $ and *.
+ - Created unit test for NmeaDataSet.
+ - Updated unit test for DVL Codec to include a test with a bad checksum combined with good NMEA sentence.
+ - Fix bug where bad data is not deleted from Nmea buffer in DVL Codec.
+ - Fixed scrolling in About Copyright and credits.
+ - Create ErrorLog file if it does not exist.
+ - System.Data.SQLite 1.0.77 takes DateTime instead of DateTime.ToString().
+ - Removed WIX installer Project.  Added NSIS installer to Pulse project.
+ - Added Post Build Event to compile NSIS installer script.
+ - Added Tools folder and NSIS setup.
+ - Fixed bug where if Project folder could not be created, program crashed.
+ - Error message "SQLite error (21): misuse at line 110832 of [a499ae3835]" is claimed harmless by System.Data.SQLite admin.
+ - Removed caching.  Caused app to stall while caching.  Error if caching while deleting a project.
+ - Set a minimum width and height for GraphOutputViewModel to prevent plot sizes getting below 0.
+ - Prevent a project being created if a directory cannot be created (Unauthorized location, bad location, ...).
+ - Added indexes in AdcpDataSet for Earth and Instrument beam indexes.
+ - Added function in EarthVelocityDataSet that will return array of vectors with Bottom Track Velocity removed.
+ - Remove Bottom Track velocity from velocity plots.
+ - Changed EnsNum column in tblBottomTrack and tblBeam to EnsId to ensure unique id for ensemble.
+
+
+Pulse-1.09
+ - Changed version number.
+ - Adding version to all history.
+ - Make orientation a parameter with a default value for all Velocity contructors.
+ - Added EMPTY_VELOCITY to BaseDataSet.
+ - Added Water Mass Velocity for Earth and Instrument.
+ - Added Unit Test for Water Mass.
+ - DVL Codec now adds Water Mass Velocity to dataset.
+ - Updated DVL Codec UnitTest to test Water Mass.
+ - Remove period after minor number in version number.
+ - Fix bug in AncillaryDataSet setting wrong dataset ID for PRTI01/02.
+ - Changed NmeaDataSet array to NmeaSentence array.
+ - Move NMEA data from its own table to Ensemble table.
+ - Remove passing data as reference in CurrentDataSetManager.
+ - Add a Queue to the AdcpBinaryCodec to hold all byte arrays that are added. 
+ - Queue NMEA data in AdcpBinaryCodec.  Add to binary and ensemble before storing to file.
+ - Moved BAD_VELOCITY and EMPTY_VELOCITY to AdcpDataSet.
+ - Rewrite how DVL Codec processes and records data.
+ - Convert to Bool instead of cast in GetAdcpSettings() in ProjectManagerWriter.  
+ - Clear a small portion of the serial port receive buffer displayed in Settings. 
+ - Prepend data to serial port receive buffer display in settings.
+ - Button to rescan serial ports.
+ - Relayout serial port output in Settings.
+ - Clear buffer in codec not processing data.
+ - Send ProcessDataEvent event in DVL and Binary codec when data processed.
+ - Fixed timing issue with DVL Codec unit test.
+ - Set limit to checksum characters in NmeaSentence.
+ - Lock the buffer in the Binary codec everywhere it is accessed.
+ - Fixed bug in NmeaSentence where checksum did not have a fixed size of 2 bytes.
+ - Clear BinList data when no data available in Text View.
+ - Use Max file size to start new file.
+ - Set version number additional to Beta.
+
+Pulse-1.08
+ - Changed version number.
+ - Added VERSION_ADDITIONAL to version number to denote beta or special builds.
+ - Notify TextOutputViewModel when the page is being viewed or not.  Stop updating data if not displaying.
+ - Added cacheing to playback.  Will check cache before querying for data in database.
+ - Remove BinList from datasets. Were not being used but created for every dataset type.
+ - Update each plot individually in Plot Output viewmodel.
+ - Changed Text view to a listview with a single string instead of multiple listviews.
+ - Fixed bug in Graph view where Amp updated correlation plot and vice versa.
+
+Pulse-1.07
+ - Changed version number.
+ - Added HelixToolkit 3D library.
+ - Added Heading, Pitch and Roll instrument to Plot display.
+ - Added Warning icon when deleting projects.
+ - Added North/East legends to plots.
+ - Added Padding to the plots.
+
+Pulse-1.06
+ - Changed Version number.
+ - Added documentation.
+ - Added UnitTest using NUnit.
+ - Added DotSpatial.Positioning for NMEA parsing and Geodectic calculations.
+ - Removed Interface folder.
+ - Create Prti01Sentence to handle DVL NMEA parsing.
+ - Added Unittest for Speed, Distance and Prit01Sentence.
+ - Create Bottom Track DataSet from PrtiSentence.
+ - Changed NumBins to NumElements in BaseDataSet.  Changed Bins in EnsembleDataSet to NumBins.
+ - Fix bug in blink where it would not end in the correct state.
+ - When importing data, record will be turned on then off.
+ - Text Display - Update the lineseries and plot all in the same method using the dispatcher.
+ - Text Display - Refresh each plot individually.
+ - Close binary file when new project is selected.
+ - Remove Close() and add Flush() to AdcpBinaryWriter.
+ - Add DVL parsing.
+ - Add ICodec interface.
+ - Add Prti02Sentence to handle DVL NMEA parsing.
+ - Add and update Unitests for Prti02Sentence.
+ ECastelo@TELEDYNE
+Pulse-1.05
+ - Create SendDataWaitReply() and WaitForACK() in Serial port to wait for response for RS-485.
+ - Removed '\r' from all commands in AdcpCommands.  Now only serial port adds when sending.
+ - Changed how commands are sent in AdcpSetupViewModel.
+ - Removed debug statements in PNI codec.
+ - Changed version number.
+ - Created Commons folder and added Commons.cs and DbCommons.cs to it.
+
+Pulse-1.04
+ - Write project database and errorlog to Environment.SpecialFolder.CommonApplicationData.
+ - Created a Commons file to store common data.
+ - Added COMM Port Baud rates to ADCP Settings.
+ - Relayout Settings page.
+ - Make settings save automatically when a setting has changed.
+ - Removed glow from buttons.
+ - Added Record button navigation page.
+ - Added Record warning to Data And Plot page.
+ - Remove COMM Setting DB table.
+ - Remove IsDR from Project table.
+ - Changed Installer to look in relative path.
+ - Changed app icon.
+ - Added ability to change beam colors on plots.
+ - Use background worker to update displays.
+ - Remove Open and Close method from ErrorLogWriter.  Errorlog closed immediately after write.
+ - Added About page.
+ - Put Home button at top of Navigation and removed Project button.
+ - Create IsRecording Event in RecorderManager.
+ - Set defaults for recording.  New Project - On, Load Project - Off.
+ - Fix bug with compass cal where did not handle negative accel scores.
+ - Fix bug with turning playback on and off.
+ - Change the order of the build.
+ - Add dependency check of .Net 4.0 in installer.
+ - Added sleeps in sending commands to ADCP to handle RS-485 need to send ACK back.  Still a bug.
+
+Pulse-1.03
+ - Changed Plot area to scrollviewer to handle mixed sizes.
+ - Clear plots when params change.
+ - Start Full Screen.
+ - Reduce the size of the navigation panel.
+ - Removed all datagrids from Text output.
+ - Relayed out Text output.
+ - Added Installer Project using WiX.
+
+Pulse-1.02
+ - Removed thread from AdcpImportBinaryFile.
+ - Put a sleep while importing data to prevent buffer overflow when reading to fast.
+ - Prompt to permenately delete a project.
+ - Clear the buffer at shutdown for database and binary file.
+
+Pulse-1.01-E0
+ - Added Icon
+ - Testing black theme
+ - Moved threading out of PlaybackDatabaseCodec.cs and put in PlaybackProject.cs
+ - Renamed PlaybackDatabaseCodec.cs to AdcpDatabaseCodec.cs.
+ - Playback and Live mode working in NavigationViewModel
+ - Changed buttons on Navigaton display
+ - Optimized Playback and database decoding for text output. 22FPS Playback  26/60FPS Live.
+ - Fixed graph in TextOutput so do not create plot every pass.
+ - Pass current data set as a reference.
+ - Started the VelocityListBoxPlot.
+ - Added WPFToolkit.Extended.dll for numeric spinner.
+ - Got Plots working.
+ - Update plots through event sent to view.
+
+Pulse-1.00-B0
+ - Playback
+ - Import Binary Files
+ - Small plots on Data Display
+ - Properly shutdown
+ - Fixed Bug saving ADCP Settings to DB
+
+Pulse-0.02-E0
+ - Created ActiveDataSet singleton observer to pass data to all objects
+ - Changed ActiveDataSet to CurrentDataSetManager
+ - Display Text output of incoming data
+ - Receive incoming data from file or serial port
+ - Got basic navigation working between pages
+ - Setup a main module that will load at startup.
+    - Other modules can than register and load 
+ - Fixed a bug in how i indexed the bin x beam in the byte array.
+ - Compass Cal
+ - Project Load settings
+ - ADCP Settings Loaded and save to DB
+ - Fixed sending commands to ADCP
+
+Pulse-0.01-E0     09/22/2011
+ - Created Communication View, ViewModel and models
+      - ADCP serial connection
+ - Created codec to parse binary ADCP data recieved from the instrument
+ - Created data sets to store the ADCP data

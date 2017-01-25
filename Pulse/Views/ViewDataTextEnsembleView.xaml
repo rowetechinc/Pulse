@@ -1,0 +1,370 @@
+﻿<UserControl x:Class="RTI.ViewDataTextEnsembleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+			 mc:Ignorable="d" 
+             d:DesignHeight="950" d:DesignWidth="300">
+	
+	<!-- Display Dataset data -->
+	<Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+		
+		<!-- DataSet Data -->
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Dataset Info -->
+            <Grid Grid.Column="0" Grid.Row="0" Margin="5">
+                <Border CornerRadius="3" Background="{StaticResource PulseBackBorder2Color}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" SharedSizeGroup="StatusRow" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" SharedSizeGroup="SubsystemConfigRow" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Ensemble Number:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="1" Text="Date:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="2" Text="Time:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="3" Text="System Status:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="4" Text="Subsystems:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="5" Text="Serial Number:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="6" Text="Firmware:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="7" Text="Subsystem Config:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="0" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" SharedSizeGroup="StatusRow" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" SharedSizeGroup="SubsystemConfigRow" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="{Binding Path=EnsembleNumber}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Text="{Binding Path=EnsDateString}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Text="{Binding Path=EnsTimeString}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" MaxWidth="150" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible" Margin="5,3,5,3" >
+                    <!--Viewbox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Margin="5,3,5,3" MaxWidth="150" MaxHeight="15" HorizontalAlignment="Left"-->
+                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=Status}" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" >
+						<ToolTipService.ToolTip> 
+							<TextBlock Foreground="{StaticResource PulseFontHighlightColor}" Text="{Binding Path=Status}" Background="White" />
+						</ToolTipService.ToolTip>
+					</TextBlock>
+                    <!--/Viewbox-->
+                </ScrollViewer>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Text="{Binding Path=Subsystems}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" Text="{Binding Path=SystemSerialNumber}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Text="{Binding Path=Firmware}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <!--TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="5,3,5,3" MaxWidth="150" HorizontalAlignment="Left" Text="{Binding Path=DisplayEnsemble.EnsembleData.SubsystemConfig.StringDesc}" Foreground="{StaticResource PulseFontHighlightColor}"  FontWeight="Bold" /-->
+                <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="5,3,5,3" MaxWidth="150" HorizontalAlignment="Left" Height="35" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                    <!--Viewbox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="5,3,5,3" MaxWidth="150"-->
+                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=StringDesc}" Foreground="{StaticResource PulseFontHighlightColor}" FontSize="10.667" FontWeight="Bold" >
+						<ToolTipService.ToolTip> 
+				            <TextBlock Foreground="{StaticResource PulseFontHighlightColor}" Text="{Binding Path=StringDesc}" Background="White" />
+				        </ToolTipService.ToolTip>
+					</TextBlock>
+                    <!--/Viewbox-->
+                </ScrollViewer>
+                <!--oxy:Plot x:Name="sysTempPlot" Grid.Column="2" Grid.Row="8" Model="{Binding Path=SystemTempPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+            </Grid>
+
+            <!-- Dataset Bin Data -->
+            <Grid Grid.Column="0" Grid.Row="1" Margin="5">
+                <Border CornerRadius="3" Background="{StaticResource PulseBackBorder2Color}" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Number of Beams:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="1" Text="Number of Bins:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="2" Text="Bin Size:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="3" Text="Depth of 1st Bin:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="4" Text="Requested Ping Count:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="5" Text="Actual Ping Count:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="6" Text="First Ping Time:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="7" Text="Last Ping Time:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="1" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=NumBeams}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=NumBins}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=BinSizeRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="m" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Path=FirstBinRangeRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="m" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Path=DesiredPingCount}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding Path=ActualPingCount}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="{Binding Path=FirstPingTimeRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="Sec" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="{Binding Path=LastPingTimeRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="7" Text="Sec" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+            </Grid>
+
+            <!-- Speed of Sound data -->
+            <Grid Grid.Column="0" Grid.Row="2" Margin="5">
+                <Border CornerRadius="3" Background="{StaticResource PulseBackBorder2Color}" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Speed Of Sound:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="1" Text="Salinity:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="2" Text="Water Temp:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="3" Text="System Temp:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="4" Text="XDCR Depth:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="5" Text="Pressure:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="6" Text="Voltage:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="7" Text="Leak Detection:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="2" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=SpeedOfSoundRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="m/s" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="sosPlot" Grid.Column="2" Grid.Row="0" Model="{Binding Path=SoSPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=SalinityRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="ppt" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="salinityPlot" Grid.Column="2" Grid.Row="1" Model="{Binding Path=SalinityPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=WaterTempRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="Deg C" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="waterTempPlot" Grid.Column="2" Grid.Row="2" Model="{Binding Path=WaterTempPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Path=SystemTempRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="Deg C" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Path=TransducerDepthRounded}" Foreground="{StaticResource PulseFontHighlightColor}"  Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="m" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="transducerDepthPlot" Grid.Column="2" Grid.Row="3" Model="{Binding Path=TransducerDepthPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding Path=PressureRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="Pa" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="pressurePlot" Grid.Column="2" Grid.Row="4" Model="{Binding Path=PressurePlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="{Binding Path=VoltageRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="v" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="{Binding Path=LeakDetection}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+            </Grid>
+
+
+            <!-- Heading Pitch and Roll data -->
+            <Grid Grid.Column="0" Grid.Row="3" Margin="5">
+                <Border CornerRadius="3" Background="{StaticResource PulseBackBorder2Color}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Heading:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="1" Text="Pitch:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="2" Text="Roll:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="3" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=HeadingRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="Deg" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="headingPlot" Grid.Column="2" Grid.Row="0" Model="{Binding Path=HeadingPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=PitchRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Deg" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="pitchPlot" Grid.Column="2" Grid.Row="1" Model="{Binding Path=PitchPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=RollRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="Deg" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="rollPlot" Grid.Column="2" Grid.Row="2" Model="{Binding Path=RollPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+            </Grid>
+
+            <!-- GPS Data -->
+            <Grid Grid.Column="0" Grid.Row="4" Margin="5">
+                <Border CornerRadius="3" Background="{StaticResource PulseBackBorder2Color}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="GPS Fix:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="1" Text="Latitude:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="2" Text="Longitude:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="3" Text="Heading:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="4" Text="Altitude:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="5" Text="Speed:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="4" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=GpsFix}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=GpsLatitude}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=GpsLongitude}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Path=GpsHeading}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Path=GpsAltitude}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding Path=GpsSpeed}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+            </Grid>
+
+            <!-- Ping Data -->
+            <Grid Grid.Column="0" Grid.Row="5" Margin="5">
+                <Border CornerRadius="3" Background="{StaticResource PulseBackBorder2Color}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Lag:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="1" Text="CPCE:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="2" Text="NCE:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="3" Text="RepeatN:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="4" Text="Gap:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="5" Text="Gain:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="5" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Lag}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text=" Samples" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=CPCE}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=NCE}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Path=RepeatN}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Path=Gap}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="{Binding Path=Gain}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

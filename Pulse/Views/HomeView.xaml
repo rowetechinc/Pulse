@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="RTI.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:extToolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+			 xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+			 xmlns:cal="http://www.caliburnproject.org"	
+			 xmlns:lex="http://wpflocalizeextension.codeplex.com"
+	         lex:LocalizeDictionary.DesignCulture="en"
+	         lex:ResxLocalizationProvider.DefaultAssembly="Pulse"
+	         lex:ResxLocalizationProvider.DefaultDictionary="HomeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <ScrollViewer>
+        <Grid HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--Title-->
+            <!--TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Pulse" HorizontalAlignment="Center" Margin="5,5,5,20"  FontSize="96" Foreground="#FF1585B5" /-->
+            <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="../Images/pulse_logo.png" Width="400" Height="200" Margin="5,5,5,20" />
+
+            <!--Acquire Data button-->
+            <Button Grid.Row="1" Grid.Column="0" Command="{Binding AcquireModeCommand}" Margin="10" Width="300" Height="150" BorderBrush="Transparent" Background="Transparent" >
+                <!--StackPanel>
+				    <Rectangle Width="40" Height="40" Margin="5,5,5,15">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource sweep}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+				    <TextBlock Text="Acquire Mode" HorizontalAlignment="Center" FontSize="16" Foreground="#FFFBC865">
+					    <TextBlock.Effect>
+						    <DropShadowEffect ShadowDepth="4" BlurRadius="1" Opacity="0.8" Color="#FF8A5909" />
+					    </TextBlock.Effect>
+				    </TextBlock>
+				    <TextBlock Text="Setup the ADCP to acquire data.  This will create a project and configure the ADCP." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+			    </StackPanel-->
+                <Image Source="../Images/acquire_mode.png" />
+            </Button>
+
+
+            <!--Predicition Model button-->
+            <!--
+            <Button Command="{Binding PredicitionModelCommand}" Margin="10,10,10,-159" Background="#FF010101" BorderBrush="Transparent" Grid.Column="1" Grid.Row="3" >
+                <StackPanel>
+                    <Image Source="../Images/calibration.png" Width="200" Height="200" Margin="5" />
+                    <TextBlock Text="ADCP Predicition Model" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+                        <TextBlock.Effect>
+                            <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock Text="Modify commands to see how the battery usage, storage usage, max range, max speed and standard deviation will be affected." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+                </StackPanel>
+            </Button>-->
+
+
+            <!--Playback Mode button-->
+            <Button Grid.Row="1" Grid.Column="1" Command="{Binding PlaybackModeCommand}" Margin="10" Width="300" Height="150" BorderBrush="Transparent" Background="Transparent" >
+                <!--StackPanel>
+				    <Rectangle Width="40" Height="40" Margin="5,5,5,15">
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource document}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+				    <TextBlock Text="Playback Mode" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+					    <TextBlock.Effect>
+						    <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+					    </TextBlock.Effect>
+				    </TextBlock>
+				    <TextBlock Text="Playback data from a selected project." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+			    </StackPanel-->
+                <Image Source="../Images/playback_mode.png" />
+            </Button>
+
+            <!--ADCP Test button-->
+            <Button Grid.Row="2" Grid.Column="0" Command="{Binding AdcpUtilitiesCommand}" Margin="10" Width="300" Height="150" BorderBrush="Transparent" Background="Transparent" >
+                <!--StackPanel>
+				    <TextBlock Text="ADCP" HorizontalAlignment="Center" FontSize="24" Foreground="#FFFBC865">
+					    <TextBlock.Effect>
+						    <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+					    </TextBlock.Effect>
+				    </TextBlock>
+				    <TextBlock Text="Utilties" HorizontalAlignment="Center" FontSize="24" Foreground="#FFFBC865">
+					    <TextBlock.Effect>
+						    <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+					    </TextBlock.Effect>
+				    </TextBlock>
+			    </StackPanel-->
+                <Image Source="../Images/adcp_utilities.png" />
+            </Button>
+
+            <!--Data Export button-->
+            <Button Grid.Row="2" Grid.Column="1" Command="{Binding DataExportCommand}" Margin="10" Width="300" Height="150" BorderBrush="Transparent" Background="Transparent">
+
+                <!--StackPanel>
+				    <TextBlock Text="Data" HorizontalAlignment="Center" FontSize="24" Foreground="#FFFBC865">
+					    <TextBlock.Effect>
+						    <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+					    </TextBlock.Effect>
+				    </TextBlock>
+				    <TextBlock Text="Export" HorizontalAlignment="Center" FontSize="24" Foreground="#FFFBC865">
+					    <TextBlock.Effect>
+						    <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+					    </TextBlock.Effect>
+				    </TextBlock>
+			    </StackPanel-->
+                <Image Source="../Images/data_export.png" />
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="0" Command="{Binding DvlSetupCommand}" Margin="10" Width="300" Height="150" BorderBrush="Transparent" Background="Transparent" >
+                <Image Source="../Images/dvl_setup.png" />
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="1" Command="{Binding PredictionModelCommand}" Margin="10" Width="300" Height="150" BorderBrush="Transparent" Background="Transparent">
+                <Image Source="../Images/PredictionModel.png" />
+            </Button>
+
+            <Grid Grid.Column="2" Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--Pulse Version-->
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="Pulse Version: " HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Path=PulseVersion}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource PulseFontHighlightColor}" />
+                </StackPanel>
+
+                <!--Pulse Display Version-->
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBlock Text="Pulse Display Version: " HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Path=PulseDisplayVersion}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource PulseFontHighlightColor}" />
+                </StackPanel>
+
+                <!--RTI Version-->
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <TextBlock Text="RTI Version: " HorizontalAlignment="Left" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Path=RtiVersion}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource PulseFontHighlightColor}"  />
+                </StackPanel>
+
+                <!--Up to Date-->
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <Viewbox Height="20" Width="20" Margin="2" Visibility="{Binding Path=IsCheckingForUpdates, Converter={StaticResource BoolToVisConverter}}">
+                        <mahapps:ProgressRing IsActive="{Binding IsCheckingForUpdates}" Foreground="Red" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Path=PulseVersionUpdateToDate}" Foreground="{StaticResource PulseTitleFontColor}" />
+                </StackPanel>
+
+                <!--Desc-->
+                <StackPanel Grid.Row="5" Margin="0,20,0,0">
+                    <TextBlock Text="Copyright © 2011 Rowe Technology Inc" />
+                    <TextBlock>
+						<Hyperlink NavigateUri="http://www.rowetechinc.com" TextDecorations="None">
+							<TextBlock Text="http://www.rowetechinc.com" />
+						</Hyperlink>
+					</TextBlock>
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
