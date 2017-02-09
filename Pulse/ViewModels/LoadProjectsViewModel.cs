@@ -201,6 +201,11 @@ namespace RTI
         /// </summary>
         public ReactiveCommand<object> ImportDataCommand { get; protected set; }
 
+        /// <summary>
+        /// Command to import RTB data.
+        /// </summary>
+        public ReactiveCommand<object> ImportRtbDataCommand { get; protected set; }
+
 
         #endregion
 
@@ -238,6 +243,10 @@ namespace RTI
             // Dialog to import data
             ImportDataCommand = ReactiveCommand.Create(this.WhenAny(x => x.IsProjectLoading, x => !x.Value));
             ImportDataCommand.Subscribe(_ => ImportData());
+
+            // Dialog to import RTB data
+            ImportRtbDataCommand = ReactiveCommand.Create(this.WhenAny(x => x.IsProjectLoading, x => !x.Value));
+            ImportRtbDataCommand.Subscribe(_ => ImportRTB());
 
             // Scan for the projects
             Task.Run(() => ScanProjectAsync());
@@ -452,6 +461,44 @@ namespace RTI
             }
         }
 
+        private async void ImportRTB()
+        {
+            try
+            {
+                // Show the FolderBrowserDialog.
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Filter = "Ensemble files (*.bin, *.ens)|*.bin; *.ens|BIN files (*.bin)|*.bin|ENS files (*.ens)|*.ens|DB files (*.db)|*.db|All files (*.*)|*.*";
+                dialog.Multiselect = true;
+                //dialog.InitialDirectory = Pulse.Commons.DEFAULT_RECORD_DIR;
+
+                DialogResult result = dialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    // Get the files selected
+                    string[] files = dialog.FileNames;
+
+                    // Get the import Project name
+                    bool importPrjNameResult = GetImportProjectName(files);
+
+                    if (importPrjNameResult)
+                    {
+                        // Import the files
+                        await Task.Run(() => ImportRTB(files));
+                    }
+                }
+            }
+            catch (AccessViolationException ae)
+            {
+                log.Error("Error trying to open file", ae);
+            }
+            catch (Exception e)
+            {
+                log.Error("Error trying to open file", e);
+            }
+        }
+
+
         /// <summary>
         /// Get the Import Project name from the user.  This will display a 
         /// dialog for the project name for the imported files.  If the files found
@@ -615,18 +662,6 @@ namespace RTI
             _adcpConnection.IsImporting = true;
             IoC.Get<PlaybackViewModel>().IsRecordEnabled = true;        // Call this to update the display
 
-            //// Begin importing
-            //List<FilePlayback.EnsembleData> list = importer.ImportFiles(files.ToArray());
-
-            //// Wait for complete
-            //// Have a timeout
-            //_eventWaitImport.WaitOne(60000);    // Timeout after 60 seconds
-
-            //// Dispose of the importer
-            ////importer.ReceiveBinaryDataEvent -= importer_ReceiveBinaryDataEvent;
-            //importer.CompleteEvent -= importer_CompleteEvent;
-            //importer.Dispose();
-
             // Create the file playback based off the selected file
             List<RTI.FilePlayback.EnsembleData> ensList = new List<FilePlayback.EnsembleData>();
             using(FilePlayback fp = new FilePlayback())
@@ -635,10 +670,87 @@ namespace RTI
                 ensList = fp.GetEnsembleDataList();
             }
 
-
             // Publish all the ensembles found from the importer
             //foreach(var ens in list)
             foreach(var ens in ensList)
+            {
+                //_adcpConnection.PublishEnsembleData(ens.RawData, ens.Ensemble);
+                // Check if the serial number is set for the project
+                if (_pm.SelectedProject.SerialNumber.IsEmpty())
+                {
+                    if (ens.Ensemble.IsEnsembleAvail)
+                    {
+                        _pm.SelectedProject.SerialNumber = ens.Ensemble.EnsembleData.SysSerialNumber;
+                    }
+                }
+
+                // Record the data
+                _pm.SelectedProject.RecordBinaryEnsemble(ens.RawData);
+                _pm.SelectedProject.RecordDbEnsemble(ens.Ensemble);
+            }
+
+            // Set the Project Image
+            if (_SelectedProjectVM != null)
+            {
+                await System.Windows.Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
+                {
+                    _SelectedProjectVM.RefreshDisplay();
+                    this.NotifyOfPropertyChange(() => this.ProjectList);
+                }));
+            }
+
+            // Turn off recording and importing
+            _adcpConnection.IsRecording = false;
+            _adcpConnection.IsImporting = false;
+            IoC.Get<PlaybackViewModel>().IsRecordEnabled = false;        // Call this to update the display
+            IsProjectLoading = false;
+        }
+
+        /// <summary>
+        /// Import the RoweTech binary files.
+        /// This is optimized for RoweTech Binary files.
+        /// </summary>
+        /// <param name="files">Files to import to a project.</param>
+        private async void ImportRTB(string[] files)
+        {
+            // If the project does not exist in the list, create it now
+            if (!IsProjectExist(_importProjectName))
+            {
+                // Create the new project based off
+                // the project name and project directory
+                Project prj = new Project(_importProjectName, RTI.Pulse.Commons.GetProjectDefaultFolderPath(), null);
+
+                // Create the new project based off
+                // the project name and project directory
+                //System.Windows.Application.Current.Dispatcher.BeginInvoke(new System.Action(() => AddProject(prj)));
+                await AddProject(prj);
+                prj.Dispose();
+            }
+
+            //// Create the importer and an eventhandler to handle the imported data
+            //AdcpImportBinaryFile importer = new AdcpImportBinaryFile();
+            ////importer.ReceiveBinaryDataEvent += new AdcpImportBinaryFile.ReceiveBinaryDataEventHandler(importer_ReceiveBinaryDataEvent);
+            //importer.CompleteEvent += new AdcpImportBinaryFile.CompleteEventHandler(importer_CompleteEvent);
+
+            // Set flag to turn on recording and importing
+            // This will tell the recorder to record but since we
+            // are importing, do not update all the playback displays
+            IsProjectLoading = true;
+            _adcpConnection.IsRecording = true;
+            _adcpConnection.IsImporting = true;
+            IoC.Get<PlaybackViewModel>().IsRecordEnabled = true;        // Call this to update the display
+
+            // Create the file playback based off the selected file
+            List<RTI.FilePlayback.EnsembleData> ensList = new List<FilePlayback.EnsembleData>();
+            using (FilePlayback fp = new FilePlayback())
+            {
+                fp.FindRtbEnsembles(files);
+                ensList = fp.GetEnsembleDataList();
+            }
+
+            // Publish all the ensembles found from the importer
+            //foreach(var ens in list)
+            foreach (var ens in ensList)
             {
                 //_adcpConnection.PublishEnsembleData(ens.RawData, ens.Ensemble);
                 // Check if the serial number is set for the project

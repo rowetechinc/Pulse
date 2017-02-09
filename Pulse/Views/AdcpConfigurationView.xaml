@@ -346,9 +346,9 @@
 				</Grid>
 				
 				<!--PIng Timing Animation-->
-				<!--Viewbox Grid.Row="2" MaxHeight="150" HorizontalAlignment="Stretch" Margin="10">
+				<Viewbox Grid.Row="2" MaxHeight="150" HorizontalAlignment="Stretch" Margin="10">
 					<ContentControl cal:View.Model="{Binding PingModelVM}"/>
-				</-->
+				</Viewbox>
 				
 				<StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" >   
 					<Button Content="Scan" Command="{Binding Path=ScanAdcpCommand}"  Margin="5" />

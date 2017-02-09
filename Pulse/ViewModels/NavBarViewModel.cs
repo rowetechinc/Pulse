@@ -31,6 +31,7 @@
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 11/24/2015      RC          4.3.1      Select ENS and BIN as default options for playback files.
  * 12/03/2015      RC          4.4.0      Added record button and recording to file to the record button.
+ * 02/08/2017      RC          
  * 
  */
 
@@ -362,7 +363,7 @@ namespace RTI
 
             // Create the file playback based off the selected file
             FilePlayback fp = new FilePlayback();
-            fp.FindEnsembles(files);
+            fp.FindRtbEnsembles(files);
 
             // Wait for ensembles to be added
             int timeout = 10;

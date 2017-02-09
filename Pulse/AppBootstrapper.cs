@@ -239,7 +239,7 @@ namespace RTI
             ContainerExtensions.PerRequest<StorageViewModel, StorageViewModel>(_container);
 
             // Register the LoadProjectsViewModel
-            ContainerExtensions.PerRequest<LoadProjectsViewModel, LoadProjectsViewModel>(_container);
+            ContainerExtensions.Singleton<LoadProjectsViewModel, LoadProjectsViewModel>(_container);
 
             // Register the LoadProjectsViewModel
             ContainerExtensions.PerRequest<AdcpConfigurationViewModel, AdcpConfigurationViewModel>(_container);

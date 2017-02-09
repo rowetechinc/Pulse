@@ -1,10 +1,13 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.0
+ - Fix a bug with importing and playing back data, where data was missing.
+ - In ExportDataViewModel, fix bug when new project is selected an no ensembles are in the project.
+
 Pulse-4.4.17
  - In EnsembleIntervalViewModel, fixed the CEI command only being an integer.
  - Added PredictionModel image to Home page.
- - In DownloadedDataViewModel, add ability to download any data that starts with .EN
- 
+ - Added new Playback codec in NavBar playback.
 
 Pulse-4.4.13
  - In ExportDataViewModel, added Velocity Vector export to csv.

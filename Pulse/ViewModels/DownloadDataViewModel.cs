@@ -91,7 +91,7 @@ namespace RTI
         /// WILL BE STOPPED EARLY.  THIS MAY NEED TO BE CONFIGURED BY THE
         /// USER.
         /// </summary>
-        private const int DOWNLOAD_TIMEMOUT = 10;
+        private const int DOWNLOAD_TIMEMOUT = 45;
 
         /// <summary>
         /// Timer to reduce the number of update calls the terminal window.

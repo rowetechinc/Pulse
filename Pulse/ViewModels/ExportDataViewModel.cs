@@ -34,6 +34,7 @@
  * 05/18/2016      RC          4.4.7       When exporting data, use the VM and Screening options on the data.
  * 06/16/2016      RC          4.4.10      Check if the data is valid before converting.
  * 09/28/2016      RC          4.4.13      Added export of Velocity Vectors in CSV.
+ * 02/08/2017      RC          4.5.0       Fix bug when new project is selected an no ensembles are in the project.
  * 
  */
 
@@ -1463,9 +1464,14 @@ namespace RTI
         {
             _Options = _pm.AppConfiguration.GetExportDataOptions();
 
-            // Get the maximum number of bins
-            MaximumBin = message.Project.GetFirstEnsemble().EnsembleData.NumBins;
+            // Get the number of ensembles
             MaxEnsembleNumberEntry = (uint)message.Project.GetNumberOfEnsembles();
+
+            if (MaxEnsembleNumberEntry > 0)
+            {
+                // Get the maximum number of bins
+                MaximumBin = message.Project.GetFirstEnsemble().EnsembleData.NumBins;
+            }
         }
 
         #endregion
