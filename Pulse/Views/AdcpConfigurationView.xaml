@@ -300,7 +300,8 @@
 						
 						<!--Buttons-->
 						<StackPanel Grid.Column="2" Margin="5" >
-							<Button Content="Save Commands" Margin="5" Command="{Binding Path=SaveCmdsCommand}" />
+							<Button Content="Save Commands" Margin="5" Command="{Binding Path=SaveCmdsCommand}" ToolTip="Save the current configuration to the project folder." />
+                            <Button Content="Compass Calibration" Margin="5" Command="{Binding Path=CompassCalCommand}" ToolTip="Perform a compass calibration." />
 						</StackPanel>
 						
 						<!--Progress Ring-->	

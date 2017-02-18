@@ -28,6 +28,7 @@
  * 05/23/2014      RC          3.2.4      Fixed a bug updating the Predictor.
  * 06/02/2014      RC          3.3.0      Added saving the commands to a text file. 
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
+ * 02/17/2017      RC          4.5.1      Added Compass Calibration as a button.
  * 
  * 
  * 
@@ -537,6 +538,11 @@ namespace RTI
         /// </summary>
         public ReactiveCommand<System.Reactive.Unit> SaveCmdsCommand { get; protected set; }
 
+        /// <summary>
+        /// Move to the Compass Cal Screen.
+        /// </summary>
+        public ReactiveCommand<object> CompassCalCommand { get; protected set; }
+
         #endregion
 
         /// <summary>
@@ -575,6 +581,10 @@ namespace RTI
             ExitCommand = ReactiveCommand.Create();
             ExitCommand.Subscribe(_ => _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.HomeView)));
 
+            // Compass Cal coommand
+            CompassCalCommand = ReactiveCommand.Create();
+            CompassCalCommand.Subscribe(_ => _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.CompassCalView)));
+
             // Edit the configuration command
             EditCommand = ReactiveCommand.Create();
             EditCommand.Subscribe(param => OnEditCommand(param));
@@ -611,7 +621,8 @@ namespace RTI
                     _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.NavSourcesView));
                     break;
                 default:
-                    _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.SimpleCompassCalWizardView));
+                    //_events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.SimpleCompassCalWizardView));
+                    _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.DeployAdcpView));
                     break;
             }
 
