@@ -413,7 +413,7 @@ namespace RTI
         /// Only update the contour plot and timeseries.  This will need each ensemble.
         /// The profile plots only need the last ensemble. 
         /// </summary>
-        /// <param name="ensEvent">Event that contains the Ensembles to display.</param>
+        /// <param name="ensembles">Event that contains the Ensembles to display.</param>
         public void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
         {
             //Task.Run(() => DisplayData(ensemble));
@@ -469,7 +469,7 @@ namespace RTI
 
                         try
                         {
-                            AmpltiduePlot.AddIncomingData(ensemble, MaxEnsembles);
+                            Task.Run(() => AmpltiduePlot.AddIncomingData(ensemble, MaxEnsembles));
                         }
                         catch (Exception e)
                         {

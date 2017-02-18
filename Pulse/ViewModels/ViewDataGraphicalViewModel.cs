@@ -1007,7 +1007,7 @@ namespace RTI
                         }
 
                         // Velocity 3D plot
-                        VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(ensemble));
+                        await Task.Run(() => VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(ensemble)));
 
                         //VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetInstrumentVelocityVectors(ensemble));
                     }
@@ -1437,19 +1437,9 @@ namespace RTI
         /// Only update the contour plot and timeseries.  This will need each ensemble.
         /// The profile plots only need the last ensemble. 
         /// </summary>
-        /// <param name="ensEvent">Event that contains the Ensembles to display.</param>
+        /// <param name="ensembles">Event that contains the Ensembles to display.</param>
         public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
         {
-            //Task.Run(() => DisplayData(ensemble));
-            //DisplayData(ensemble);
-
-            //for (int x = 0; x < ensembles.Count(); x++)
-            //{
-            //    // Get the ensemble
-            //    DataSet.Ensemble ens = ensembles.IndexValue(x);
-            //    DisplayData(ens);
-            //}
-
             IsLoading = true;
 
             // Check the data for changes

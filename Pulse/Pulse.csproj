@@ -733,6 +733,13 @@
     <Content Include="Copyright.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Installer\BTIC\License.txt" />
+    <Resource Include="Installer\BTIC\Copyright.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Installer\BTIC\EndUserRights.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -887,6 +894,7 @@
       <DependentUpon>HomeView.xaml</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="Installer\BTIC\BTIC_Installer_Update.nsi" />
     <None Include="Installer\Installer_Update.nsi" />
     <None Include="Installer\Installer_Full.nsi" />
     <None Include="packages.config" />
@@ -949,6 +957,8 @@ ECHO Moving NullSoft Installer
 "C:\Program Files (x86)\NSIS\makensisw" "$(ProjectDir)\Installer\Installer_Full.nsi"
 "C:\Program Files (x86)\NSIS\makensisw" "$(ProjectDir)\Installer\Installer_Update.nsi"
 move "$(ProjectDir)\Installer\Pulse.Installer.v.*" $(TargetDir)
+"C:\Program Files (x86)\NSIS\makensisw" "$(ProjectDir)\Installer\BTIC\BTIC_Installer_Update.nsi"
+move "$(ProjectDir)\Installer\BTIC\BTIC.Pulse.Installer.v.*" $(TargetDir)
 
 :Exit</PostBuildEvent>
   </PropertyGroup>

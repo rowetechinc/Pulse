@@ -3079,7 +3079,7 @@ namespace RTI
         /// Only update the contour plot and timeseries.  This will need each ensemble.
         /// The profile plots only need the last ensemble. 
         /// </summary>
-        /// <param name="ensEvent">Event that contains the Ensembles to display.</param>
+        /// <param name="ensembles">Event that contains the Ensembles to display.</param>
         public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
         {
             await Task.Run(() => AddSeriesBulk(ensembles));
@@ -3290,7 +3290,7 @@ namespace RTI
         /// <summary>
         /// Add the bulk data to the plots.
         /// </summary>
-        /// <param name="ensemble">Ensemble to get the data.</param>
+        /// <param name="ensembles">Ensembles to get the data.</param>
         private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles)
         {
             // Set a flag for loading
