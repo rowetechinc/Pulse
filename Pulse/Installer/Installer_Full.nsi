@@ -160,6 +160,7 @@ Section "Core" SecCore
 	File "/oname=x86\SQLite.Interop.dll" "..\..\packages\System.Data.SQLite.Core.1.0.99.0\build\net451\x86\SQLite.Interop.dll"
 	File "..\bin\Release\Licenses.txt"
 	File "..\bin\Release\EndUserRights.txt"
+	File "..\bin\Release\Copyright.txt"
 	File "..\..\User Guide\RTI - Pulse User Guide.pdf"
 	
 	; Create shortcut in start menu
@@ -288,6 +289,7 @@ Section "Uninstall"
 	Delete "$INSTDIR\WriteableBitmapEx.Wpf.dll"
     Delete "$INSTDIR\Licenses.txt"
 	Delete "$INSTDIR\EndUserRights.txt"
+	Delete "$INSTDIR\Copyright.txt"
 	Delete "$INSTDIR\RTI - Pulse User Guide.pdf"
 
 	Delete "$INSTDIR\Uninstall.exe"

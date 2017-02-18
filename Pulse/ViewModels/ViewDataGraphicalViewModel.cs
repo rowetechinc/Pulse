@@ -958,6 +958,65 @@ namespace RTI
             }
         }
 
+        /// <summary>
+        /// Add the data is bulk.  This will reduce the number of screen updates.
+        /// </summary>
+        /// <param name="ensembles">Ensembles to display.</param>
+        private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles)
+        {
+            IsLoading = true;
+
+            // Time series plot
+            await Task.Run(() => TimeSeries1Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+            await Task.Run(() => TimeSeries2Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+            await Task.Run(() => TimeSeries3Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+
+            try
+            {
+                await Task.Run(() => HeatmapPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+            }
+            catch (Exception e)
+            {
+                log.Error("Error adding ensemble to Heatmap plots.", e);
+            }
+
+            // Correlation plot
+            await Task.Run(() => CorrPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+
+            // Amplitude plot
+            await Task.Run(() => AmpPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+
+            // Velocity Profile plot
+            await Task.Run(() => VelProfilePlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+
+            // Only the last ensemble needs to be displayed
+            if (ensembles.Count() > 0)
+            {
+
+                // Get the last ensemble
+                var ensemble = ensembles.Get(ensembles.Count()- 1);
+
+                if (ensemble != null)
+                {
+                    if (ensemble.IsEarthVelocityAvail)
+                    {
+                        if (!ensemble.EarthVelocityData.IsVelocityVectorAvail)
+                        {
+                            // Add Velocity Vectors
+                            DataSet.VelocityVectorHelper.CreateVelocityVector(ref ensemble);
+                        }
+
+                        // Velocity 3D plot
+                        VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(ensemble));
+
+                        //VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetInstrumentVelocityVectors(ensemble));
+                    }
+                }
+            }
+
+            IsLoading = false;
+        }
+
         #endregion
 
         #region Correlation
@@ -1134,85 +1193,6 @@ namespace RTI
         //    VelPlot.Series.Add(lsv.Beam3Series);
 
         //    UpdatePlot(new AdcpPlotEvent(AdcpPlotEvent.AdcpPlotTypes.PLOT_VELOCITY));
-        //}
-
-        #endregion
-
-        #region Line Series
-
-
-        ///// <summary>
-        ///// Float Version
-        ///// I could not use type T. DataPoint would not allow a value type T. 
-        ///// 
-        ///// Generate all the line series for the given data.
-        ///// The return value will contain line series for all 4 beams.
-        ///// </summary>
-        ///// <param name="data">Data to generate the LineSeries.</param>
-        ///// <param name="numBins">Number of bins.</param>
-        ///// <param name="startDepth">Depth to start at.</param>
-        ///// <param name="binSize">Size of a bin.</param>
-        ///// <param name="scaleFactor">Value to multiply to the value retrieved.</param>
-        ///// <returns>Struct containing all the LineSeries data.</returns>
-        //private LineSeriesValues GenerateLineSeries(float[,] data, int numBins, float startDepth, float binSize, double scaleFactor = 1)
-        //{
-        //    LineSeries lsBeam0 = new LineSeries("Beam 0");
-        //    lsBeam0.LineStyle = LineStyle.Solid;
-        //    lsBeam0.Color = Beam0Color;
-
-        //    LineSeries lsBeam1 = new LineSeries("Beam 1");
-        //    lsBeam1.LineStyle = LineStyle.Solid;
-        //    lsBeam1.Color = Beam1Color;
-
-        //    LineSeries lsBeam2 = new LineSeries("Beam 2");
-        //    lsBeam2.LineStyle = LineStyle.Solid;
-        //    lsBeam2.Color = Beam2Color;
-
-        //    LineSeries lsBeam3 = new LineSeries("Beam 3");
-        //    lsBeam3.LineStyle = LineStyle.Solid;
-        //    lsBeam3.Color = Beam3Color;
-
-        //    //Add the new points
-        //    for (int bin = 0; bin < numBins; bin++)
-        //    {
-        //        double depth = (binSize * bin) + startDepth;
-
-        //        //Add a datapoint
-
-        //        // Check for bad Velocity
-        //        if (data.GetLength(1) > DataSet.Ensemble.BEAM_0_INDEX && data[bin, DataSet.Ensemble.BEAM_0_INDEX] != DataSet.Ensemble.BAD_VELOCITY)
-        //        {
-        //            lsBeam0.Points.Add(new DataPoint(data[bin, DataSet.Ensemble.BEAM_0_INDEX] * scaleFactor, depth));
-        //        }
-
-        //        // Check for bad Velocity
-        //        if (data.GetLength(1) > DataSet.Ensemble.BEAM_1_INDEX && data[bin, DataSet.Ensemble.BEAM_1_INDEX] != DataSet.Ensemble.BAD_VELOCITY)
-        //        {
-        //            lsBeam1.Points.Add(new DataPoint(data[bin, DataSet.Ensemble.BEAM_1_INDEX] * scaleFactor, depth));
-        //        }
-
-        //        // Check for bad Velocity
-        //        if (data.GetLength(1) > DataSet.Ensemble.BEAM_2_INDEX && data[bin, DataSet.Ensemble.BEAM_2_INDEX] != DataSet.Ensemble.BAD_VELOCITY)
-        //        {
-        //            lsBeam2.Points.Add(new DataPoint(data[bin, DataSet.Ensemble.BEAM_2_INDEX] * scaleFactor, depth));
-        //        }
-
-        //        // Check for bad Velocity
-        //        if (data.GetLength(1) > DataSet.Ensemble.BEAM_3_INDEX && data[bin, DataSet.Ensemble.BEAM_3_INDEX] != DataSet.Ensemble.BAD_VELOCITY)
-        //        {
-        //            lsBeam3.Points.Add(new DataPoint(data[bin, DataSet.Ensemble.BEAM_3_INDEX] * scaleFactor, depth));
-        //        }
-        //    }
-
-        //    // Set the ranges
-        //    LineSeriesValues lsv = new LineSeriesValues
-        //    {
-        //        Beam0Series = lsBeam0,
-        //        Beam1Series = lsBeam1,
-        //        Beam2Series = lsBeam2,
-        //        Beam3Series = lsBeam3
-        //    };
-        //    return lsv;
         //}
 
         #endregion
@@ -1457,11 +1437,41 @@ namespace RTI
         /// Only update the contour plot and timeseries.  This will need each ensemble.
         /// The profile plots only need the last ensemble. 
         /// </summary>
-        /// <param name="ensemble">Ensemble to display.</param>
-        public void DisplayBulkData(DataSet.Ensemble ensemble)
+        /// <param name="ensEvent">Event that contains the Ensembles to display.</param>
+        public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
         {
             //Task.Run(() => DisplayData(ensemble));
-            DisplayData(ensemble);
+            //DisplayData(ensemble);
+
+            //for (int x = 0; x < ensembles.Count(); x++)
+            //{
+            //    // Get the ensemble
+            //    DataSet.Ensemble ens = ensembles.IndexValue(x);
+            //    DisplayData(ens);
+            //}
+
+            IsLoading = true;
+
+            // Check the data for changes
+            //CheckData(ensemble);
+
+            // Update Plots
+            await Task.Run(() => AddSeriesBulk(ensembles));
+
+            // Add the ensemble to ensemble history
+            //_ensembleHistory.Add(ensemble);
+
+            if (ensembles.Count() > 0)
+            {
+                // Get the last ensemble
+                var ensemble = ensembles.IndexValue(ensembles.Count() - 1);
+
+                // Add the data to the Text Display
+                TextEnsembleVM.ReceiveEnsemble(ensemble);
+            }
+
+            IsLoading = false;
+
         }
 
         #endregion

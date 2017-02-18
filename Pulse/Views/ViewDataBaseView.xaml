@@ -17,8 +17,9 @@
 			<!--Nav Bar-->
 			<WrapPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
 				<Button Content="Tabular" Margin="5" Command="{Binding Path=TextViewCommand}" />
-				<Button Content="Graphical" Margin="5" Command="{Binding Path=GraphicalViewCommand}" />
+                <Button Content="Graphical" Margin="5" Command="{Binding Path=GraphicalViewCommand}" />
                 <Button Content="DVL" Margin="5" Command="{Binding Path=DvlViewCommand}" />
+                <Button Content="Diagnostic" Margin="5" Command="{Binding Path=DiagnosticViewCommand}" />
                 <Button Content="Backscatter" Margin="5" Command="{Binding Path=BackscatterViewCommand}" />
 			</WrapPanel>
 			

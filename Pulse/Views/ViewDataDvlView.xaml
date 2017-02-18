@@ -959,6 +959,11 @@
                 
             </StackPanel>
 
+            <!--Progress Ring-->
+            <Viewbox Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Height="200" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >
+                <mahapps:ProgressRing IsActive="{Binding IsLoading}" Foreground="Red" Height="200" Width="200" />
+            </Viewbox>
+
         </Grid>
     </ScrollViewer>
 </UserControl>

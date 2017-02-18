@@ -39,6 +39,7 @@ namespace RTI
     using ReactiveUI;
     using Caliburn.Micro;
     using AutoUpdaterDotNET;
+    using System.IO;
 
     /// <summary>
     /// Home page for the application.
@@ -58,6 +59,11 @@ namespace RTI
         /// Event aggregator.
         /// </summary>
         private readonly IEventAggregator _events;
+
+        /// <summary>
+        /// Copyright file.
+        /// </summary>
+        public const string PULSE_COPY_RIGHT_PATH = "Copyright.txt";
 
         #endregion
 
@@ -185,8 +191,29 @@ namespace RTI
                 this.NotifyOfPropertyChange(() => this.RtiVersion);
             }
         }
+
+        #region Copyright Info
+
+        /// <summary>
+        /// Copyright information.
+        /// </summary>
+        private string _Copyright;
+        /// <summary>
+        /// Copyright information.
+        /// </summary>
+        public string Copyright
+        {
+            get { return _Copyright; }
+            set
+            {
+                _Copyright = value;
+                this.NotifyOfPropertyChange(() => this.Copyright);
+            }
+        }
+
         #endregion
 
+        #endregion
 
         #region Auto Update
 
@@ -249,6 +276,9 @@ namespace RTI
             // Set Event Aggregator
             _events = IoC.Get<IEventAggregator>();
 
+            // Get Copyright info
+            GetCopyrightInfo();
+
             // Load all previous Pulse options
             LoadPreviousPulseOptions();
 
@@ -310,6 +340,18 @@ namespace RTI
         private void AcquireMode()
         {
             _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.ProjectView));
+        }
+
+        #endregion
+
+        #region  Copyright
+
+        /// <summary>
+        /// Load the file for the Copyright.
+        /// </summary>
+        private void GetCopyrightInfo()
+        {
+            Copyright = File.ReadAllText(PULSE_COPY_RIGHT_PATH);
         }
 
         #endregion

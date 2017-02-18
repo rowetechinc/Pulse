@@ -70,6 +70,11 @@ namespace RTI
         /// </summary>
         public const string PULSE_END_USER_RIGHTS_PATH = "EndUserRights.txt";
 
+        /// <summary>
+        /// Copyright file.
+        /// </summary>
+        public const string PULSE_COPY_RIGHT_PATH = "Copyright.txt";
+
         #endregion
 
         #region Properties
@@ -179,6 +184,27 @@ namespace RTI
             {
                 _PulseInfo = value;
                 this.NotifyOfPropertyChange(() => this.PulseInfo);
+            }
+        }
+
+        #endregion
+
+        #region Copyright Info
+
+        /// <summary>
+        /// Copyright information.
+        /// </summary>
+        private string _Copyright;
+        /// <summary>
+        /// Copyright information.
+        /// </summary>
+        public string Copyright
+        {
+            get { return _Copyright; }
+            set
+            {
+                _Copyright = value;
+                this.NotifyOfPropertyChange(() => this.Copyright);
             }
         }
 
@@ -356,6 +382,9 @@ namespace RTI
             IsCheckingForUpdates = false;
             PulseVersionUpdateToDate = "Checking for an update...";
 
+            // Get the copyright info
+            GetCopyrightInfo();
+
             // Load the license
             LoadLicensesCommand = ReactiveCommand.CreateAsyncTask(_ => Task.Run(() => LoadLicenses()));
 
@@ -406,6 +435,18 @@ namespace RTI
         private void LoadEndUserRights()
         {
             PulseInfo = File.ReadAllText(PULSE_END_USER_RIGHTS_PATH);
+        }
+
+        #endregion
+
+        #region  Copyright
+
+        /// <summary>
+        /// Load the file for the Copyright.
+        /// </summary>
+        private void GetCopyrightInfo()
+        {
+            Copyright = File.ReadAllText(PULSE_COPY_RIGHT_PATH);
         }
 
         #endregion

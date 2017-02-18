@@ -249,43 +249,56 @@ namespace RTI
                         vm.DisplayMaxEnsembles = ensEvent.Ensembles.Count();
                     }
 
-                    // Display the data
-                    for (int x = 0; x < ensEvent.Ensembles.Count(); x++)
+                    // Look for all the configurations
+                    // 12 is maximum configurations
+                    if (ensEvent.Ensembles.Count() > 0)
                     {
-                        // Get the ensemble
-                        DataSet.Ensemble ens = ensEvent.Ensembles.IndexValue(x);
-
-                        // Verify the ensemble
-                        if (ens != null && ens.IsEnsembleAvail)
+                        for (int x = 0; x < ensEvent.Ensembles.Count(); x++)
                         {
-                            // Create the config
-                            var ssDataConfig = new SubsystemDataConfig(ens.EnsembleData.SubsystemConfig, ensEvent.Source);
-
-                            // Check if the config exist in the table
-                            if (!_graphicalVMDict.ContainsKey(ssDataConfig))
+                            // Check 12 ensembles, because there can be up to 12 different configurations
+                            if (x > 12)
                             {
-                                Application.Current.Dispatcher.BeginInvoke(new System.Action(() => AddConfig(ssDataConfig)));
+                                break;
                             }
 
-                             //Wait for the dispatcher to add the config
-                            // Monitor for any timeouts
-                            int timeout = 0;
-                            while (!_graphicalVMDict.ContainsKey(ssDataConfig))
+                            var ensemble = ensEvent.Ensembles.IndexValue(x);
+
+                            // Verify the ensemble
+                            if (ensemble != null && ensemble.IsEnsembleAvail)
                             {
-                                // Set a timeout and wait for the config
-                                timeout++;
-                                if (timeout > 10)
+                                // Create the config
+                                var ssDataConfig = new SubsystemDataConfig(ensemble.EnsembleData.SubsystemConfig, ensEvent.Source);
+
+                                // Check if the config exist in the table
+                                if (!_graphicalVMDict.ContainsKey(ssDataConfig))
                                 {
-                                    break;
+                                    Application.Current.Dispatcher.BeginInvoke(new System.Action(() => AddConfig(ssDataConfig)));
                                 }
-                                System.Threading.Thread.Sleep(250);
-                            }
 
-                            _events.PublishOnUIThread(new EnsembleEvent(ens, EnsembleSource.Playback));
+                                //Wait for the dispatcher to add the config
+                                // Monitor for any timeouts
+                                int timeout = 0;
+                                while (!_graphicalVMDict.ContainsKey(ssDataConfig))
+                                {
+                                    // Set a timeout and wait for the config
+                                    timeout++;
+                                    if (timeout > 10)
+                                    {
+                                        break;
+                                    }
+                                    System.Threading.Thread.Sleep(250);
+                                }
+                            }
+                        }
+
+                        // Pass the ensembles to the displays
+                        foreach (var vm in _graphicalVMDict.Values)
+                        {
+                            vm.DisplayBulkData(ensEvent.Ensembles);
                         }
                     }
                 }
-
+    
             }
             _isProcessingBuffer = false;
         }

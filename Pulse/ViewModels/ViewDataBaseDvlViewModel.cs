@@ -247,6 +247,12 @@ namespace RTI
                     // Display the data
                     for (int x = 0; x < ensEvent.Ensembles.Count(); x++)
                     {
+                        // There can only be up to 12 different types of configurations
+                        if(x > 12)
+                        {
+                            break;
+                        }
+
                         // Get the ensemble
                         DataSet.Ensemble ens = ensEvent.Ensembles.IndexValue(x);
 
@@ -276,9 +282,15 @@ namespace RTI
                                 System.Threading.Thread.Sleep(250);
                             }
 
-                            _events.PublishOnUIThread(new EnsembleEvent(ens, EnsembleSource.Playback));
+                            //_events.PublishOnUIThread(new EnsembleEvent(ens, EnsembleSource.Playback));
                         }
                     }
+                }
+
+                // Pass the ensembles to the displays
+                foreach (var vm in _dvlVMDict.Values)
+                {
+                    vm.DisplayBulkData(ensEvent.Ensembles);
                 }
 
             }

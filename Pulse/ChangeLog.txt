@@ -1,5 +1,12 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.1
+ - Added Diagnostic view to main view page.
+ - Fixing updating plots to fast.
+ - In ViewDataDvlViewModel, fixed Display All data.
+ - Fixed Display All.
+ - Moved the copyright information to the text file Copyright.txt.
+
 Pulse-4.5.0
  - Fix a bug with importing and playing back data, where data was missing.
  - In ExportDataViewModel, fix bug when new project is selected an no ensembles are in the project.

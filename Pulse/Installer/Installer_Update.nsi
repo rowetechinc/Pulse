@@ -159,6 +159,7 @@ Section "Core" SecCore
 	File "/oname=x64\SQLite.Interop.dll" "..\..\packages\System.Data.SQLite.Core.1.0.99.0\build\net451\x64\SQLite.Interop.dll"
 	File "/oname=x86\SQLite.Interop.dll" "..\..\packages\System.Data.SQLite.Core.1.0.99.0\build\net451\x86\SQLite.Interop.dll"
 	File "..\bin\Release\Licenses.txt"
+	File "..\bin\Release\Copyright.txt"
 	File "..\bin\Release\EndUserRights.txt"
 	File "..\..\User Guide\RTI - Pulse User Guide.pdf"
 	
@@ -272,6 +273,7 @@ Section "Uninstall"
 	Delete "$INSTDIR\MahApps.Metro.dll"
 	Delete "$INSTDIR\WriteableBitmapEx.Wpf.dll"
     Delete "$INSTDIR\Licenses.txt"
+	Delete "$INSTDIR\Copyright.txt"
 	Delete "$INSTDIR\EndUserRights.txt"
 	Delete "$INSTDIR\RTI - Pulse User Guide.pdf"
 

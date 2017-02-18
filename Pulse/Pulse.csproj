@@ -730,6 +730,9 @@
     <Resource Include="Images\pulse_logo.png" />
     <Resource Include="Images\screen.png" />
     <Resource Include="Images\PredictionModel.png" />
+    <Content Include="Copyright.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

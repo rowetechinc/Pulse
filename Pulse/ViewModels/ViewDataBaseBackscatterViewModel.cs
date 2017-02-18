@@ -234,60 +234,72 @@ namespace RTI
         /// </summary>
         private void BulkEnsembleDisplayExecute()
         {
-            //while (_buffer.Count > 0)
-            //{
-            //    _isProcessingBuffer = true;
+            while (_buffer.Count > 0)
+            {
+                _isProcessingBuffer = true;
 
 
-            //    BulkEnsembleEvent ensEvent = null;
-            //    if (_buffer.TryDequeue(out ensEvent))
-            //    {
-            //        // Set the maximum display for each VM
-            //        foreach (var vm in BackscatterVMList)
-            //        {
-            //            vm.ClearPlots();
-            //            vm.DisplayMaxEnsembles = ensEvent.Ensembles.Count();
-            //        }
+                BulkEnsembleEvent ensEvent = null;
+                if (_buffer.TryDequeue(out ensEvent))
+                {
+                    // Set the maximum display for each VM
+                    foreach (var vm in _backscatterVMDict.Values)
+                    {
+                        vm.ClearPlots();
+                        vm.MaxEnsembles = ensEvent.Ensembles.Count();
+                    }
 
-            //        // Display the data
-            //        for (int x = 0; x < ensEvent.Ensembles.Count(); x++)
-            //        {
-            //            // Get the ensemble
-            //            DataSet.Ensemble ens = ensEvent.Ensembles.IndexValue(x);
+                    // Look for all the configurations
+                    // 12 is maximum configurations
+                    if (ensEvent.Ensembles.Count() > 0)
+                    {
+                        for (int x = 0; x < ensEvent.Ensembles.Count(); x++)
+                        {
+                            // Check 12 ensembles, because there can be up to 12 different configurations
+                            if(x > 12)
+                            {
+                                break;
+                            }
 
-            //            // Verify the ensemble
-            //            if (ens != null && ens.IsEnsembleAvail)
-            //            {
-            //                // Create the config
-            //                var ssDataConfig = new SubsystemDataConfig(ens.EnsembleData.SubsystemConfig, ensEvent.Source);
+                            var ensemble = ensEvent.Ensembles.IndexValue(x);
 
-            //                // Check if the config exist in the table
-            //                if (!_backscatterVMDict.ContainsKey(ssDataConfig))
-            //                {
-            //                    Application.Current.Dispatcher.BeginInvoke(new System.Action(() => AddConfig(ssDataConfig)));
-            //                }
+                            if (ensemble != null && ensemble.IsEnsembleAvail)
+                            {
+                                // Create the config
+                                var ssDataConfig = new SubsystemDataConfig(ensemble.EnsembleData.SubsystemConfig, ensEvent.Source);
 
-            //                 //Wait for the dispatcher to add the config
-            //                // Monitor for any timeouts
-            //                int timeout = 0;
-            //                while (!_backscatterVMDict.ContainsKey(ssDataConfig))
-            //                {
-            //                    // Set a timeout and wait for the config
-            //                    timeout++;
-            //                    if (timeout > 10)
-            //                    {
-            //                        break;
-            //                    }
-            //                    System.Threading.Thread.Sleep(250);
-            //                }
+                                // Check if the config exist in the table
+                                if (!_backscatterVMDict.ContainsKey(ssDataConfig))
+                                {
+                                    Application.Current.Dispatcher.BeginInvoke(new System.Action(() => AddConfig(ssDataConfig)));
+                                }
 
-            //                _events.PublishOnUIThread(new EnsembleEvent(ens, EnsembleSource.Playback));
-            //            }
-            //        }
-            //    }
+                                //Wait for the dispatcher to add the config
+                                // Monitor for any timeouts
+                                int timeout = 0;
+                                while (!_backscatterVMDict.ContainsKey(ssDataConfig))
+                                {
+                                    // Set a timeout and wait for the config
+                                    timeout++;
+                                    if (timeout > 10)
+                                    {
+                                        break;
+                                    }
+                                    System.Threading.Thread.Sleep(250);
+                                }
+                            }
+                        }
+                    }
 
-            //}
-            //_isProcessingBuffer = false;
+                    // Pass the ensembles to the displays
+                    foreach (var vm in _backscatterVMDict.Values)
+                    {
+                        vm.DisplayBulkData(ensEvent.Ensembles);
+                    }
+                }
+            }
+            _isProcessingBuffer = false;
+
         }
 
         #endregion

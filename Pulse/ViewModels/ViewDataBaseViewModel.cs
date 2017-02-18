@@ -124,6 +124,11 @@ namespace RTI
         /// </summary>
         public ReactiveCommand<object> BackscatterViewCommand { get; protected set; }
 
+        /// <summary>
+        /// Command to view Diagnostic data.
+        /// </summary>
+        public ReactiveCommand<object> DiagnosticViewCommand { get; protected set; }
+
         #endregion
 
         /// <summary>
@@ -165,6 +170,10 @@ namespace RTI
             // Command to view DVL data
             BackscatterViewCommand = ReactiveCommand.Create();
             BackscatterViewCommand.Subscribe(_ => ActivateItem(IoC.Get<ViewDataBaseBackscatterViewModel>()));
+
+            // Command to view Diagnotics data
+            DiagnosticViewCommand = ReactiveCommand.Create();
+            DiagnosticViewCommand.Subscribe(_ => ActivateItem(IoC.Get<DiagnosticsBaseViewModel>()));
 
             // Display Graphical view by default
             ActivateItem(IoC.Get<ViewDataBaseGraphicalViewModel>());

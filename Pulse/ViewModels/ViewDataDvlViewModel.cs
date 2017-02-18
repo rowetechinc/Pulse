@@ -27,6 +27,7 @@
  * 09/30/2014      RC          4.1.0      Initial coding
  * 11/16/2016      RC          4.3.1      Added a thread.
  * 05/19/2016      RC          4.4.7      Added GPS Heading.
+ * 02/13/2017      RC          4.5.1      Fixed Display All data.
  * 
  */
 namespace RTI
@@ -266,6 +267,27 @@ namespace RTI
                 }
 
                 return false;
+            }
+        }
+
+        #endregion
+
+        #region Is Loading
+
+        /// <summary>
+        /// Flag for loading.
+        /// </summary>
+        private bool _IsLoading;
+        /// <summary>
+        /// Flag for loading.
+        /// </summary>
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set
+            {
+                _IsLoading = value;
+                this.NotifyOfPropertyChange(() => this.IsLoading);
             }
         }
 
@@ -2862,6 +2884,8 @@ namespace RTI
                 _Config = config;
                 //_displayCounter = 0;
 
+                IsLoading = false;
+
                 // Get the Event Aggregator
                 _events = IoC.Get<IEventAggregator>();
 
@@ -3055,11 +3079,10 @@ namespace RTI
         /// Only update the contour plot and timeseries.  This will need each ensemble.
         /// The profile plots only need the last ensemble. 
         /// </summary>
-        /// <param name="ensemble">Ensemble to display.</param>
-        public void DisplayBulkData(DataSet.Ensemble ensemble)
+        /// <param name="ensEvent">Event that contains the Ensembles to display.</param>
+        public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
         {
-            //Task.Run(() => DisplayData(ensemble));
-            DisplayData(ensemble);
+            await Task.Run(() => AddSeriesBulk(ensembles));
         }
 
         #endregion
@@ -3262,6 +3285,61 @@ namespace RTI
             {
                 UpdateCompassRose(ensemble.DvlData.Heading, ensemble.DvlData.Pitch, ensemble.DvlData.Roll);
             }
+        }
+
+        /// <summary>
+        /// Add the bulk data to the plots.
+        /// </summary>
+        /// <param name="ensemble">Ensemble to get the data.</param>
+        private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles)
+        {
+            // Set a flag for loading
+            IsLoading = true;
+
+            // Bottom Track Range
+            BottomTrackRangePlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config);
+
+            // Bottom Track Velocity
+            BottomTrackSpeedPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config);
+
+            // Accumulate Report data
+            await Task.Run(() => _reportText.LoadData(ensembles, _Config.SubSystem, _Config));
+
+            // Distance Made Good
+            await AddDistanceMadeGoodSeries(_reportText);
+
+
+            if(ensembles.Count() > 0)
+            {
+                // Get the last ensemble
+                var ensemble = ensembles.IndexValue(ensembles.Count() - 1);
+
+                if (ensemble.IsBottomTrackAvail) // Bottom Track plots
+                {
+
+                    // Update compass rose
+                    UpdateCompassRose(ensemble.BottomTrackData.Heading, ensemble.BottomTrackData.Pitch, ensemble.BottomTrackData.Roll);
+                }
+                // Update Compass Rose
+                else if (ensemble.IsAncillaryAvail)
+                {
+                    UpdateCompassRose(ensemble.AncillaryData.Heading, ensemble.AncillaryData.Pitch, ensemble.AncillaryData.Roll);
+                }
+                else if (ensemble.IsDvlDataAvail)
+                {
+                    UpdateCompassRose(ensemble.DvlData.Heading, ensemble.DvlData.Pitch, ensemble.DvlData.Roll);
+                }
+
+                // Display the data
+                DisplayDvlData(ensemble);
+
+                // Add the data to the Text Display
+                TextEnsembleVM.ReceiveEnsemble(ensemble);
+            }
+
+            // Set a flag for loading
+            IsLoading = false;
+
         }
 
         #region Distance Made Good Plot
