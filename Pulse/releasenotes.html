@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.5.0 ChangeLog</title>
+		<title>Version 4.5.1 ChangeLog</title>
 		<style type="text/css">
 .auto-style1 {
 	text-decoration: underline;
@@ -10,23 +10,25 @@
 	</head>
 	<body>
 	<p>
-<br/><span class="auto-style1">Pulse-4.5.0</span>
-<br /> - Fixed issue with importing data.
-<br /> - In EnsembleIntervalViewModel, fixed the CEI command only being an integer.
-<br /> - Added PredictionModel image to Home page.
-<br /> - Added new Playback codec in NavBar playback.
-<br /> - In AdcpPredictor, fixed Maximum velocity for vertical beams.
-<br /> - In AdcpPredictor, fixed beam angle when changing subsystems.
-<br /> - In HeatmapPlotViewModel, set the min and max options for each selected plot type.
-<br /> - In HeatmapPlotViewModel, added Interperlate option to the plot to blend data.
-<br /> - In AdcpConnection, increase the time to run the DiagSpectrum test.
-<br /> - In AdcpPredictionModelViewModel, added the Command Set to the display.
-<br /> - In CompassUtiltiyViewModel, added all the compass mounting reference options.
-<br /><span class="auto-style1">RTI-3.4.0</span>
-<br /> - Add AdcpBinaryCodecReadFile to optimize reading binary files.
-<br /> - In BottomTrackDataSet, Add AddAdditionalBottomTrackData for PRTI03 sentence.
-<br /> - In Ensemble, Add AddAdditionalBottomTrackData for PRTI03 sentence.
-<br /> - Added AdcpCodecReadFile, AdcpBinaryCodecReadFile and AdcpDvlCodecReadFile.
+<br/><span class="auto-style1">Pulse-4.5.1</span>
+<br /> - Added Diagnostic view to main view page.
+<br /> - Fixing updating plots to fast.
+<br /> - In ViewDataDvlViewModel, fixed Display All data.
+<br /> - Fixed Display All.
+<br /> - Moved the copyright information to the text file Copyright.txt.
+<br /> - Skip the Compass Calibration in the wizard.  Added the compass calibration as a button in the Configuration screen.
+<br /> - Added BTIC Installer.
+<br /> - In LoadProjectsViewModel, improved the performance of loading a project in ScanProjectAsync().
+<br /> - In DeployAdcpViewModel, added Zero Pressure sensor command.
+<br /> - In PingModelViewModel, fixed the timing and display.
+<br /> - In TimeSeriesPlotViewModel, added AddIncomingDataBulk to display all data.
+<br /> - In ProjectReportText, removed the await in LoadData().
+<br /> - In ProfilePlotViewModel, update the plot when selection changed in UpdateSeriesVisibility().
+<br /> - In ProjectImage, added ProduceCompleteImage() to produce the image in a single pass.
+<br /> - In PlaybackViewModel, fixed playback speed and divide by zero.
+<br /><span class="auto-style1">RTI-3.4.1</span>
+<br /> - Changed to ReadBytes to read in from the file to improve performance.
+<br /> - In AdcpDatabaseWriter, added WriteFileToDatabase() to write all the ensembles at once.
 
 <br/>
 

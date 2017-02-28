@@ -7,6 +7,10 @@ Pulse-4.5.1
  - Fixed Display All.
  - Moved the copyright information to the text file Copyright.txt.
  - Skip the Compass Calibration in the wizard.  Added the compass calibration as a button in the Configuration screen.
+ - Added BTIC Installer.
+ - In LoadProjectsViewModel, improved the performance of loading a project in ScanProjectAsync().
+ - In DeployAdcpViewModel, added Zero Pressure sensor command.
+ - In PingModelViewModel, fixed the timing and display.
 
 Pulse-4.5.0
  - Fix a bug with importing and playing back data, where data was missing.

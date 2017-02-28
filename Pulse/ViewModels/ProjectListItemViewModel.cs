@@ -423,7 +423,7 @@ namespace RTI
         #region Refresh
 
         /// <summary>
-        /// Fresh the display.  This will refresh the image
+        /// Refresh the display.  This will refresh the image
         /// and all the properties.
         /// </summary>
         public async void RefreshDisplay()

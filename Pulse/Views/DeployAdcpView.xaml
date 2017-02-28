@@ -62,8 +62,9 @@
 					<TextBlock Text="Additional Commands" Margin="5" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" />
                     <TextBox Text="{Binding Path=AdditionalCommands}" ScrollViewer.VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Stretch" Margin="5,5,5,40" MaxHeight="200" FontFamily="Courier New"  />			
 					<Button Content="View Commands" Margin="5" Command="{Binding Path=ViewCommandsCommand}" />	
-					<Button Content="Save Commands" Margin="5" Command="{Binding Path=SaveCmdsCommand}" />	
-					<Button Content="Send All Commands to ADCP" Margin="5" Command="{Binding Path=SendCommandsCommand}" FontSize="26.667" Foreground="{StaticResource ClockFontColor}" Background="{StaticResource ClockBackgroundColor}" BorderBrush="{StaticResource ButtonGlowGradiant}" />
+					<Button Content="Save Commands" Margin="5" Command="{Binding Path=SaveCmdsCommand}" />
+                    <Button Content="Zero Pressure Sensor" Margin="5" Command="{Binding Path=ZeroPressureCommand}" FontSize="18" Foreground="{StaticResource ClockFontColor}" Background="{StaticResource PulseButtonBlackBackground}" BorderBrush="{StaticResource ButtonGlowGradiant}" />
+                    <Button Content="Send All Commands to ADCP" Margin="5" Command="{Binding Path=SendCommandsCommand}" FontSize="26.667" Foreground="{StaticResource ClockFontColor}" Background="{StaticResource ClockBackgroundColor}" BorderBrush="{StaticResource ButtonGlowGradiant}" />
 				</StackPanel>
 				
 				<!--Progress Ring-->	

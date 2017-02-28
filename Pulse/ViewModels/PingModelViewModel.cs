@@ -26,6 +26,7 @@
  * -----------------------------------------------------------------
  * 01/03/2014      RC          3.2.3      Initial coding
  * 02/18/2014      RC          3.2.3      Fixed spacing for TotalPingTime in AddTotalConfigTime().
+ * 02/18/2017      RC          4.5.1      Fixed the timing and display.
  * 
  * 
  * 
@@ -206,7 +207,7 @@ namespace RTI
             {
                 //AddConfig(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSeconds());
                 //startPixel += AddConfigStaggered(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSeconds(), pixelsPerSecond, startPixel * pixelsPerSecond);
-                startPixel += AddConfigCanvas(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSeconds(), pixelsPerSecond, startPixel * pixelsPerSecond);
+                startPixel += AddConfigCanvas(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSecondsD(), pixelsPerSecond, startPixel * pixelsPerSecond);
 
             }
 
@@ -222,22 +223,37 @@ namespace RTI
         /// </summary>
         /// <param name="ssConfig">Subsystem configuration.</param>
         /// <param name="numConfigs">Number of configurations.</param>
-        /// <param name="CEI">CEI time.</param>
+        /// <param name="CEI">CEI time in seconds.</param>
         /// <param name="pixelsPerSecond">Number of pixels per second.</param>
         /// <param name="startPixel">Start pixel.</param>
         /// <returns>Total time included CEI.</returns>
-        private double AddConfigCanvas(AdcpSubsystemConfig ssConfig, int numConfigs, int CEI, double pixelsPerSecond, double startPixel)
+        private double AddConfigCanvas(AdcpSubsystemConfig ssConfig, int numConfigs, double CEI, double pixelsPerSecond, double startPixel)
         {
             // Configuration number to know  the location to put the model
             // and to label the model
             int configNum = ssConfig.SubsystemConfig.CepoIndex;
 
-            // Ensemble Length
-            double pingTime = ssConfig.Commands.CWPTBP * ssConfig.Commands.CWPP;
-            double ensembleLength = pingTime * pixelsPerSecond;
+            // Get the CWPP and CWPTBP time
+            double cwppTime = ssConfig.Commands.CWPTBP * ssConfig.Commands.CWPP;
+
+            // Time to ping
+            // Calculate the time for a single ping based off the depth profiling and the 1.5ms per meter
+            //double pingTime = 0.1;
+            double pingTime = (1.5 / 1000) * (ssConfig.Commands.CWPBL + (ssConfig.Commands.CWPBS * ssConfig.Commands.CWPBN));  // 1.5ms per meter  
+
+            // Check if the CWPP and CWPTBP exceeds the CEI time
+            if (ssConfig.Commands.CWPP > 1)
+            {
+                pingTime = cwppTime;           // If more than one ping is in the ensemble
+            }
+            double ensembleLength = (pingTime * pixelsPerSecond);
 
             // CEI length
-            double ceiLength = CEI * pixelsPerSecond;
+            double ceiLength = (CEI * pixelsPerSecond) - ensembleLength;
+            if(ceiLength < 0)
+            {
+                ceiLength = 0;
+            }
 
             // Width
             // Based off the number of configurations
@@ -292,6 +308,10 @@ namespace RTI
 
             // Add the Ensemble Length labels
             TextBlock textBlockEns = new TextBlock();
+            if(pingTime > CEI)
+            {
+                textBlockEns.Foreground = Brushes.Red;                              // Give a warning that the ping time exceeds CEI 
+            }
             textBlockEns.Text = "[" + ssConfig.SubsystemConfig.CepoIndex + "] " + pingTime.ToString("0.000") + " sec";
             textBlockEns.FontSize = 40;                                             // Font size
             Canvas.SetLeft(textBlockEns, widthEnsStart + (ensembleLength / 2));     // Put in the middle of the box Width
@@ -300,14 +320,25 @@ namespace RTI
 
             // Add the CEI Length labels
             TextBlock textBlockCei = new TextBlock();
-            textBlockCei.Text =  CEI.ToString("0.000") + " sec";
+            // Calculate the ping time
+            double ceiTimeLeft = CEI - pingTime;
+            if(ceiTimeLeft < 0)
+            {
+                ceiTimeLeft = 0;                                                    // Set 0 as the smallest
+            }
+            textBlockCei.Text =  ceiTimeLeft.ToString("0.000") + " sec";
             textBlockCei.FontSize = 40;                                             // Font size
             Canvas.SetLeft(textBlockCei, widthCeiStart + (ceiLength / 2));          // Put in the middle of the box Width
             Canvas.SetTop(textBlockCei, heightCeiStart + (endHeight));              // Put in the middle of the box Height
             PingTimingCanvas.Children.Add(textBlockCei);                            // Add the text to the canvas
 
-            // Return the last position
-            return pingTime + CEI;
+            // IF the CWPP and CWPTBP exceeds CEI
+            // Then return the larger time
+            if (cwppTime > CEI)
+                return cwppTime;
+
+            // Return CEI
+            return CEI;
         }
 
         /// <summary>
@@ -317,9 +348,18 @@ namespace RTI
         /// <param name="totalPingTime">Total ping time to display.</param>
         private void AddTotalConfigTime(double totalPingTime)
         {
+            var ts = TimeSpan.FromSeconds(totalPingTime);
+            //string answer = string.Format("{0:D2}h  {1:D2}m {2:D2}s {3:D3}ms",
+            //    t.Hours,
+            //    t.Minutes,
+            //    t.Seconds,
+            //    t.Milliseconds);
+            var answer = MathHelper.TimeSpanPrettyFormat(ts);
+
             // Add the text labels
             TextBlock textBlock = new TextBlock();
-            textBlock.Text = totalPingTime.ToString("0.000") + " seconds";
+            //textBlock.Text = totalPingTime.ToString("0.000") + " seconds";
+            textBlock.Text = "Configurations Cycle time: " + answer;
             textBlock.FontSize = 60;
             textBlock.Foreground = new SolidColorBrush(Color.FromArgb(0xFF,0xD9,0xE5,0x0F));
             textBlock.FontWeight = FontWeights.Bold;
@@ -327,7 +367,7 @@ namespace RTI
             //Canvas.SetTop(textBlock, PingTimingCanvas.Height);
             //PingTimingCanvas.Children.Add(textBlock);
 
-            Canvas.SetLeft(textBlock, PingTimingTotalCanvas.Width / 2);
+            Canvas.SetRight(textBlock, (PingTimingTotalCanvas.Width / 2) - (answer.Length/2));
             Canvas.SetTop(textBlock, 0);
             PingTimingTotalCanvas.Children.Add(textBlock);
         }
@@ -335,6 +375,8 @@ namespace RTI
         /// <summary>
         /// Get the total time it will take to ping for a complete cycle of all the
         /// subsystem configurations.
+        /// First check if CWPP and CWPTBP will exceed CEI.
+        /// If it does not exceed CEI, then CEI is the most time it will take.
         /// </summary>
         /// <param name="config">Adcp Configuration.</param>
         /// <returns>Total time to ping.</returns>
@@ -345,8 +387,19 @@ namespace RTI
             // Accumulate all the ping time length and CEI for each config
             foreach (var ssConfig in config.SubsystemConfigDict.Values)
             {
-                pingTime += ssConfig.Commands.CWPTBP * ssConfig.Commands.CWPP;
-                pingTime += config.Commands.CEI.ToSecondsD();
+
+                double ping = ssConfig.Commands.CWPTBP * ssConfig.Commands.CWPP;
+
+                // If more than 1 ping is in the ensemble
+                // check if it exceeds CEI
+                if (ssConfig.Commands.CWPP > 1 && ping > config.Commands.CEI.ToSecondsD())
+                {
+                    pingTime += ping;
+                }
+                else
+                {
+                    pingTime += config.Commands.CEI.ToSecondsD();
+                }
             }
 
             return pingTime;

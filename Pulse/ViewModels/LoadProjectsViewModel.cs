@@ -35,6 +35,7 @@
  * 04/08/2015      RC          4.1.3      Changed the import to record the data without publishing it.
  * 07/27/2015      RC          4.1.5      Changed importing a file to FilePlayback.
  * 11/25/2015      RC          4.3.1      Select ENS and BIN as default options for playback files.
+ * 02/27/2017      RC          4.5.1      Improved the performance of loading a project in ScanProjectAsync().
  * 
  */
 
@@ -292,19 +293,36 @@ namespace RTI
                 await System.Windows.Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
                 {
                     // Create a project list item and add it to the list
-                    var project = new ProjectListItemViewModel(prj, this);
-                    ProjectList.Add(project);
+                    var prjVM = new ProjectListItemViewModel(prj, this);
+                    ProjectList.Add(prjVM);
+
+                    // Check if the project image exist
+                    if(prjVM.ProjectImage == null)
+                    {
+                        // Get the project for the image name
+                        Project project = _pm.GetProject(prjVM.ProjectName);
+
+                        // If the project image does not exist, create the image now
+                        if (!File.Exists(project.GetProjectImagePath()))
+                        {
+                            Task.Run(() =>
+                            {
+                                prjVM.RefreshDisplay();
+                                this.NotifyOfPropertyChange(() => this.ProjectList);
+                            });
+                        }
+                    }
 
                     // Set the last selected project
                     if (prj.ProjectID == _pm.GetSelectedProjectID())
                     {
                         if (_pm.IsProjectSelected)
                         {
-                            _SelectedProjectVM = project;
+                            _SelectedProjectVM = prjVM;
                         }
                         else
                         {
-                            SelectedProjectVM = project;
+                            SelectedProjectVM = prjVM;
                         }
                         _SelectedProjectVM.IsSelected = true;
                         this.NotifyOfPropertyChange(() => this.SelectedProjectVM);

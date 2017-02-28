@@ -28,6 +28,7 @@
  * 06/02/2014      RC          3.3.0      Added saving the commands to a text file. 
  * 06/11/2014      RC          3.3.1      In SaveCommandsToFile(), include the date and time to the command text file.
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
+ * 02/08/2017      RC          4.5.1      Added Zero Pressure sensor command.
  * 
  * 
  * 
@@ -143,6 +144,11 @@ namespace RTI
         /// </summary>
         public ReactiveCommand<object> SaveCmdsCommand { get; protected set; }
 
+        /// <summary>
+        /// Zero pressure.  Send command to zero pressure sensor.
+        /// </summary>
+        public ReactiveCommand<object> ZeroPressureCommand { get; protected set; }
+
         #endregion
 
         /// <summary>
@@ -176,6 +182,10 @@ namespace RTI
             // Command to view all the commands
             ViewCommandsCommand = ReactiveCommand.Create();
             ViewCommandsCommand.Subscribe(_ => ShowCommands());
+
+            // Command to zero pressure sensor
+            ZeroPressureCommand = ReactiveCommand.Create();
+            ZeroPressureCommand.Subscribe(_ => ZeroPressureSensor());
 
             // Save the commands to a text file
             SaveCmdsCommand = ReactiveCommand.Create();
@@ -349,6 +359,25 @@ namespace RTI
         }
 
         #endregion
+
+        /// <summary>
+        /// Send command to zero pressure sensor.
+        /// </summary>
+        private void ZeroPressureSensor()
+        {
+            if (_adcpConnection.IsAdcpSerialConnected())
+            {
+                IsLoading = true;
+
+                // List of commands to send
+                List<string> list = new List<string>();
+                list.Add("CPZ");
+
+                _adcpConnection.SendCommands(list);
+
+                IsLoading = false;
+            }
+        }
 
     }
 }
