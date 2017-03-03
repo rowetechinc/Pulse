@@ -1,5 +1,7 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.2
+
 Pulse-4.5.1
  - Added Diagnostic view to main view page.
  - Fixing updating plots to fast.

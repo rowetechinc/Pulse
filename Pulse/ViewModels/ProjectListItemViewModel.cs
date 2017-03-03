@@ -56,6 +56,11 @@ namespace RTI
         #region Variables
 
         /// <summary>
+        ///  Setup logger
+        /// </summary>
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        /// <summary>
         /// Default file image.
         /// It is blank so no image will be displayed.
         /// </summary>
@@ -337,12 +342,22 @@ namespace RTI
                     _ProjectImage = bmp;
                 }));
             }
-            catch (IOException)
+            catch (IOException e)
             {
                 // The project image is in use
                 // Most likely the background thread is still creating the image
-                Debug.WriteLine("Exception GetProjectImage()");
+                Debug.WriteLine("Exception GetProjectImage()", e);
+                log.Error("Exception getting the project image.", e);
             }
+            catch(System.NotSupportedException e)
+            {
+                log.Error("Exception getting the project image.", e);
+            }
+            catch(Exception e)
+            {
+                log.Error("Exception getting the project image.", e);
+            }
+
 
             //this.NotifyOfPropertyChange(() => this.ProjectImage);
         }
