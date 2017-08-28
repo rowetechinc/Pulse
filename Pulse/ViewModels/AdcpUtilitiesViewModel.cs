@@ -31,6 +31,7 @@
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 10/02/2014      RC          4.1.0      Added RtiCompassCalCommand.
  * 05/06/2015      RC          4.1.4      Only load the advanced compass cal view.
+ * 08/28/2017      RC          4.5.2      Added DataOutputView.
  * 
  * 
  */
@@ -116,7 +117,10 @@ namespace RTI
         /// </summary>
         public ReactiveCommand<object> DiagnosticsCommand { get; protected set; }
 
-        
+        /// <summary>
+        /// Command to go to the Data Output page.
+        /// </summary>
+        public ReactiveCommand<object> DataOutputCommand { get; protected set; }        
 
         #endregion
 
@@ -147,14 +151,6 @@ namespace RTI
 
             // Upload Firmware command
             UploadCommand = ReactiveCommand.Create();
-
-
-
-
-
-
-
-
             UploadCommand.Subscribe(_ => _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.UpdateFirmwareView)));
 
             // Screen data command
@@ -175,6 +171,10 @@ namespace RTI
             // Diagnostics View command
             DiagnosticsCommand = ReactiveCommand.Create();
             DiagnosticsCommand.Subscribe(_ => _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.DiagnosticView)));
+
+            // Data Output View command
+            DataOutputCommand = ReactiveCommand.Create();
+            DataOutputCommand.Subscribe(_ => _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.DataOutputView)));
         }
 
         /// <summary>

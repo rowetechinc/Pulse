@@ -6,6 +6,8 @@ Pulse-4.5.2
  - Fixed background and foreground colors for the numeric up/down boxes.
  - Added PredictionModel and PredicitonModelInput.
  - Added TCP and UDP server.
+ - Added DataOutputView/ViewModel.
+ - Added Ship Velocity to ViewDataTextViewModel.
 
 Pulse-4.5.1
  - Added Diagnostic view to main view page.

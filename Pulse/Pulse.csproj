@@ -263,6 +263,7 @@
     <Compile Include="ViewModels\BurstModeViewModel.cs" />
     <Compile Include="ViewModels\CommunicationViewModel.cs" />
     <Compile Include="ViewModels\CompassRoseViewModel.cs" />
+    <Compile Include="ViewModels\DataOutputViewModel.cs" />
     <Compile Include="ViewModels\DvlSetupViewModel.cs" />
     <Compile Include="ViewModels\DvlSubsystemConfigurationViewModel.cs" />
     <Compile Include="ViewModels\RtiCompassCalViewModel.cs" />
@@ -340,6 +341,9 @@
     </Compile>
     <Compile Include="Views\CompassRoseView.xaml.cs">
       <DependentUpon>CompassRoseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DataOutputView.xaml.cs">
+      <DependentUpon>DataOutputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DvlSetupView.xaml.cs">
       <DependentUpon>DvlSetupView.xaml</DependentUpon>
@@ -519,6 +523,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CompassRoseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DataOutputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -52,6 +52,7 @@
  * 10/02/2014      RC          4.1.0       Added RtiCompassCalViewModel.
  * 11/03/2014      RC          4.1.0       Added WavesViewModel.
  * 10/26/2015      RC          4.3.1       Added DiagnosticsViewModel    
+ * 08/28/2017      RC          4.5.2       Added OutputDataViewModel
  * 
  */
 
@@ -309,6 +310,9 @@ namespace RTI
 
             // Register the DiagnosticsBaseViewModel
             ContainerExtensions.Singleton<DiagnosticsBaseViewModel, DiagnosticsBaseViewModel>(_container);
+
+            // Register the DataOutputViewModel
+            ContainerExtensions.Singleton<DataOutputViewModel, DataOutputViewModel>(_container);
         }
 
         /// <summary>

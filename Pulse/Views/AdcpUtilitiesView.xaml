@@ -95,8 +95,21 @@
 					<TextBlock Text="Vessel Mount screening and options." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
 				</StackPanel>
 			</Button>
-			
-			<!--Predicition Model button-->
+
+            <!--Data Output button-->
+            <Button Command="{Binding DataOutputCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
+                <StackPanel>
+                    <Image Source="../Images/calibration.png" Width="200" Height="200" Margin="5" />
+                    <TextBlock Text="Data Output" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12">
+                        <TextBlock.Effect>
+                            <DropShadowEffect ShadowDepth="4" BlurRadius="0.5" Opacity="0.8" Color="#FF8A5909" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock Text="Reprocess the data.  Then output the new data to a serial port." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+                </StackPanel>
+            </Button>
+
+            <!--Predicition Model button-->
 			<Button Command="{Binding PredicitionModelCommand}" Margin="10" Background="#FF010101" BorderBrush="Transparent" >
 				<StackPanel>
 					<Image Source="../Images/calibration.png" Width="200" Height="200" Margin="5" />

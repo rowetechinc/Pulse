@@ -37,7 +37,8 @@
  * 08/20/2014      RC          4.0.1       Check for updates on startup.
  * 09/17/2014      RC          4.1.0       Added DVL Setup.
  * 10/02/2014      RC          4.1.0       Added RtiCompassCalView.
- * 07/09/2015      RC          0.0.5      Added Environment.Exit(Environment.ExitCode) to shutdown all threads.
+ * 07/09/2015      RC          0.0.5       Added Environment.Exit(Environment.ExitCode) to shutdown all threads.
+ * 08/28/2017      RC          4.5.2       Added DataOutputView.
  * 
  */
 
@@ -506,6 +507,13 @@ namespace RTI
                 vmVM.Dispose();
             }
 
+            // Shutdown the singleton VesselMountViewModel
+            DataOutputViewModel vmDO = IoC.Get<DataOutputViewModel>();
+            if (vmDO != null)
+            {
+                vmDO.Dispose();
+            }
+
             // Shutdown the last active item
             DeactivateItem(ActiveItem, true);
 
@@ -843,6 +851,12 @@ namespace RTI
                 case ViewNavEvent.ViewId.DiagnosticView:
                     var diag = IoC.Get<DiagnosticsBaseViewModel>();
                     ActivateItem(diag);
+                    IsNavBarEnabled = true;
+                    IsPlaybackEnabled = false;
+                    break;
+                case ViewNavEvent.ViewId.DataOutputView:
+                    var dataOut = IoC.Get<DataOutputViewModel>();
+                    ActivateItem(dataOut);
                     IsNavBarEnabled = true;
                     IsPlaybackEnabled = false;
                     break;

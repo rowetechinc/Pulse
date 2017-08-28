@@ -76,6 +76,7 @@
  * 08/20/2014      RC          4.0.1      Added CloseVMCommand.
  * 11/13/2015      RC          4.3.1      Added RangeTracking info.
  * 11/16/2016      RC          4.3.1      Added a thread.
+ * 08/28/2017      RC          4.5.2      Added Ship Velocities.
  * 
  */
 
@@ -3080,6 +3081,10 @@ namespace RTI
                         velData = SetInstrVelocityBinData(adcpData);
                         goodPingData = SetGoodBeamBinData(adcpData);
                         break;
+                    case Core.Commons.Transforms.SHIP:
+                        velData = SetShipVelocityBinData(adcpData);
+                        goodPingData = SetGoodBeamBinData(adcpData);
+                        break;
                     default:
                         break;
                 }
@@ -3411,6 +3416,22 @@ namespace RTI
             if (adcpData.IsInstrumentVelocityAvail)
             {
                 return adcpData.InstrumentVelocityData.InstrumentVelocityData;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Verify that the dataset type exist.  If it does,
+        /// return its data.  If it does not exist, return null.
+        /// </summary>
+        /// <param name="adcpData">Dataset containing the data.</param>
+        /// <returns>Array containing the velocity data.  Null if the dataset type does not exist.</returns>
+        private float[,] SetShipVelocityBinData(DataSet.Ensemble adcpData)
+        {
+            if (adcpData.IsShipVelocityAvail)
+            {
+                return adcpData.ShipVelocityData.ShipVelocityData;
             }
 
             return null;
