@@ -153,11 +153,11 @@
 						
 						<!--Plot Height-->
 						<TextBlock Grid.Row="0" Grid.Column="0" Text="Plot Height: " Margin="5" />
-                        <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding PlotSize2D}" Margin="5" Background="White" />
+                        <extToolkit:IntegerUpDown Grid.Row="0" Grid.Column="1" Value="{Binding PlotSize2D}" Margin="5" Background="White" Foreground="Black" />
 
                         <!--Number of Ensembles To Display-->
 						<TextBlock Grid.Row="1" Grid.Column="0" Text="Number of Ensembles: " Margin="5" />
-                        <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Value="{Binding DisplayMaxEnsembles}" Margin="5" Background="White"  />
+                        <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Minimum="1" Value="{Binding DisplayMaxEnsembles}" Margin="5" Background="White" Foreground="Black"  />
 						
 						<!--Contour Colormap-->
 						<!--TextBlock Grid.Row="2" Grid.Column="0" Text="Contour Colormap: " Margin="5" />

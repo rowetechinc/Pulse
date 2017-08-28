@@ -152,13 +152,13 @@
                             <!--Heading Offset-->
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Heading Offset: " Margin="5" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
                             <TextBlock Grid.Row="2" Grid.Column="1" Text="Magnetic Offset: " Margin="5" />
-                            <extToolkit:DoubleUpDown Grid.Row="2" Grid.Column="2" Margin="5,5,5,0" Value="{Binding Path=MagHeadingOffset}" FormatString="0.0000" Background="White" Height="21" VerticalAlignment="Top" />
+                            <extToolkit:DoubleUpDown Grid.Row="2" Grid.Column="2" Margin="5,5,5,0" Value="{Binding Path=MagHeadingOffset}" FormatString="0.0000" Background="White" Foreground="Black" Height="21" VerticalAlignment="Top" />
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="Alignment Offset: " Margin="5" />
-                            <extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="5" Value="{Binding Path=AlignmentHeadingOffset}"  FormatString="0.0000" Background="White" />
+                            <extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="5" Value="{Binding Path=AlignmentHeadingOffset}"  FormatString="0.0000" Background="White" Foreground="Black" />
 
                             <!--Fixed Heading-->
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Fixed Heading: " Margin="5" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}"  />
-                            <extToolkit:DoubleUpDown Grid.Row="4" Grid.Column="2" Margin="5"  Value="{Binding Path=FixedHeading}"  FormatString="0.0000" Background="White" />
+                            <extToolkit:DoubleUpDown Grid.Row="4" Grid.Column="2" Margin="5"  Value="{Binding Path=FixedHeading}"  FormatString="0.0000" Background="White" Foreground="Black" />
 
                         </Grid>
                     </Border>
@@ -190,19 +190,19 @@
                             <!--Tilt Offset-->
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Tilt Offset: " Margin="5" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
                             <TextBlock Grid.Row="2" Grid.Column="1" Text="Pitch Offset: " Margin="5" />
-                            <extToolkit:DoubleUpDown Grid.Row="2" Grid.Column="2" Margin="5" Value="{Binding Path=PitchOffset}" FormatString="0.0000" Background="White" />
+                            <extToolkit:DoubleUpDown Grid.Row="2" Grid.Column="2" Margin="5" Value="{Binding Path=PitchOffset}" FormatString="0.0000" Background="White" Foreground="Black" />
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="Roll Offset: " Margin="5" />
-                            <extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="5" Value="{Binding Path=RollOffset}"  FormatString="0.0000" Background="White" />
+                            <extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="5" Value="{Binding Path=RollOffset}"  FormatString="0.0000" Background="White" Foreground="Black" />
 
                             <!--Fixed Pitch-->
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Fixed Pitch: " Margin="5" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}"  />
                             <CheckBox Grid.Row="4" Grid.Column="1" Content="" Foreground="#FFC5CFD1" Margin="5" IsChecked="{Binding Path=IsPitchFixed}" Style="{StaticResource OnOffSwitchStyle}" HorizontalAlignment="Left" />
-                            <extToolkit:DoubleUpDown Grid.Row="4" Grid.Column="2" Margin="5"  Value="{Binding Path=PitchFixed}"  FormatString="0.0000" Background="White" />
+                            <extToolkit:DoubleUpDown Grid.Row="4" Grid.Column="2" Margin="5"  Value="{Binding Path=PitchFixed}"  FormatString="0.0000" Background="White" Foreground="Black" />
 
                             <!--Fixed Roll-->
                             <TextBlock Grid.Row="5" Grid.Column="0" Text="Fixed Roll: " Margin="5" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}"  />
                             <CheckBox Grid.Row="5" Grid.Column="1" Content="" Foreground="#FFC5CFD1" Margin="5" IsChecked="{Binding Path=IsRollFixed}" Style="{StaticResource OnOffSwitchStyle}" HorizontalAlignment="Left" />
-                            <extToolkit:DoubleUpDown Grid.Row="5" Grid.Column="2" Margin="5"  Value="{Binding Path=RollFixed}"  FormatString="0.0000" Background="White" />
+                            <extToolkit:DoubleUpDown Grid.Row="5" Grid.Column="2" Margin="5"  Value="{Binding Path=RollFixed}"  FormatString="0.0000" Background="White" Foreground="Black" />
 
                         </Grid>
                     </Border>

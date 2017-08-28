@@ -20,7 +20,7 @@
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <TextBlock Text="Max Ensembles:" Margin="5" />
-                        <extToolkit:IntegerUpDown Value="{Binding Path=MaxEnsembles}" Margin="5" Background="White" />
+                        <extToolkit:IntegerUpDown Value="{Binding Path=MaxEnsembles}" Margin="5" Background="White" Foreground="Black" />
                 </StackPanel>
             </StackPanel>
         </Grid>

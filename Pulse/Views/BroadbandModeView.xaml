@@ -68,8 +68,15 @@
 					</Grid.RowDefinitions>
 					
 					<Border Grid.Row="0" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black" CornerRadius="5"><TextBlock Text="CWPBB" FontSize="26.667" Margin="10,5" HorizontalAlignment="Center" /></Border>
-						
-					<ListView Grid.Row="1" ItemsSource="{Binding Path=ModeList}" SelectedItem="{Binding Path=SelectedMode}" SelectionMode="Single" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" >
+
+                    <!--Lag Length-->
+                    <StackPanel Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,20,5,5">
+                        <TextBlock Text="Lag Length" Margin="5" VerticalAlignment="Center" />
+                        <extToolkit:DecimalUpDown Margin="5" MinWidth="100" Value="{Binding LagLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Minimum="0" Increment="0.01" Background="{StaticResource ClockBackgroundColor}" Foreground="{StaticResource ClockFontColor}" FontSize="26.667" />
+                        <TextBlock Text="m" Margin="5" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <ListView Grid.Row="2" ItemsSource="{Binding Path=ModeList}" SelectedItem="{Binding Path=SelectedMode}" SelectionMode="Single" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" >
 						<ListView.ItemTemplate>
 							<DataTemplate>
 								<StackPanel>
@@ -86,12 +93,6 @@
 				    	</ListView.ItemsPanel>
 					</ListView>
 					
-					<!--Lag Length-->
-					<StackPanel Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,20,5,5">
-						<TextBlock Text="Lag Length" Margin="5" VerticalAlignment="Center" />
-						<extToolkit:DecimalUpDown Margin="5" MinWidth="100" Value="{Binding LagLength, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Minimum="0" Increment="1" Background="{StaticResource ClockBackgroundColor}" Foreground="{StaticResource ClockFontColor}" FontSize="26.667" />
-						<TextBlock Text="m" Margin="5" VerticalAlignment="Center" />
-					</StackPanel>
 				</Grid>
 			</Grid>
 		</ScrollViewer>

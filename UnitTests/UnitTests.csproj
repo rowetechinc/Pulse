@@ -119,6 +119,7 @@
     <Compile Include="Models\DownloadFileOptionsTest.cs" />
     <Compile Include="Models\DownloadFileTest.cs" />
     <Compile Include="Models\Plot\SeriesTypeTest.cs" />
+    <Compile Include="Models\PredictionModelTest.cs" />
     <Compile Include="Models\StatusEventTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -130,6 +131,10 @@
     <ProjectReference Include="..\Pulse\Pulse.csproj">
       <Project>{B57080CF-4DF3-4648-A918-8AB911A7B7A2}</Project>
       <Name>Pulse</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pulse_Display\Pulse_Display.csproj">
+      <Project>{2be9ad8a-5bd6-4a6c-89dc-1abc6ceb7e33}</Project>
+      <Name>Pulse_Display</Name>
     </ProjectReference>
     <ProjectReference Include="..\RTI\RTI.csproj">
       <Project>{B69F49CD-CCA9-4532-A4A0-E185CD3FAB33}</Project>

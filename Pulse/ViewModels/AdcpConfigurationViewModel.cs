@@ -29,6 +29,7 @@
  * 06/02/2014      RC          3.3.0      Added saving the commands to a text file. 
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 02/17/2017      RC          4.5.1      Added Compass Calibration as a button.
+ * 03/30/2017      RC          4.5.2      Fixed data size in wizard for burst deployments.
  * 
  * 
  * 
@@ -685,7 +686,7 @@ namespace RTI
                     SubsystemConfigList.Add(ssVM);
 
                     // Accumluate the data sizes and number batteries for each subsystem configuration
-                    dataSize += ssVM.Predictor.DataSizeBytes;
+                    dataSize += ssVM.GetDataSize();
                     numberBattery += ssVM.Predictor.NumberBatteryPacks;
                 }
 
@@ -754,7 +755,7 @@ namespace RTI
                     SubsystemConfigList.Add(ssVM);
 
                     // Accumluate the data sizes and number batteries for each subsystem configuration
-                    dataSize += ssVM.Predictor.DataSizeBytes;
+                    dataSize += ssVM.GetDataSize();
                     numberBattery += ssVM.Predictor.NumberBatteryPacks;
                 }
 
@@ -873,7 +874,8 @@ namespace RTI
             {
                 ssVM.UpdateDeploymentDays(days);
 
-                dataSize += ssVM.Predictor.DataSizeBytes;
+                dataSize += ssVM.GetDataSize();
+
                 numberBattery += ssVM.Predictor.NumberBatteryPacks;
                 
             }
@@ -908,7 +910,7 @@ namespace RTI
             {
                 ssVM.UpdateBatteryType(battType);
 
-                dataSize += ssVM.Predictor.DataSizeBytes;
+                dataSize += ssVM.GetDataSize();
                 numberBattery += ssVM.Predictor.NumberBatteryPacks;
 
             }

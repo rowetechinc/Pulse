@@ -283,7 +283,6 @@
     <Compile Include="ViewModels\PingModelViewModel.cs" />
     <Compile Include="ViewModels\PingTimingViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
-    <Compile Include="ViewModels\PulseDialogViewModel.cs" />
     <Compile Include="ViewModels\SalinityViewModel.cs" />
     <Compile Include="ViewModels\SaveAdcpConfigurationViewModel.cs" />
     <Compile Include="ViewModels\ScanAdcpViewModel.cs" />
@@ -811,6 +810,7 @@
     <Resource Include="Images\decrease.png" />
     <Resource Include="Images\forward.png" />
     <Resource Include="Images\increase.png" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="CodeAnalysisDictionary.xml" />
     <Resource Include="Images\or.png" />
     <Resource Include="Images\refresh.png" />

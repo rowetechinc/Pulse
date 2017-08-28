@@ -1,6 +1,11 @@
 ﻿Pulse Changelog
 
 Pulse-4.5.2
+ - Fixed data size in wizard for burst deployments in AdcpSubsystemConfigurationViewModel.
+ - In AdcpConfiguration, fixed data size in wizard for burst deployment.
+ - Fixed background and foreground colors for the numeric up/down boxes.
+ - Added PredictionModel and PredicitonModelInput.
+ - Added TCP and UDP server.
 
 Pulse-4.5.1
  - Added Diagnostic view to main view page.

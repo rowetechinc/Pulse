@@ -29,6 +29,7 @@
  * 05/23/2014      RC          3.2.4      Fixed a bug updating the Predictor.
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 10/19/2016      RC          4.4.13     Made the default BT mode Narrowband in prediction model.
+ * 03/30/2017      RC          4.5.2      Fixed data size in wizard for burst deployments.
  * 
  * 
  */
@@ -318,7 +319,7 @@ namespace RTI
         {
             get
             {
-                return MathHelper.MemorySizeString(Predictor.DataSizeBytes);
+                return MathHelper.MemorySizeString(GetDataSize());
             }
         }
 
@@ -531,6 +532,21 @@ namespace RTI
 
             // This will update all the properties
             UpdateProperties();
+        }
+
+        /// <summary>
+        /// Get the total data size in bytes.
+        /// </summary>
+        /// <returns>Deployment size in bytes.</returns>
+        public long GetDataSize()
+        {
+            if (CBI_NumEnsembles > 0)
+            {
+                long prjBytes = AdcpPredictor.WavesRecordBytesPerDeployment((ushort)CBI_NumEnsembles, (uint)CWPBN, (uint)Predictor.DeploymentDuration, (float)CBI_BurstInterval.ToSecondsD());
+                return prjBytes;
+            }
+
+            return Predictor.DataSizeBytes;
         }
 
         /// <summary>
