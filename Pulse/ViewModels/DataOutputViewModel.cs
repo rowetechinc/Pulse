@@ -1,4 +1,36 @@
-﻿using Caliburn.Micro;
+﻿/*
+ * Copyright © 2013 
+ * Rowe Technology Inc.
+ * All rights reserved.
+ * http://www.rowetechinc.com
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification is NOT permitted.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+ * POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * HISTORY
+ * -----------------------------------------------------------------
+ * Date            Initials    Version    Comments
+ * -----------------------------------------------------------------
+ * 08/28/2017      RC          4.5.2      Initial coding
+ * 
+ * 
+ * 
+ */
+
+using Caliburn.Micro;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -35,6 +67,11 @@ namespace RTI
         /// VmDas codec.
         /// </summary>
         private VmDasAsciiCodec _codecVmDas;
+
+        /// <summary>
+        /// Manually calculate the Water Track data.
+        /// </summary>
+        private VesselMount.VmManualWaterTrack _manualWT;
 
         /// <summary>
         /// PD6 and PD13 codec.
@@ -569,6 +606,44 @@ namespace RTI
 
         #endregion
 
+        #region Manual Water Track
+
+        /// <summary>
+        /// Flag to turn on manually calculating the Water Track.  Based off a selected bin.
+        /// </summary>
+        private bool _IsCalculateWaterTrack;
+        /// <summary>
+        /// Flag to turn on manually calculating the Water Track.  Based off a selected bin.
+        /// </summary>
+        public bool IsCalculateWaterTrack
+        {
+            get { return _IsCalculateWaterTrack; }
+            set
+            {
+                _IsCalculateWaterTrack = value;
+                this.NotifyOfPropertyChange(() => this.IsCalculateWaterTrack);
+            }
+        }
+
+        /// <summary>
+        /// Selected bin to calculate Water Track.
+        /// </summary>
+        private int _SelectedWtBin;
+        /// <summary>
+        /// Selected bin to calculate Water Track.
+        /// </summary>
+        public int SelectedWtBin
+        {
+            get { return _SelectedWtBin; }
+            set
+            {
+                _SelectedWtBin = value;
+                this.NotifyOfPropertyChange(() => this.SelectedWtBin);
+            }
+        }
+
+        #endregion
+
         #region Recording
 
         /// <summary>
@@ -699,6 +774,10 @@ namespace RTI
             IsRetransformData = true;
 
             _IsRecording = false;
+
+            _manualWT = new VesselMount.VmManualWaterTrack();
+            SelectedWtBin = 3;
+            IsCalculateWaterTrack = true;
 
             IsUseGpsHeading = true;
             HeadingOffset = 0.0f;
@@ -1081,6 +1160,11 @@ namespace RTI
         public void ReceiveEnsemble(DataSet.Ensemble ens)
         {
             int dataOutputMax = 5000;
+
+            if(_IsCalculateWaterTrack)
+            {
+                _manualWT.Calculate(ref ens, _SelectedWtBin);
+            }
 
             // If the HeadingOffset is set or
             // If they want to retransform the data or
