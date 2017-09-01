@@ -858,7 +858,7 @@ namespace RTI
                     var dataOut = IoC.Get<DataOutputViewModel>();
                     ActivateItem(dataOut);
                     IsNavBarEnabled = true;
-                    IsPlaybackEnabled = false;
+                    IsPlaybackEnabled = true;
                     break;
 
                 //case ViewNavEvent.ViewId.SettingsView:

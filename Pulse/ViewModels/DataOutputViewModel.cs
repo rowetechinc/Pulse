@@ -125,6 +125,23 @@ namespace RTI
         #region Data Output
 
         /// <summary>
+        /// Flag to turn on this feature.
+        /// </summary>
+        private bool _IsOutputEnabled;
+        /// <summary>
+        /// Flag to turn on this feature.
+        /// </summary>
+        public bool IsOutputEnabled
+        {
+            get { return _IsOutputEnabled; }
+            set
+            {
+                _IsOutputEnabled = value;
+                this.NotifyOfPropertyChange(() => this.IsOutputEnabled);
+            }
+        }
+
+        /// <summary>
         /// Minimum Bin Tooltip.
         /// </summary>
         public string DataOutputTooltip
@@ -315,7 +332,7 @@ namespace RTI
         {
             get
             {
-                return "Mininum Bin selected to output the VmDas data..";
+                return "Mininum Bin selected to output the VmDas data.";
             }
         }
 
@@ -326,7 +343,7 @@ namespace RTI
         {
             get
             {
-                return "Maxinum Bin selected to output the VmDas data..";
+                return "Maxinum Bin selected to output the VmDas data.";
             }
         }
 
@@ -365,6 +382,11 @@ namespace RTI
             {
                 _SelectedFormat = value;
                 this.NotifyOfPropertyChange(() => this.SelectedFormat);
+
+                if(_SelectedFormat == ENCODING_PD6_PD13)
+                {
+                    IsCalculateWaterTrack = true;
+                }
 
                 if (_SelectedFormat == ENCODING_VMDAS)
                 {
@@ -626,19 +648,91 @@ namespace RTI
         }
 
         /// <summary>
-        /// Selected bin to calculate Water Track.
+        /// Selected minimum bin to calculate Water Track.
         /// </summary>
-        private int _SelectedWtBin;
+        private int _WtMinBin;
         /// <summary>
-        /// Selected bin to calculate Water Track.
+        /// Selected minimum bin to calculate Water Track.
         /// </summary>
-        public int SelectedWtBin
+        public int WtMinBin
         {
-            get { return _SelectedWtBin; }
+            get { return _WtMinBin; }
             set
             {
-                _SelectedWtBin = value;
-                this.NotifyOfPropertyChange(() => this.SelectedWtBin);
+                _WtMinBin = value;
+                this.NotifyOfPropertyChange(() => this.WtMinBin);
+
+                VerifyWtBinSelection();
+            }
+        }
+
+        /// <summary>
+        /// Selected maximum bin to calculate Water Track.
+        /// </summary>
+        private int _WtMaxBin;
+        /// <summary>
+        /// Selected maximum bin to calculate Water Track.
+        /// </summary>
+        public int WtMaxBin
+        {
+            get { return _WtMaxBin; }
+            set
+            {
+                _WtMaxBin = value;
+                this.NotifyOfPropertyChange(() => this.WtMaxBin);
+
+                // Verify a good bin
+                VerifyWtBinSelection();
+            }
+        }
+
+        /// <summary>
+        /// Set the number of bins.
+        /// </summary>
+        private int _NumBins;
+        /// <summary>
+        /// Set the number of bins.
+        /// </summary>
+        public int NumBins
+        {
+            get { return _NumBins; }
+            set
+            {
+                _NumBins = value;
+                this.NotifyOfPropertyChange(() => this.NumBins);
+            }
+        }
+
+        /// <summary>
+        /// Water Track Minimum Bin Tooltip.
+        /// </summary>
+        public string WtMinBinTooltip
+        {
+            get
+            {
+                return "Mininum Bin selected to output the Water Track data.\nThe selected region will be used to determine the speed of the boat when Bottom Track can not see the bottom.";
+            }
+        }
+
+        /// <summary>
+        /// Water Track Maximum Bin Tooltip.
+        /// </summary>
+        public string WtMaxBinTooltip
+        {
+            get
+            {
+                return "Maxinum Bin selected to output the Water Track data.\nThe selected region will be used to determine the speed of the boat when Bottom Track can not see the bottom.";
+            }
+        }
+
+        /// <summary>
+        /// Water Track tooltip.
+        /// </summary>
+        public string WaterTrackTooltip
+        {
+            get
+            {
+                return "Water Track will track the speed of the boat using the selected bins.\nIf mulitple bins are selected, the bin's speeds will be averaged.";
             }
         }
 
@@ -744,6 +838,8 @@ namespace RTI
             _eventAggregator = IoC.Get<IEventAggregator>();
             _eventAggregator.Subscribe(this);
 
+            IsOutputEnabled = false;
+
             NumBinsSelected = 4;
             MinBin = 1;
             MaxBin = 200;
@@ -776,7 +872,9 @@ namespace RTI
             _IsRecording = false;
 
             _manualWT = new VesselMount.VmManualWaterTrack();
-            SelectedWtBin = 3;
+            WtMinBin = 3;
+            WtMaxBin = 4;
+            NumBins = 200;
             IsCalculateWaterTrack = true;
 
             IsUseGpsHeading = true;
@@ -1130,6 +1228,36 @@ namespace RTI
 
         #endregion
 
+        #region Bin Selection
+
+        /// <summary>
+        /// Verify the bin selections are good.
+        /// </summary>
+        private void VerifyWtBinSelection()
+        {
+            // Verify min and max does not exceed number of bins
+            if(_WtMaxBin > _NumBins)
+            {
+                WtMaxBin = _NumBins;
+            }
+
+            if(_WtMinBin > _NumBins)
+            {
+                WtMinBin = _NumBins;
+            }
+
+            // Verify a good bin
+            if (_WtMinBin > _WtMaxBin)
+            {
+                if (_WtMaxBin - 1 >= 0)
+                {
+                    WtMinBin = _WtMaxBin - 1;
+                }
+            }
+        }
+
+        #endregion
+
         #region Event Handler
 
         /// <summary>
@@ -1138,6 +1266,12 @@ namespace RTI
         /// <param name="message">Ensemble message</param>
         public void Handle(EnsembleEvent message)
         {
+            // If turned off, do not process the data
+            if (!_IsOutputEnabled)
+            {
+                return;
+            }
+
             // Check if the ensemble is good
             if (message.Ensemble == null)
             {
@@ -1159,11 +1293,26 @@ namespace RTI
         /// <param name="ens">Ensemble.</param>
         public void ReceiveEnsemble(DataSet.Ensemble ens)
         {
+            // Set the buffer size to display data
+            // To much data will make the system run slower
             int dataOutputMax = 5000;
 
-            if(_IsCalculateWaterTrack)
+            // Set the maximum bin for bin list
+            if(ens.IsEnsembleAvail)
             {
-                _manualWT.Calculate(ref ens, _SelectedWtBin);
+                // If it different from what is now
+                if(BinList.Count != ens.EnsembleData.NumBins)
+                {
+                    // Subtract 1 because 0 based
+                    NumBins = ens.EnsembleData.NumBins - 1;
+
+                    // Clear and repopulate 
+                    BinList.Clear();
+                    for(int x = 0; x < ens.EnsembleData.NumBins; x++)
+                    {
+                        BinList.Add(x);
+                    }
+                }
             }
 
             // If the HeadingOffset is set or
@@ -1188,6 +1337,12 @@ namespace RTI
                 {
                     Transform.WaterMassTransform(ref ens, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset, _ShipXdcrOffset);
                 }
+            }
+
+            // Water Track
+            if (_IsCalculateWaterTrack)
+            {
+                _manualWT.Calculate(ref ens, _WtMinBin, _WtMaxBin);
             }
 
             if (_SelectedFormat == ENCODING_VMDAS)

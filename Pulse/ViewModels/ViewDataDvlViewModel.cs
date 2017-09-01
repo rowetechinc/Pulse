@@ -28,6 +28,7 @@
  * 11/16/2016      RC          4.3.1      Added a thread.
  * 05/19/2016      RC          4.4.7      Added GPS Heading.
  * 02/13/2017      RC          4.5.1      Fixed Display All data.
+ * 08/31/2017      RC          4.5.2      Added Ship Velocity to Bottom Track and Water Track.
  * 
  */
 namespace RTI
@@ -1385,6 +1386,82 @@ namespace RTI
         }
 
         /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 0.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB0
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams >= 1)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_0_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 1.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB1
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams > 1)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_1_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 2.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB2
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams > 2)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_2_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 3.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB3
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams > 3)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_3_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
         /// Get the Bottom Track Signal To Noise Ratio for Beam 0.
         /// Round to 3 decimal places.
         /// </summary>
@@ -1777,6 +1854,63 @@ namespace RTI
                 if (_DisplayEnsemble != null && _DisplayEnsemble.IsEarthWaterMassAvail)
                 {
                     return SetMeasurementValue(_DisplayEnsemble.EarthWaterMassData.VelocityVertical, "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Water Track Ship Velocity for Beam 0.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string WtShipVelB0
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsShipWaterMassAvail)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.ShipWaterMassData.VelocityTransverse, "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Water Track Ship Velocity for Beam 1.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string WtShipVelB1
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsShipWaterMassAvail)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.ShipWaterMassData.VelocityLongitudinal, "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Water Track Ship Velocity for Beam 2.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string WtShipVelB2
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsShipWaterMassAvail)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.ShipWaterMassData.VelocityNormal, "0.000");
                 }
                 else
                 {
