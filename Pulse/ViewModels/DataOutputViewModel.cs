@@ -1062,7 +1062,8 @@ namespace RTI
             // Verify connection is open then send data
             if (IsSerialConnected())
             {
-                _serialPort.SendData(data);
+                // Add carrage return, line feed to the end
+                _serialPort.SendData(data + "\r\n", false);
             }
         }
 

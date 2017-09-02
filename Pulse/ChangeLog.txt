@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.2.1
+ - Fixed a bug with the DataOutputViewModel to output the data with a <CR><LF>
+
 Pulse-4.5.2
  - Fixed data size in wizard for burst deployments in AdcpSubsystemConfigurationViewModel.
  - In AdcpConfiguration, fixed data size in wizard for burst deployment.
