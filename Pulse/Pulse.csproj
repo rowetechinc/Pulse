@@ -257,12 +257,14 @@
     <Compile Include="ViewModels\AdcpSubsystemConfigurationViewModel.cs" />
     <Compile Include="ViewModels\AdcpUtilitiesViewModel.cs" />
     <Compile Include="ViewModels\BackscatterViewModel.cs" />
+    <Compile Include="ViewModels\BaseDataOutputViewModel.cs" />
     <Compile Include="ViewModels\BinsViewModel.cs" />
     <Compile Include="ViewModels\BottomTrackOnViewModel.cs" />
     <Compile Include="ViewModels\BroadbandModeViewModel.cs" />
     <Compile Include="ViewModels\BurstModeViewModel.cs" />
     <Compile Include="ViewModels\CommunicationViewModel.cs" />
     <Compile Include="ViewModels\CompassRoseViewModel.cs" />
+    <Compile Include="ViewModels\WpMagDirOutputViewModel.cs" />
     <Compile Include="ViewModels\DataOutputViewModel.cs" />
     <Compile Include="ViewModels\DvlSetupViewModel.cs" />
     <Compile Include="ViewModels\DvlSubsystemConfigurationViewModel.cs" />
@@ -321,6 +323,9 @@
     <Compile Include="Views\BackscatterView.xaml.cs">
       <DependentUpon>BackscatterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseDataOutputView.xaml.cs">
+      <DependentUpon>BaseDataOutputView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BinsView.xaml.cs">
       <DependentUpon>BinsView.xaml</DependentUpon>
     </Compile>
@@ -341,6 +346,9 @@
     </Compile>
     <Compile Include="Views\CompassRoseView.xaml.cs">
       <DependentUpon>CompassRoseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WpMagDirOutputView.xaml.cs">
+      <DependentUpon>WpMagDirOutputView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DataOutputView.xaml.cs">
       <DependentUpon>DataOutputView.xaml</DependentUpon>
@@ -498,6 +506,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\BaseDataOutputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BinsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -525,6 +537,10 @@
     <Page Include="Views\CompassRoseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WpMagDirOutputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DataOutputView.xaml">
       <SubType>Designer</SubType>

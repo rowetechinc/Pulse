@@ -24,7 +24,7 @@
  * -----------------------------------------------------------------
  * Date            Initials    Version    Comments
  * -----------------------------------------------------------------
- * 08/28/2017      RC          4.5.2      Initial coding
+ * 09/02/2017      RC          4.5.3      Initial coding
  * 
  * 
  * 
@@ -48,7 +48,7 @@ namespace RTI
     /// Reprocess the data.  Then output the data in the 
     /// new format selected.  The data will come out on the serial port.
     /// </summary>
-    public class DataOutputViewModel : PulseViewModel, IHandle<EnsembleEvent>
+    public class WpMagDirOutputViewModel : PulseViewModel, IHandle<EnsembleEvent>
     {
 
         #region Variables
@@ -64,21 +64,6 @@ namespace RTI
         private AdcpSerialPort _serialPort;
 
         /// <summary>
-        /// VmDas codec.
-        /// </summary>
-        private VmDasAsciiCodec _codecVmDas;
-
-        /// <summary>
-        /// Manually calculate the Water Track data.
-        /// </summary>
-        private VesselMount.VmManualWaterTrack _manualWT;
-
-        /// <summary>
-        /// PD6 and PD13 codec.
-        /// </summary>
-        private EnsToPd6_13Codec _codecPd6_13;
-
-        /// <summary>
         /// Serial Port options.
         /// </summary>
         private SerialOptions _serialOptions;
@@ -89,29 +74,20 @@ namespace RTI
         private BinaryWriter _binaryWriter;
 
         /// <summary>
-        /// Encoding type, PD6 and PD13.
+        /// Transform type, Ship.
         /// </summary>
-        private string ENCODING_PD6_PD13 = "PD6 and PD13";
+        private string TRANSFORM_SHIP = "SHIP";
 
         /// <summary>
-        /// Encoding type, VmDas.
+        /// Transform type, Earth.
         /// </summary>
-        private string ENCODING_VMDAS = "VmDas";
+        private string TRANSFORM_EARTH = "EARTH";
 
         /// <summary>
-        /// Encoding type, Binary Ensemble.
+        /// Transform type, Instrument.
         /// </summary>
-        private string ENCODING_Binary_ENS = "Binary Ensemble";
+        private string TRANSFORM_INSTRUMENT = "INSTRUMENT";
 
-        /// <summary>
-        /// Encoding type, PD0.
-        /// </summary>
-        private string ENCODING_PD0 = "PD0";
-
-        /// <summary>
-        /// Encoding type, Retransform PD6.
-        /// </summary>
-        private string ENCODING_RETRANSFORM_PD6 = "Retransform PD6";
 
         /// <summary>
         /// Default recording directory.
@@ -121,6 +97,17 @@ namespace RTI
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Water Direction and Magitude Tooltip.
+        /// </summary>
+        public string WaterDirMagTooltip
+        {
+            get
+            {
+                return "This is not a standard PD6 output.\nThis will give the Water magnitude and direction.\n";
+            }
+        }
 
         #region Data Output
 
@@ -266,145 +253,33 @@ namespace RTI
 
         #endregion
 
-        #region Bin Selections
-
-        /// <summary>
-        /// List of bins.
-        /// </summary>
-        public List<int> BinList { get; private set; }
-
-        /// <summary>
-        /// Minimum bin selected.
-        /// </summary>
-        private int _MinBin;
-        /// <summary>
-        /// Minimum bin selected.
-        /// </summary>
-        public int MinBin
-        {
-            get { return _MinBin; }
-            set
-            {
-                _MinBin = value;
-                this.NotifyOfPropertyChange(() => this.MinBin);
-            }
-        }
-
-        /// <summary>
-        /// Maximum bin selected.
-        /// </summary>
-        private int _MaxBin;
-        /// <summary>
-        /// Maximum bin selected.
-        /// </summary>
-        public int MaxBin
-        {
-            get { return _MaxBin; }
-            set
-            {
-                _MaxBin = value;
-                this.NotifyOfPropertyChange(() => this.MaxBin);
-            }
-        }
-
-
-        /// <summary>
-        /// Number of bins selected.
-        /// </summary>
-        private int _NumBinsSelected;
-        /// <summary>
-        /// Number of bins selected.
-        /// </summary>
-        public int NumBinsSelected
-        {
-            get { return _NumBinsSelected; }
-            set
-            {
-                _NumBinsSelected = value;
-                this.NotifyOfPropertyChange(() => this.NumBinsSelected);
-            }
-        }
-
-        /// <summary>
-        /// Minimum Bin Tooltip.
-        /// </summary>
-        public string MinBinTooltip
-        {
-            get
-            {
-                return "Mininum Bin selected to output the VmDas data.";
-            }
-        }
-
-        /// <summary>
-        /// Maximum Bin Tooltip.
-        /// </summary>
-        public string MaxBinTooltip
-        {
-            get
-            {
-                return "Maxinum Bin selected to output the VmDas data.";
-            }
-        }
-
-        /// <summary>
-        /// Flag if the Bin selections need to be enabled.
-        /// </summary>
-        private bool _IsBinsEnabled;
-        /// <summary>
-        /// Flag if the Bin selections need to be enabled.
-        /// </summary>
-        public bool IsBinsEnabled
-        {
-            get { return _IsBinsEnabled; }
-            set
-            {
-                _IsBinsEnabled = value;
-                this.NotifyOfPropertyChange(() => this.IsBinsEnabled);
-            }
-        }
-
-        #endregion
-
-        #region Output Format
+        #region Output Coordinate Transform
 
         /// <summary>
         /// Selected Format.
         /// </summary>
-        private string _SelectedFormat;
+        private string _SelectedTransform;
         /// <summary>
         /// Selected Format.
         /// </summary>
-        public string SelectedFormat
+        public string SelectedTransform
         {
-            get { return _SelectedFormat; }
+            get { return _SelectedTransform; }
             set
             {
-                _SelectedFormat = value;
-                this.NotifyOfPropertyChange(() => this.SelectedFormat);
+                _SelectedTransform = value;
+                this.NotifyOfPropertyChange(() => this.SelectedTransform);
+            }
+        }
 
-                if(_SelectedFormat == ENCODING_PD6_PD13)
-                {
-                    IsCalculateWaterTrack = true;
-                }
-
-                if (_SelectedFormat == ENCODING_VMDAS)
-                {
-                    IsBinsEnabled = true;
-                }
-                else
-                {
-                    IsBinsEnabled = false;
-                }
-
-                if (_SelectedFormat == ENCODING_PD0)
-                {
-                    IsPd0Selected = true;
-                }
-                else
-                {
-                    IsPd0Selected = false;
-                }
+                /// <summary>
+        /// Retransform Tooltip.
+        /// </summary>
+        public string SelectedTransformTooltip
+        {
+            get
+            {
+                return "Select the coordinate transform to output the data.\nShip velocity is orientated with the ship.\nEarth velocity is orientated with the compass.\nInstrument velocity is orientated with X,Y,Z.";
             }
         }
 
@@ -542,60 +417,6 @@ namespace RTI
 
         #endregion
 
-        #region Coordinate Transform
-
-        /// <summary>
-        /// List of all the Transforms.
-        /// </summary>
-        public List<PD0.CoordinateTransforms> CoordinateTransformList { get; private set; }
-
-        /// <summary>
-        /// Selected Coordinate Transform.
-        /// </summary>
-        private PD0.CoordinateTransforms _SelectedCoordTransform;
-        /// <summary>
-        /// Selected Coordinate Transform.
-        /// </summary>
-        public PD0.CoordinateTransforms SelectedCoordTransform
-        {
-            get { return _SelectedCoordTransform; }
-            set
-            {
-                _SelectedCoordTransform = value;
-                this.NotifyOfPropertyChange(() => this.SelectedCoordTransform);
-            }
-        }
-
-        /// <summary>
-        /// Is PD0 Selected.
-        /// </summary>
-        private bool _IsPd0Selected;
-        /// <summary>
-        /// Is PD0 Selected.
-        /// </summary>
-        public bool IsPd0Selected
-        {
-            get { return _IsPd0Selected; }
-            set
-            {
-                _IsPd0Selected = value;
-                this.NotifyOfPropertyChange(() => this.IsPd0Selected);
-            }
-        }
-
-        /// <summary>
-        /// Coordinate Transform Tooltip.
-        /// </summary>
-        public string CoordTransformTooltip
-        {
-            get
-            {
-                return "Maxinum Bin selected to output the VmDas data..";
-            }
-        }
-
-        #endregion
-
         #region Ship Transducer Offset
 
         /// <summary>
@@ -623,116 +444,6 @@ namespace RTI
             get
             {
                 return "Beam 0 of the ADCP should be pointed forward.\nIf the ADCP is not pointed forward, use this value to account for the ADCP offset.\nThis offset is used for Ship Coordinate Transform.\nThis is the not the same as Heading offset.\nHeading offset is used for magnetic interference or distortition.\nThis is for physical orientation offset.";
-            }
-        }
-
-        #endregion
-
-        #region Manual Water Track
-
-        /// <summary>
-        /// Flag to turn on manually calculating the Water Track.  Based off a selected bin.
-        /// </summary>
-        private bool _IsCalculateWaterTrack;
-        /// <summary>
-        /// Flag to turn on manually calculating the Water Track.  Based off a selected bin.
-        /// </summary>
-        public bool IsCalculateWaterTrack
-        {
-            get { return _IsCalculateWaterTrack; }
-            set
-            {
-                _IsCalculateWaterTrack = value;
-                this.NotifyOfPropertyChange(() => this.IsCalculateWaterTrack);
-            }
-        }
-
-        /// <summary>
-        /// Selected minimum bin to calculate Water Track.
-        /// </summary>
-        private int _WtMinBin;
-        /// <summary>
-        /// Selected minimum bin to calculate Water Track.
-        /// </summary>
-        public int WtMinBin
-        {
-            get { return _WtMinBin; }
-            set
-            {
-                _WtMinBin = value;
-                this.NotifyOfPropertyChange(() => this.WtMinBin);
-
-                VerifyWtBinSelection();
-            }
-        }
-
-        /// <summary>
-        /// Selected maximum bin to calculate Water Track.
-        /// </summary>
-        private int _WtMaxBin;
-        /// <summary>
-        /// Selected maximum bin to calculate Water Track.
-        /// </summary>
-        public int WtMaxBin
-        {
-            get { return _WtMaxBin; }
-            set
-            {
-                _WtMaxBin = value;
-                this.NotifyOfPropertyChange(() => this.WtMaxBin);
-
-                // Verify a good bin
-                VerifyWtBinSelection();
-            }
-        }
-
-        /// <summary>
-        /// Set the number of bins.
-        /// </summary>
-        private int _NumBins;
-        /// <summary>
-        /// Set the number of bins.
-        /// </summary>
-        public int NumBins
-        {
-            get { return _NumBins; }
-            set
-            {
-                _NumBins = value;
-                this.NotifyOfPropertyChange(() => this.NumBins);
-            }
-        }
-
-        /// <summary>
-        /// Water Track Minimum Bin Tooltip.
-        /// </summary>
-        public string WtMinBinTooltip
-        {
-            get
-            {
-                return "Mininum Bin selected to output the Water Track data.\nThe selected region will be used to determine the speed of the boat when Bottom Track can not see the bottom.";
-            }
-        }
-
-        /// <summary>
-        /// Water Track Maximum Bin Tooltip.
-        /// </summary>
-        public string WtMaxBinTooltip
-        {
-            get
-            {
-                return "Maxinum Bin selected to output the Water Track data.\nThe selected region will be used to determine the speed of the boat when Bottom Track can not see the bottom.";
-            }
-        }
-
-        /// <summary>
-        /// Water Track tooltip.
-        /// </summary>
-        public string WaterTrackTooltip
-        {
-            get
-            {
-                return "Water Track will track the speed of the boat using the selected bins.\nIf mulitple bins are selected, the bin's speeds will be averaged.";
             }
         }
 
@@ -805,6 +516,38 @@ namespace RTI
 
         #endregion
 
+        #region Selected Bin
+
+        /// <summary>
+        /// Select the bins that will output the water direction and magnitude.
+        /// </summary>
+        private string _SelectedBins;
+        /// <summary>
+        /// Select the bins that will output the water direction and magnitude.
+        /// </summary>
+        public string SelectedBins
+        {
+            get { return _SelectedBins; }
+            set
+            {
+                _SelectedBins = value;
+                this.NotifyOfPropertyChange(() => this.SelectedBins);
+            }
+        }
+
+        /// <summary>
+        /// Add Water Direction and Magitude Tooltip.
+        /// </summary>
+        public string SelectedBinsTooltip
+        {
+            get
+            {
+                return "Select the bins that will output the magnitude and direction of the water.\nThis is a comma seperated list.\nAll listed bins will be in one message.";
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -829,8 +572,8 @@ namespace RTI
         /// <summary>
         /// Initialize the object.
         /// </summary>
-        public DataOutputViewModel()
-            : base("Data Output")
+        public WpMagDirOutputViewModel()
+            : base("Water Profile Direction and Magnitude Data Output")
         {
             base.DisplayName = "Data Output";
 
@@ -840,24 +583,11 @@ namespace RTI
 
             IsOutputEnabled = false;
 
-            NumBinsSelected = 4;
-            MinBin = 1;
-            MaxBin = 200;
-            SelectedFormat = ENCODING_PD6_PD13;
+            SelectedTransform = TRANSFORM_SHIP;
             FormatList = new List<string>();
-            FormatList.Add(ENCODING_Binary_ENS);
-            FormatList.Add(ENCODING_PD0);
-            FormatList.Add(ENCODING_PD6_PD13);
-            FormatList.Add(ENCODING_VMDAS);
-            //FormatList.Add(ENCODING_PD0);
-            //FormatList.Add(ENCODING_RETRANSFORM_PD6);
-
-            SelectedCoordTransform = PD0.CoordinateTransforms.Coord_Earth;
-            CoordinateTransformList = new List<PD0.CoordinateTransforms>();
-            CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Beam);
-            CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Instrument);
-            CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Ship);
-            CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Earth);
+            FormatList.Add(TRANSFORM_SHIP);
+            FormatList.Add(TRANSFORM_EARTH);
+            FormatList.Add(TRANSFORM_INSTRUMENT);
 
             SelectedHeadingSource = Transform.HeadingSource.GPS1;
             HeadingSourceList = Enum.GetValues(typeof(Transform.HeadingSource)).Cast<Transform.HeadingSource>().ToList();
@@ -871,28 +601,14 @@ namespace RTI
 
             _IsRecording = false;
 
-            _manualWT = new VesselMount.VmManualWaterTrack();
-            WtMinBin = 3;
-            WtMaxBin = 4;
-            NumBins = 200;
-            IsCalculateWaterTrack = true;
-
             IsUseGpsHeading = true;
             HeadingOffset = 0.0f;
+
+            SelectedBins = "4,8,12";
 
             ShipXdcrOffset = 0.0f;
 
             DataOutput = "";
-
-            _codecVmDas = new VmDasAsciiCodec();
-            _codecPd6_13 = new EnsToPd6_13Codec();
-
-            // Bin List
-            BinList = new List<int>();
-            for (int x = 1; x <= 200; x++)
-            {
-                BinList.Add(x);
-            }
 
             // Scan for ADCP command
             ScanCommand = ReactiveUI.ReactiveCommand.Create();
@@ -1057,14 +773,13 @@ namespace RTI
         /// Send data to the serial port.
         /// </summary>
         /// <param name="data">Data to send.</param>
-        /// <param name="useCR">Add [CR] to end.</param>
-        public void SendDataToSerial(string data, bool useCR = true)
+        public void SendDataToSerial(string data)
         {
             // Verify connection is open then send data
             if (IsSerialConnected())
             {
                 // Add carrage return, line feed to the end
-                _serialPort.SendData(data, useCR);
+                _serialPort.SendData(data + "\r\n", false);
             }
         }
 
@@ -1234,28 +949,160 @@ namespace RTI
 
         /// <summary>
         /// Verify the bin selections are good.
+        /// Then return them as a list.
         /// </summary>
-        private void VerifyWtBinSelection()
+        /// <returns>List of selected bins.</returns>
+        private List<int> VerifyBinSelection(DataSet.Ensemble ens)
         {
-            // Verify min and max does not exceed number of bins
-            if(_WtMaxBin > _NumBins)
+            List<int> result = new List<int>();
+
+            int numBins = 0;
+            // Get the number of bins
+            if (ens.IsEnsembleAvail)
             {
-                WtMaxBin = _NumBins;
+                numBins = ens.EnsembleData.NumBins;
+            }
+            else
+            {
+                return new List<int>();
             }
 
-            if(_WtMinBin > _NumBins)
-            {
-                WtMinBin = _NumBins;
-            }
+            // Create the list of from the user input
+            string[] strList = SelectedBins.Split(',');
 
-            // Verify a good bin
-            if (_WtMinBin > _WtMaxBin)
+            // Parse the string list to ints
+            for (int x = 0; x < strList.Length; x++ )
             {
-                if (_WtMaxBin - 1 >= 0)
+                int val = -1;
+                if( int.TryParse(strList[x], out val))
                 {
-                    WtMinBin = _WtMaxBin - 1;
+                    // Check if negative
+                    // Check if number greater than number of bins
+                    if(val >= 0 && val < numBins )
+                    {
+                        result.Add(val);
+                    }
                 }
             }
+            
+            return result;
+        }
+
+        #endregion
+
+        #region Encode
+
+        /// <summary>
+        /// Encode the velocity data.
+        /// 
+        /// Encoding
+        /// $CUR – name of the message, all in one line followed by [CR][LF] (keep it as those 3 letters “CUR” so we can filter to look for those type of messages)
+        /// CC – channel number, so the depth to which the depth applies
+        /// AA.AA – ENU MAG (as I can see on RTI screens, that’s the value Navigators are looking at), the magnitude of the current
+        /// BBB.BB – DIR – the direction of the current
+        /// 
+        /// 
+        /// Ex:
+        /// $CUR,04,0.44,272.33,08,0.64,263.33,12,1.64,163.33
+        /// </summary>
+        /// <param name="ens">Ensemble data.</param>
+        /// <returns>String message.</returns>
+        private string EncodeVelocity(DataSet.Ensemble ens)
+        {
+            string result = "";
+
+            // Get the Selected bins
+            // If none are found, return nothing
+            List<int> selectedBins = VerifyBinSelection(ens);
+            if(selectedBins.Count <= 0)
+            {
+                return "";
+            }
+
+            // SHIP
+            if(_SelectedTransform == TRANSFORM_SHIP)
+            {
+                if(ens.IsShipVelocityAvail)
+                {
+                    return EncodeVelcoity(ens.ShipVelocityData.ShipVelocityData, selectedBins);
+                }
+            }
+
+            // EARTH
+            if(_SelectedTransform == TRANSFORM_EARTH)
+            {
+                if(ens.IsEarthVelocityAvail)
+                {
+                    return EncodeVelcoity(ens.EarthVelocityData.EarthVelocityData, selectedBins);
+                }
+            }
+
+            // Instrument
+            if (_SelectedTransform == TRANSFORM_INSTRUMENT)
+            {
+                if (ens.IsInstrumentVelocityAvail)
+                {
+                    return EncodeVelcoity(ens.InstrumentVelocityData.InstrumentVelocityData, selectedBins);
+                }
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Using the velocity data, convert the selected bin data to magnitude and direction,
+        /// then add it to the result.
+        /// </summary>
+        /// <param name="vel">Float array containing velocities for each bin and beam.</param>
+        /// <param name="selectedBins">Selected bins.</param>
+        /// <returns>String of all the selected bin's mag and direction.</returns>
+        private string EncodeVelcoity(float[,] vel, List<int> selectedBins)
+        {
+            StringBuilder result = new StringBuilder();
+
+            // Add the ID
+            result.Append("$CUR");
+
+            foreach(var bin in selectedBins)
+            {
+                double mag = 0.0;
+                double dir = 0.0;
+
+                // Verify the data is good
+                if (vel[bin, 0] != DataSet.Ensemble.BAD_VELOCITY &&
+                   vel[bin, 1] != DataSet.Ensemble.BAD_VELOCITY &&
+                   vel[bin, 2] != DataSet.Ensemble.BAD_VELOCITY)
+                {
+                    // Calculate magnitude
+                    mag = MathHelper.CalculateMagnitude(vel[bin, 0],
+                                                        vel[bin, 1],
+                                                        0);
+                    
+                    // Calculate direciton
+                    // East, North
+                    // X, Y
+                    // Traverse, Longitudinal
+                    dir = MathHelper.CalculateDirection(vel[bin, 0], vel[bin, 1]);
+
+                    result.Append(",");
+                    // Add the channel to the message
+                    result.Append(string.Format("{0, 3}", bin.ToString("0")));
+                    result.Append(",");
+
+                    // Add Magnitude
+                    result.Append(string.Format("{0, 5}", mag.ToString("0.00")));
+                    result.Append(",");
+ 
+                    // Add Direction
+                    result.Append(string.Format("{0, 6}", dir.ToString("0.00")));
+                }
+            }
+
+            // Add <CR><LF>
+            result.Append("\r\n");
+
+            return result.ToString();
         }
 
         #endregion
@@ -1299,24 +1146,6 @@ namespace RTI
             // To much data will make the system run slower
             int dataOutputMax = 5000;
 
-            // Set the maximum bin for bin list
-            if(ens.IsEnsembleAvail)
-            {
-                // If it different from what is now
-                if(BinList.Count != ens.EnsembleData.NumBins)
-                {
-                    // Subtract 1 because 0 based
-                    NumBins = ens.EnsembleData.NumBins - 1;
-
-                    // Clear and repopulate 
-                    BinList.Clear();
-                    for(int x = 0; x < ens.EnsembleData.NumBins; x++)
-                    {
-                        BinList.Add(x);
-                    }
-                }
-            }
-
             // If the HeadingOffset is set or
             // If they want to retransform the data or
             // They are replacing the heading with GPS heading,
@@ -1341,114 +1170,17 @@ namespace RTI
                 }
             }
 
-            // Water Track
-            if (_IsCalculateWaterTrack)
-            {
-                _manualWT.Calculate(ref ens, _WtMinBin, _WtMaxBin);
-            }
+            // Encode the data
+            string output = EncodeVelocity(ens);
 
-            if (_SelectedFormat == ENCODING_VMDAS)
-            {
-                VmDasAsciiCodec.VmDasAsciiOutput output = _codecVmDas.Encode(ens, _MinBin, _MaxBin);
+            // Display data
+            DataOutput += output;
+            
+            // Send data to serial port
+            SendDataToSerial(output);
 
-                // Display data
-                DataOutput = output.Ascii;
-
-                // Max size of data output buffer
-                dataOutputMax = 5000;
-
-                // Send data to serial port
-                SendDataToSerial(output.Ascii);
-
-                // Write data to file if turned on
-                WriteData(output.Ascii);
-
-                // Update the Min and Max Bin selection
-                if (_MinBin != output.BinSelected.MinBin)
-                {
-                    MinBin = output.BinSelected.MinBin;
-                }
-
-                if (_MaxBin != output.BinSelected.MaxBin)
-                {
-                    MaxBin = output.BinSelected.MaxBin;
-                }
-            }
-            else if (_SelectedFormat == ENCODING_PD6_PD13)
-            {
-                // PD6 or PD13
-                EnsToPd6_13Codec.Pd6_13Data output = _codecPd6_13.Encode(ens);
-
-                // Output all the strings
-                foreach (var line in output.Data)
-                {
-                    // Output to display
-                    DataOutput += line;
-
-                    // Output to the serial port
-                    // Trim it because the serial port adds a carrage return
-                    SendDataToSerial(line, false);
-
-                    // Write data to file if turned on
-                    WriteData(line.Trim());
-                }
-
-                // Max size of data output buffer
-                dataOutputMax = 1000;
-            }
-            else if (_SelectedFormat == ENCODING_Binary_ENS)
-            {
-                // Convert to binary array
-                byte[] rawEns = ens.Encode();
-
-                // Output to display
-                DataOutput += ens.ToString();
-
-                // Output data to the serial port
-                _serialPort.SendData(rawEns, 0, rawEns.Length);
-
-                // Write data to file if turned on
-                WriteData(rawEns);
-
-                // Max size of data output buffer
-                dataOutputMax = 10000;
-            }
-            else if (_SelectedFormat == ENCODING_PD0)
-            {
-                byte[] pd0 = null;
-
-                switch (_SelectedCoordTransform)
-                {
-                    case PD0.CoordinateTransforms.Coord_Beam:
-                        pd0 = ens.EncodePd0Ensemble(PD0.CoordinateTransforms.Coord_Beam);
-                        break;
-                    case PD0.CoordinateTransforms.Coord_Instrument:
-                        pd0 = ens.EncodePd0Ensemble(PD0.CoordinateTransforms.Coord_Instrument);
-                        break;
-                    case PD0.CoordinateTransforms.Coord_Ship:
-                        pd0 = ens.EncodePd0Ensemble(PD0.CoordinateTransforms.Coord_Ship);
-                        break;
-                    case PD0.CoordinateTransforms.Coord_Earth:
-                        pd0 = ens.EncodePd0Ensemble(PD0.CoordinateTransforms.Coord_Earth);
-                        break;
-                }
-
-                // Output to display
-                DataOutput += System.Text.ASCIIEncoding.ASCII.GetString(pd0);
-
-                // Output data to serial port
-                _serialPort.SendData(pd0, 0, pd0.Length);
-
-                // Write data to file if turned on
-                WriteData(pd0);
-
-                // Max output buffer size
-                dataOutputMax = 10000;
-            }
-            else if (_SelectedFormat == ENCODING_RETRANSFORM_PD6)
-            {
-
-            }
+            // Write data to file if turned on
+            WriteData(output);
 
             // Keep the Buffer to a set limit
             if (DataOutput.Length > dataOutputMax)

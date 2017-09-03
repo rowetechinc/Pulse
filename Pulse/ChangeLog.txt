@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.3
+  - Added BaseDataOutputView/VM.
+  - Added WpMagDirOutputView/VM to output a special PD6 style message that contains mag and dir of water for selected bins.
+
 Pulse-4.5.2.1
  - Fixed a bug with the DataOutputViewModel to output the data with a <CR><LF>
 

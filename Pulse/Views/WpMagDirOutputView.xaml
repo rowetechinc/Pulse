@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RTI.DataOutputView"
+﻿<UserControl x:Class="RTI.WpMagDirOutputView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -63,8 +63,11 @@
             <StackPanel Margin="10,5,10,10" Background="{StaticResource PulseBackBorderNavColor}">
                 <TextBlock Text="Data Output Options" Margin="5,5,5,10" FontSize="20" Foreground="White" />
 
-                <TextBlock Text="Output Format" Margin="5,5,5,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
-                <ComboBox ItemsSource="{Binding FormatList}" SelectedValue="{Binding SelectedFormat}" Margin="5" MinWidth="75" Foreground="White" />
+                <TextBlock Text="Selected bins" Margin="5,0,20,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
+                <TextBox Text="{Binding SelectedBins}" Margin="5" MinWidth="75" ToolTip="{Binding SelectedBinsTooltip}" Foreground="White" />
+
+                <TextBlock Text="Velocity Coordinate Transform" Margin="5,15,20,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
+                <ComboBox ItemsSource="{Binding FormatList}" SelectedValue="{Binding SelectedTransform}" Margin="5,0,20,5" MinWidth="75" Foreground="White" ToolTip="{Binding SelectedTransformTooltip}" />
 
                 <StackPanel Orientation="Horizontal" Margin="5,15,20,5">
                     <TextBlock Text="Retransform Data: " Margin="5,5,5,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
@@ -80,32 +83,6 @@
                 <TextBlock Text="Heading Source" Margin="5,15,20,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
                 <ComboBox ItemsSource="{Binding HeadingSourceList}" SelectedValue="{Binding SelectedHeadingSource}" Margin="5,0,20,5" MinWidth="75" Foreground="White" ToolTip="{Binding GpsHeadingTooltip}" />
 
-                <TextBlock Text="Water Track Options" Margin="5,15,20,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
-                <CheckBox HorizontalAlignment="Left" Margin="5, 2"  Content="" Foreground="#FFC5CFD1" IsChecked="{Binding Path=IsCalculateWaterTrack}" Style="{StaticResource OnOffSwitchStyle}" ToolTip="{Binding WaterTrackTooltip}" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Minimum Bin" Margin="5" Foreground="{StaticResource PulseFontColor}" />
-                    <extToolkit:IntegerUpDown Value="{Binding Path=WtMinBin}" Margin="5" Minimum="0" Maximum="{Binding NumBins}" IsEnabled="{Binding IsCalculateWaterTrack}"  Background="White" Foreground="Black" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Maximum Bin" Margin="5" Foreground="{StaticResource PulseFontColor}" />
-                    <extToolkit:IntegerUpDown Value="{Binding Path=WtMaxBin}" Margin="5" Minimum="0" Maximum="{Binding NumBins}" IsEnabled="{Binding IsCalculateWaterTrack}"  Background="White" Foreground="Black" />
-                </StackPanel>
-
-                <TextBlock Text="VmDas Output Options" Margin="5,15,20,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Minimum Bin" Margin="5" Foreground="{StaticResource PulseFontColor}" />
-                    <extToolkit:IntegerUpDown Value="{Binding Path=MinBin}" Margin="5" Minimum="0" Maximum="{Binding NumBins}" IsEnabled="{Binding IsBinsEnabled}" ToolTip="{Binding MinBinTooltip}"  Background="White" Foreground="Black" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Maximum Bin" Margin="5" Foreground="{StaticResource PulseFontColor}" />
-                    <extToolkit:IntegerUpDown Value="{Binding Path=MaxBin}" Margin="5" Minimum="0" Maximum="{Binding NumBins}" IsEnabled="{Binding IsBinsEnabled}" ToolTip="{Binding MaxBinTooltip}"  Background="White" Foreground="Black" />
-                </StackPanel>
-
-                <TextBlock Text="PD0 Options" Margin="5,15,20,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Coordinate Transform" Margin="5" Foreground="{StaticResource PulseFontColor}" />
-                    <ComboBox ItemsSource="{Binding CoordinateTransformList}" SelectedValue="{Binding SelectedCoordTransform}" Margin="5" IsEnabled="{Binding IsPd0Selected}" ToolTip="{Binding MinBinTooltip}" Foreground="White" />
-                </StackPanel>
             </StackPanel>
         </ScrollViewer>
 

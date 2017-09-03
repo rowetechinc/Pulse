@@ -514,6 +514,13 @@ namespace RTI
                 vmDO.Dispose();
             }
 
+            // Shutdown the singleton VesselMountViewModel
+            WpMagDirOutputViewModel vmWMD = IoC.Get<WpMagDirOutputViewModel>();
+            if (vmWMD != null)
+            {
+                vmWMD.Dispose();
+            }
+
             // Shutdown the last active item
             DeactivateItem(ActiveItem, true);
 
@@ -855,7 +862,7 @@ namespace RTI
                     IsPlaybackEnabled = false;
                     break;
                 case ViewNavEvent.ViewId.DataOutputView:
-                    var dataOut = IoC.Get<DataOutputViewModel>();
+                    var dataOut = IoC.Get<BaseDataOutputViewModel>();
                     ActivateItem(dataOut);
                     IsNavBarEnabled = true;
                     IsPlaybackEnabled = true;

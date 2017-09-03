@@ -53,6 +53,7 @@
  * 11/03/2014      RC          4.1.0       Added WavesViewModel.
  * 10/26/2015      RC          4.3.1       Added DiagnosticsViewModel    
  * 08/28/2017      RC          4.5.2       Added OutputDataViewModel
+ * 09/02/2017      RC          4.5.3       Added WpMagDirViewModel and BaseDataOutputViewModel.
  * 
  */
 
@@ -313,6 +314,12 @@ namespace RTI
 
             // Register the DataOutputViewModel
             ContainerExtensions.Singleton<DataOutputViewModel, DataOutputViewModel>(_container);
+
+            // Register the WpMagDirOutputViewModel
+            ContainerExtensions.Singleton<WpMagDirOutputViewModel, WpMagDirOutputViewModel>(_container);
+
+            // Register the BaseDataOutputViewModel
+            ContainerExtensions.Singleton<BaseDataOutputViewModel, BaseDataOutputViewModel>(_container);
         }
 
         /// <summary>
