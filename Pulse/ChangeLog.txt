@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.3.1
+  - Remove Ship Speed in DataOutputVM and WpMagDirOutputVM.
+
 Pulse-4.5.3
   - Added BaseDataOutputView/VM.
   - Added WpMagDirOutputView/VM to output a special PD6 style message that contains mag and dir of water for selected bins.

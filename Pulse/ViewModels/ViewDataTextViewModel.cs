@@ -3067,6 +3067,7 @@ namespace RTI
                 // Set the Velocity data to the list
                 float[,] velData = null;
                 int[,] goodPingData = null;
+                DataSet.VelocityVector[] VV = null; 
                 switch (SelectedTransform)
                 {
                     case Core.Commons.Transforms.BEAM:
@@ -3076,14 +3077,26 @@ namespace RTI
                     case Core.Commons.Transforms.EARTH:
                         velData = SetEarthVelocityBinData(adcpData);
                         goodPingData = SetGoodEarthBinData(adcpData);
+                        if (adcpData.IsEarthVelocityAvail && adcpData.EarthVelocityData.IsVelocityVectorAvail)
+                        {
+                            VV = adcpData.EarthVelocityData.VelocityVectors;
+                        }
                         break;
                     case Core.Commons.Transforms.INSTRUMENT:
                         velData = SetInstrVelocityBinData(adcpData);
                         goodPingData = SetGoodBeamBinData(adcpData);
+                        if(adcpData.IsInstrumentVelocityAvail && adcpData.InstrumentVelocityData.IsVelocityVectorAvail)
+                        {
+                            VV = adcpData.InstrumentVelocityData.VelocityVectors;
+                        }
                         break;
                     case Core.Commons.Transforms.SHIP:
                         velData = SetShipVelocityBinData(adcpData);
                         goodPingData = SetGoodBeamBinData(adcpData);
+                        if(adcpData.IsShipVelocityAvail && adcpData.ShipVelocityData.IsVelocityVectorAvail)
+                        {
+                            VV = adcpData.ShipVelocityData.VelocityVectors;
+                        }
                         break;
                     default:
                         break;
@@ -3291,10 +3304,10 @@ namespace RTI
                         binData.Append(("-".PadLeft((6))));
                     }
 
-                    if (adcpData.IsEarthVelocityAvail && adcpData.EarthVelocityData.IsVelocityVectorAvail)
+                    if (VV != null)
                     {
-                        binData.Append(SetMeasurementValue((float)adcpData.EarthVelocityData.VelocityVectors[bin].Magnitude, "0.00").PadLeft(9));
-                        binData.Append(SetDegreeValue(adcpData.EarthVelocityData.VelocityVectors[bin].DirectionXNorth, "0.00").PadLeft(12));
+                        binData.Append(SetMeasurementValue((float)VV[bin].Magnitude, "0.00").PadLeft(9));
+                        binData.Append(SetDegreeValue(VV[bin].DirectionXNorth, "0.00").PadLeft(12));
                     }
 
                     // Add the string to the list
@@ -3368,6 +3381,11 @@ namespace RTI
             if (SelectedTransform == Core.Commons.Transforms.INSTRUMENT)
             {
                 return "INSTRUMENT VELOCITY";
+            }
+
+            if (SelectedTransform == Core.Commons.Transforms.SHIP)
+            {
+                return "SHIP VELOCITY";
             }
 
             return "VELOCITY";

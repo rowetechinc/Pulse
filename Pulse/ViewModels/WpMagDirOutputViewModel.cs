@@ -25,6 +25,7 @@
  * Date            Initials    Version    Comments
  * -----------------------------------------------------------------
  * 09/02/2017      RC          4.5.3      Initial coding
+ * 09/05/2017      RC          4.5.3.1    Remove Ship Speed.
  * 
  * 
  * 
@@ -48,7 +49,7 @@ namespace RTI
     /// Reprocess the data.  Then output the data in the 
     /// new format selected.  The data will come out on the serial port.
     /// </summary>
-    public class WpMagDirOutputViewModel : PulseViewModel, IHandle<EnsembleEvent>
+    public class WpMagDirOutputViewModel : PulseViewModel, IHandle<EnsembleRawEvent>
     {
 
         #region Variables
@@ -93,6 +94,51 @@ namespace RTI
         /// Default recording directory.
         /// </summary>
         public const string DEFAULT_RECORD_DIR = @"C:\RTI_Capture";
+
+        /// <summary>
+        /// Previous Ship Speed East.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedEast = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed North.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedNorth = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed Vertical.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedVert = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed X.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedX = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed Y.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedY = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed Z.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedZ = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed Transverse.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedTransverse = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed Longitundial.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedLongitudinal = DataSet.Ensemble.BAD_VELOCITY;
+
+        /// <summary>
+        /// Previous Ship Speed Normal.  Used to remove ship speed from Velocity data.
+        /// </summary>
+        private float _prevShipSpeedNormal = DataSet.Ensemble.BAD_VELOCITY;
 
         #endregion
 
@@ -548,6 +594,75 @@ namespace RTI
 
         #endregion
 
+        #region Remove Ship Speed
+
+        /// <summary>
+        /// Flag to remove the ship speed from the velocity data.
+        /// </summary>
+        private bool _IsRemoveShipSpeed;
+        /// <summary>
+        /// Flag to remove the ship speed from the velocity data.
+        /// </summary>
+        public bool IsRemoveShipSpeed
+        {
+            get { return _IsRemoveShipSpeed; }
+            set
+            {
+                _IsRemoveShipSpeed = value;
+                this.NotifyOfPropertyChange(() => this.IsRemoveShipSpeed);
+            }
+        }
+
+        /// <summary>
+        /// Flag if can use Bottom Track to remove ship speed.
+        /// </summary>
+        private bool _CanUseBottomTrackVel;
+        /// <summary>
+        /// Flag if can use Bottom Track to remove ship speed.
+        /// </summary>
+        public bool CanUseBottomTrackVel
+        {
+            get { return _CanUseBottomTrackVel; }
+            set
+            {
+                _CanUseBottomTrackVel = value;
+                this.NotifyOfPropertyChange(() => this.CanUseBottomTrackVel);
+            }
+        }
+
+        /// <summary>
+        /// Flag if can use GPS velocity to remove the ship speed.
+        /// This is used as a backup.
+        /// </summary>
+        private bool _CanUseGpsVel;
+        /// <summary>
+        /// Flag if can use GPS velocity to remove the ship speed.
+        /// This is used as a backup.
+        /// </summary>
+        public bool CanUseGpsVel
+        {
+            get { return _CanUseGpsVel; }
+            set
+            {
+                _CanUseGpsVel = value;
+                this.NotifyOfPropertyChange(() => this.CanUseGpsVel);
+            }
+        }
+
+        /// <summary>
+        /// Remove Ship Speed Tooltip.
+        /// </summary>
+        public string RemoveShipSpeedTooltip
+        {
+            get
+            {
+                return "Remove the ship speed from the velocity data.\nThis will remove the velocity of the ship from the water velocity data.\nUse Bottom Track by default and GPS as a backup for the ship speed.";
+            }
+        }
+
+
+        #endregion
+
         #endregion
 
         #region Commands
@@ -607,6 +722,10 @@ namespace RTI
             SelectedBins = "4,8,12";
 
             ShipXdcrOffset = 0.0f;
+
+            IsRemoveShipSpeed = true;
+            CanUseBottomTrackVel = true;
+            CanUseGpsVel = true;
 
             DataOutput = "";
 
@@ -1107,13 +1226,56 @@ namespace RTI
 
         #endregion
 
+        #region Remove Ship Speed
+
+        /// <summary>
+        /// Remove the ship speed.
+        /// This will remove the ship speed in the Earth, Instrument and Ship velocities.
+        /// </summary>
+        /// <param name="ens">Ensemble data.</param>
+        private void RemoveShipSpeed(ref DataSet.Ensemble ens)
+        {
+
+            // Remove the Ship speed from the data
+            // Remove Ship Speed
+            if (_IsRemoveShipSpeed)
+            {
+                ScreenData.RemoveShipSpeed.RemoveVelocity(ref ens, _prevShipSpeedEast, _prevShipSpeedNorth, _prevShipSpeedVert, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocityInstrument(ref ens, _prevShipSpeedX, _prevShipSpeedY, _prevShipSpeedZ, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocityShip(ref ens, _prevShipSpeedTransverse, _prevShipSpeedLongitudinal, _prevShipSpeedNormal, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
+            }
+
+            // EARTH
+            // Record the Bottom for previous values
+            float[] prevShipSpeed = ScreenData.RemoveShipSpeed.GetPreviousShipSpeed(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            _prevShipSpeedEast = prevShipSpeed[0];
+            _prevShipSpeedNorth = prevShipSpeed[1];
+            _prevShipSpeedVert = prevShipSpeed[2];
+
+            // Instrument
+            // Record the Bottom for previous values
+            float[] prevShipSpeedInstrument = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedInstrument(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            _prevShipSpeedX = prevShipSpeedInstrument[0];
+            _prevShipSpeedY = prevShipSpeedInstrument[1];
+            _prevShipSpeedZ = prevShipSpeedInstrument[2];
+
+            // Ship
+            // Record the Bottom for previous values
+            float[] prevShipSpeedShip = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedShip(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            _prevShipSpeedTransverse = prevShipSpeedShip[0];
+            _prevShipSpeedLongitudinal = prevShipSpeedShip[1];
+            _prevShipSpeedNormal = prevShipSpeedShip[2];
+        }
+
+        #endregion
+
         #region Event Handler
 
         /// <summary>
         /// Receive an ensemble.  
         /// </summary>
         /// <param name="message">Ensemble message</param>
-        public void Handle(EnsembleEvent message)
+        public void Handle(EnsembleRawEvent message)
         {
             // If turned off, do not process the data
             if (!_IsOutputEnabled)
@@ -1169,6 +1331,9 @@ namespace RTI
                     Transform.WaterMassTransform(ref ens, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset, _ShipXdcrOffset);
                 }
             }
+
+            // Remove the ship speed
+            RemoveShipSpeed(ref ens);
 
             // Encode the data
             string output = EncodeVelocity(ens);
