@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:mahapps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
+             xmlns:cal="http://www.caliburnproject.org"	 
  			d:DesignHeight="800" d:DesignWidth="600">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -62,26 +63,39 @@
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					
 					<Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >			
 						<Button Content="Scan ADCP" Margin="5" Command="{Binding Path=ScanAdcpCommand}" FontSize="26.667" Foreground="{StaticResource ClockFontColor}" Background="{StaticResource ClockBackgroundColor}" BorderBrush="{StaticResource ClockFontColor}" />			
 					</Grid>
-					
-					<!--Config Info-->
-					<Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
-						<Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="1" Text="OR" Foreground="{StaticResource PulseFontBrightColor}" HorizontalAlignment="Center" FontSize="50" Margin="5, 40,5,40" />
+
+                    <!--Serial Number-->
+                    <Border Grid.Row="2" Background="#FF3E3E42" Margin="5" CornerRadius="5">
+                        <StackPanel Grid.Row="2" Margin="5">
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="If an ADCP is not connected," FontSize="20" Margin="5,5,5,5" Foreground="#FFFBC865" HorizontalAlignment="Center" />
+                            <TextBlock Text="use the Serial Number Generator to add a Subsystem:" FontSize="20" Margin="5,0,5,5" Foreground="#FFFBC865" HorizontalAlignment="Center" />
+                            <ContentControl Grid.Row="2" Grid.Column="1" cal:View.Model="{Binding SerialNumberGeneratorVM}" />
+                        </StackPanel>
+                    </Border>
+
+                    <!--Config Info-->
+                    <Border Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5, 40" Background="#FF2D2D30" CornerRadius="5">
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
 						
 						<TextBlock Grid.Row="0" Text="{Binding Path=AdcpSerialNumber}" FontSize="26.667" />
-						
-						
-					</Grid>
+				    </Grid>
+                    </Border>
 					
 					<!--Progress Ring-->	
-					<Viewbox Grid.Row="1" Height="200" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >
+					<Viewbox Grid.Row="1" Grid.RowSpan="2" Height="200" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >
 			        	<mahapps:ProgressRing IsActive="{Binding IsScanning}" Foreground="Red" Height="200" Width="200" />
 			        </Viewbox>
 					

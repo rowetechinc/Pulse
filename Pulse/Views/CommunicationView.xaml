@@ -85,9 +85,9 @@
 					<!--ToggleButton Grid.Row="0" Grid.Column="5" Command="{Binding Path=SetAdcpConnCommand}" IsChecked="{Binding Path=IsAdcpSet}" Background="{StaticResource PulseButtonBlackBackground}" Margin="5" Height="40" Width="40" >
 						<TextBlock Text="SET" Foreground="{StaticResource PulseFontOrangeColor}" />
 					</ToggleButton-->
-					<Button Grid.Row="0" Grid.Column="7" Background="{StaticResource PulseButtonBlackBackground}" Margin="5" Command="{Binding Path=ScanAdcpCommand}" Height="40" >
+					<!--Button Grid.Row="0" Grid.Column="7" Background="{StaticResource PulseButtonBlackBackground}" Margin="5" Command="{Binding Path=ScanAdcpCommand}" Height="40" >
 						<TextBlock Text="Find ADCP" Foreground="{StaticResource PulseFontOrangeColor}" />
-					</Button>
+					</-->
 					
 					<!--GPS 1-->
 					<Image Grid.Row="1" Grid.Column="0"  Source="../Images/gps.png" Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" />

@@ -30,6 +30,7 @@
  * 12/17/2013      RC          3.2.1       Updated the URL in CheckForUpdates() for the new pulse location.
  * 08/07/2014      RC          4.0.0       Updated ReactiveCommand to 6.0.
  * 10/27/2015      RC          4.3.1       Added version number for Pulse Display.
+ * 09/11/2017      RC          4.5.4       Check if the website exists for AutoUpdate.
  * 
  */
 
@@ -47,6 +48,7 @@ namespace RTI
     using Microsoft.Win32;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using System.Net;
 
     /// <summary>
     /// About the Pulse Software.
@@ -463,11 +465,19 @@ namespace RTI
         /// </summary>
         private void CheckForUpdates()
         {
-            IsCheckingForUpdates = true;
-            //AutoUpdater.Start("http://66.147.244.164/~rowetech/pulse/Pulse_AppCast.xml");
-            //AutoUpdater.Start("http://www.rowetechinc.com/pulse/Pulse_AppCast.xml");
-            AutoUpdater.Start("http://www.rowetechinc.co/pulse/Pulse_AppCast.xml");
-            AutoUpdater.CheckForUpdateEvent += new AutoUpdater.CheckForUpdateEventHandler(AutoUpdater_AutoUpdaterEvent);
+            string url = @"http://www.rowetechinc.com/pulse/Pulse_AppCast.xml";
+
+            WebRequest request = WebRequest.Create(url);
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            if (response != null && response.StatusCode == HttpStatusCode.OK && response.ResponseUri == new System.Uri(url))
+            {
+                IsCheckingForUpdates = true;
+                //AutoUpdater.Start("http://66.147.244.164/~rowetech/pulse/Pulse_AppCast.xml");
+                //AutoUpdater.Start("http://www.rowetechinc.com/pulse/Pulse_AppCast.xml");
+                AutoUpdater.Start("http://www.rowetechinc.co/pulse/Pulse_AppCast.xml");
+                AutoUpdater.CheckForUpdateEvent += new AutoUpdater.CheckForUpdateEventHandler(AutoUpdater_AutoUpdaterEvent);
+            }
+            response.Close();
         }
 
         /// <summary>

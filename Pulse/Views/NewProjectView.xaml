@@ -64,6 +64,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -89,8 +90,8 @@
 					</Button>
 					
 					<!--Serial Number-->
-					<TextBlock Grid.Row="2" Grid.Column="0" Text="Serial Number:" Margin="5" Foreground="#FFFBC865" />
-					<ContentControl Grid.Row="2" Grid.Column="1" cal:View.Model="{Binding SerialNumberGeneratorVM}" />
+					<!--TextBlock Grid.Row="2" Grid.Column="0" Text="Serial Number:" Margin="5" Foreground="#FFFBC865" />
+					<ContentControl Grid.Row="2" Grid.Column="1" cal:View.Model="{Binding SerialNumberGeneratorVM}" /-->
 					
 					<!--Load Command Button-->
 					<StackPanel  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
@@ -104,9 +105,12 @@
 							</Button.Background>
 							<TextBlock Text="Load Commands" Foreground="#FFFBC865" />
 						</Button>
+                       
 					</StackPanel>
-					
-				</Grid>
+
+                    <TextBlock Grid.Row="4" Grid.ColumnSpan="3" Text="Click NEXT it the top right corner to continue" Margin="5,40, 5, 5" FontSize="40" HorizontalAlignment="Center" Foreground="{StaticResource PulseFontBrightColor}"  />
+
+                </Grid>
 			</Grid>
 		</ScrollViewer>
 		

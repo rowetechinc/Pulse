@@ -1,5 +1,11 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.4
+  - Check if the website exists in AutoUpdate.
+  - Handle UDP data in communication.
+  - Removed SerialNumber generator for AddProjectVM.
+  - In ScanAdcpViewModel, added SerialNumberGenerator to allow either scan or select. 
+
 Pulse-4.5.3.1
   - Remove Ship Speed in DataOutputVM and WpMagDirOutputVM.
 

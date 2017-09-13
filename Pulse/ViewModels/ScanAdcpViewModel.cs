@@ -26,6 +26,7 @@
 * -----------------------------------------------------------------
 * 11/18/2013      RC          3.2.0      Initial coding
 * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
+* 09/13/2017      RC          4.5.4      Added SerialNumberGenerator to allow either scan or select. 
 * 
 * 
 * 
@@ -72,6 +73,11 @@ namespace RTI
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Serial number generator.
+        /// </summary>
+        public SerialNumberGeneratorViewModel SerialNumberGeneratorVM { get; protected set; }
 
         /// <summary>
         /// ADCP Serial Number.
@@ -133,7 +139,7 @@ namespace RTI
 
         #endregion
 
-                /// <summary>
+        /// <summary>
         /// Initialize the view model.
         /// </summary>
         public ScanAdcpViewModel()
@@ -143,6 +149,10 @@ namespace RTI
             _events = IoC.Get<IEventAggregator>();
             _pm = IoC.Get<PulseManager>();
             _adcpConnection = IoC.Get<AdcpConnection>();
+
+            // Serial Number Generator view model
+            SerialNumberGeneratorVM = IoC.Get<SerialNumberGeneratorViewModel>();
+            SerialNumberGeneratorVM.UpdateEvent += SerialNumberGeneratorVM_UpdateEvent;
 
             // Next command
             NextCommand = ReactiveCommand.Create(this.WhenAny(x => x.IsScanning, x => !x.Value));
@@ -163,6 +173,24 @@ namespace RTI
         }
 
         /// <summary>
+        /// Update the serial number of the serial number generater updates the number.
+        /// </summary>
+        private void SerialNumberGeneratorVM_UpdateEvent()
+        {
+            AdcpSerialNumber = SerialNumberGeneratorVM.SerialNumber.ToString();
+            _pm.SelectedProject.SerialNumber = SerialNumberGeneratorVM.SerialNumber;
+            AdcpSerialNumber += "\n";
+            AdcpSerialNumber += _pm.SelectedProject.SerialNumber.GetSerialNumberDescString(true);
+
+            // Add a default configuration for the new subsystem added
+            if (SerialNumberGeneratorVM.SerialNumber.SubSystemsList.Count > 0)
+            {
+                AdcpSubsystemConfig config = null;
+                _pm.SelectedProject.Configuration.AddConfiguration(SerialNumberGeneratorVM.SerialNumber.SubSystemsList.Last(), out config);
+            }
+        }
+
+        /// <summary>
         /// Shutdown the view model.
         /// </summary>
         public override void Dispose()
@@ -178,6 +206,10 @@ namespace RTI
         private void InitializeValue()
         {
             IsScanning = false;
+            if(_pm.IsProjectSelected)
+            {
+                SerialNumberGeneratorVM.SerialNumber = _pm.SelectedProject.SerialNumber;
+            }
         }
 
         #endregion
@@ -208,6 +240,11 @@ namespace RTI
 
                 // Set the serial number
                 AdcpSerialNumber = _pm.SelectedProject.SerialNumber.ToString();
+                AdcpSerialNumber += "\n";
+                AdcpSerialNumber += _pm.SelectedProject.SerialNumber.GetSerialNumberDescString(true);
+
+                // Set the serial number to the generator
+                SerialNumberGeneratorVM.UpdateSerialNumber(_pm.SelectedProject.SerialNumber);
 
                 // Turn off the flag
                 IsScanning = false;
