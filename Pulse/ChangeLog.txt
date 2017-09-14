@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.5.5
+ - Fixed bug in AutoUpdate if the internet did not work, the application would not start.
+
 Pulse-4.5.4
   - Check if the website exists in AutoUpdate.
   - Handle UDP data in communication.

@@ -467,17 +467,28 @@ namespace RTI
         {
             string url = @"http://www.rowetechinc.com/pulse/Pulse_AppCast.xml";
 
-            WebRequest request = WebRequest.Create(url);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            if (response != null && response.StatusCode == HttpStatusCode.OK && response.ResponseUri == new System.Uri(url))
+            try
             {
-                IsCheckingForUpdates = true;
-                //AutoUpdater.Start("http://66.147.244.164/~rowetech/pulse/Pulse_AppCast.xml");
-                //AutoUpdater.Start("http://www.rowetechinc.com/pulse/Pulse_AppCast.xml");
-                AutoUpdater.Start("http://www.rowetechinc.co/pulse/Pulse_AppCast.xml");
-                AutoUpdater.CheckForUpdateEvent += new AutoUpdater.CheckForUpdateEventHandler(AutoUpdater_AutoUpdaterEvent);
+                WebRequest request = WebRequest.Create(url);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                if (response != null && response.StatusCode == HttpStatusCode.OK && response.ResponseUri == new System.Uri(url))
+                {
+                    IsCheckingForUpdates = true;
+                    //AutoUpdater.Start("http://66.147.244.164/~rowetech/pulse/Pulse_AppCast.xml");
+                    //AutoUpdater.Start("http://www.rowetechinc.com/pulse/Pulse_AppCast.xml");
+                    AutoUpdater.Start("http://www.rowetechinc.co/pulse/Pulse_AppCast.xml");
+                    AutoUpdater.CheckForUpdateEvent += new AutoUpdater.CheckForUpdateEventHandler(AutoUpdater_AutoUpdaterEvent);
+                }
+                response.Close();
             }
-            response.Close();
+            catch(System.Net.WebException)
+            {
+                // No Internet connection, so do nothing
+            }
+            catch(Exception e)
+            {
+                log.Error("Error checking for an update on the web.", e);
+            }
         }
 
         /// <summary>
