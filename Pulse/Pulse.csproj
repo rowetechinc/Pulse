@@ -763,6 +763,7 @@
     <Resource Include="Installer\BTIC\EndUserRights.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <SplashScreen Include="Images\all_adcp.png" />
     <Content Include="Licenses.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
