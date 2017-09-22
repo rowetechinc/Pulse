@@ -4,5 +4,5 @@
 	branch = master
 [submodule "Pulse_Display"]
 	path = Pulse_Display
-	url = https://github.com/rowetechinc/Pulse_Display
+	url = https://github.com/rowetechinc/Pulse-Display
 	branch = master
