@@ -1272,7 +1272,7 @@ namespace RTI
                                 VesselMountScreen(ref data);
 
                                 // Screen the data
-                                _screenDataVM.ScreenData(ref data);
+                                _screenDataVM.ScreenData(ref data, AdcpCodec.CodecEnum.Binary);
 
                                 // Verify go data
                                 if (data.IsEnsembleAvail && data.EnsembleData.EnsembleNumber != 0)

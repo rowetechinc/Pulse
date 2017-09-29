@@ -1867,7 +1867,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 1)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Amplitude[0].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Amplitude[0].ToString("0.0");
                     }
                     else
                     {
@@ -1893,7 +1893,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 2)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Amplitude[1].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Amplitude[1].ToString("0.0");
                     }
                     else
                     {
@@ -1919,7 +1919,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 3)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Amplitude[2].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Amplitude[2].ToString("0.0");
                     }
                     else
                     {
@@ -1945,7 +1945,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 4)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Amplitude[3].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Amplitude[3].ToString("0.0");
                     }
                     else
                     {
@@ -1975,7 +1975,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 1)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Correlation[0].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Correlation[0].ToString("0.00");
                     }
                     else
                     {
@@ -2001,7 +2001,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 2)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Correlation[1].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Correlation[1].ToString("0.00");
                     }
                     else
                     {
@@ -2027,7 +2027,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 3)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Correlation[2].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Correlation[2].ToString("0.00");
                     }
                     else
                     {
@@ -2053,7 +2053,7 @@ namespace RTI
                 {
                     if (_DisplayEnsemble.RangeTrackingData.NumBeams >= 4)
                     {
-                        return _DisplayEnsemble.RangeTrackingData.Correlation[3].ToString("0");
+                        return _DisplayEnsemble.RangeTrackingData.Correlation[3].ToString("0.00");
                     }
                     else
                     {

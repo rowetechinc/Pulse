@@ -1294,7 +1294,7 @@ namespace RTI
                 message.Source == EnsembleSource.Ethernet)
             {
                 // Make a copy of the ensemble, because the data will be modified
-                ReceiveEnsemble(message.Ensemble.Clone());
+                ReceiveEnsemble(message.Ensemble.Clone(), message.OrigDataFormat);
             }
         }
 
@@ -1302,7 +1302,8 @@ namespace RTI
         /// Receive the ensemble and decode it to output the data.
         /// </summary>
         /// <param name="ens">Ensemble.</param>
-        public void ReceiveEnsemble(DataSet.Ensemble ens)
+        /// <param name="origDataFormat">Original Data format.</param>
+        public void ReceiveEnsemble(DataSet.Ensemble ens, AdcpCodec.CodecEnum origDataFormat)
         {
             // Set the buffer size to display data
             // To much data will make the system run slower
@@ -1318,17 +1319,17 @@ namespace RTI
             if (_IsRetransformData || _IsUseGpsHeading || _HeadingOffset != 0)
             {
                 // Retransform the Profile datas
-                Transform.ProfileTransform(ref ens, 0.25f, _SelectedHeadingSource, _HeadingOffset);
+                Transform.ProfileTransform(ref ens, origDataFormat, 0.25f, _SelectedHeadingSource, _HeadingOffset);
 
                 // Retransform the Bottom Track data
                 // This will also create the ship data
-                Transform.BottomTrackTransform(ref ens, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset);
+                Transform.BottomTrackTransform(ref ens, origDataFormat, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset);
 
                 // WaterMass transform data
                 // This will also create the ship data
                 if (ens.IsInstrumentWaterMassAvail)
                 {
-                    Transform.WaterMassTransform(ref ens, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset, _ShipXdcrOffset);
+                    Transform.WaterMassTransform(ref ens, origDataFormat, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset, _ShipXdcrOffset);
                 }
             }
 

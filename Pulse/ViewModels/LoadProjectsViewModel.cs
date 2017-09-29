@@ -704,7 +704,7 @@ namespace RTI
 
                 // Record the data
                 _pm.SelectedProject.RecordBinaryEnsemble(ens.RawData);
-                _pm.SelectedProject.RecordDbEnsemble(ens.Ensemble);
+                _pm.SelectedProject.RecordDbEnsemble(ens.Ensemble, ens.OrigDataFormat);
             }
 
             // Set the Project Image
@@ -782,7 +782,7 @@ namespace RTI
 
                 // Record the data
                 _pm.SelectedProject.RecordBinaryEnsemble(ens.RawData);
-                _pm.SelectedProject.RecordDbEnsemble(ens.Ensemble);
+                _pm.SelectedProject.RecordDbEnsemble(ens.Ensemble, AdcpCodec.CodecEnum.Binary);
             }
 
             // Set the Project Image

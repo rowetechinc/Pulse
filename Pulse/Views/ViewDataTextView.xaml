@@ -45,6 +45,7 @@
 				</Grid>
 				
 				<!-- Bottom Track Data -->
+                    <StackPanel Grid.Column="0" Grid.Row="2">
 				<Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto"/>
@@ -53,7 +54,7 @@
 						<RowDefinition Height="Auto"/>
 						<RowDefinition Height="Auto"/>
 					</Grid.RowDefinitions>
-					<Border  Margin="5" Background="{StaticResource PulseBackBorder2Color}">
+					<Border  Margin="5" Background="{StaticResource PulseBackBorder3Color}">
 						<TextBlock Text="Bottom Track" Foreground="{StaticResource PulseFontColor}" FontSize="18.667" HorizontalAlignment="Center" />
 					</Border>
 					
@@ -283,14 +284,14 @@
 				</Grid>
 				
 				<!--Water Track-->
-				<Grid Grid.Row="3" Margin="5">
+				<Grid Grid.Row="3" Margin="5,20,5,5">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					
-					<Border Grid.Row="0"  Margin="5" Background="{StaticResource PulseBackBorder2Color}">
+					<Border Grid.Row="0"  Margin="5" Background="{StaticResource PulseBackBorder3Color}">
 						<TextBlock Text="Water Track" Foreground="{StaticResource PulseFontColor}" FontSize="18.667" HorizontalAlignment="Center" />
 					</Border>
 					
@@ -368,14 +369,14 @@
 
 
                 <!--Range Track-->
-                <Grid Grid.Row="4" Margin="5">
+                <Grid Grid.Row="4" Margin="5,20,5,5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Row="0"  Margin="5" Background="{StaticResource PulseBackBorder2Color}">
+                    <Border Grid.Row="0"  Margin="5" Background="{StaticResource PulseBackBorder3Color}">
                         <TextBlock Text="Range Tracking" Foreground="{StaticResource PulseFontColor}" FontSize="18.667" HorizontalAlignment="Center" />
                     </Border>
 
@@ -548,24 +549,24 @@
                             </Grid>
 
                             <!-- Range Track Earth Velocity -->
-                            <Grid Grid.Row="15">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB0}" Margin="5" FontWeight="Bold"  />
-                                <TextBlock Grid.Column="1" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB1}" Margin="5" FontWeight="Bold"/>
-                                <TextBlock Grid.Column="2" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB2}" Margin="5" FontWeight="Bold"/>
-                                <TextBlock Grid.Column="3" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB3}" Margin="5" FontWeight="Bold"/>
+                                <Grid Grid.Row="15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB0}" Margin="5" FontWeight="Bold"  />
+                                    <TextBlock Grid.Column="1" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB1}" Margin="5" FontWeight="Bold"/>
+                                    <TextBlock Grid.Column="2" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB2}" Margin="5" FontWeight="Bold"/>
+                                    <TextBlock Grid.Column="3" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtEarthVelB3}" Margin="5" FontWeight="Bold"/>
+                                </Grid>
+
+
                             </Grid>
 
-
-
-                    </Grid>
                 </Grid>
-
+                    </StackPanel>
 
 
                     <!--Settings-->
