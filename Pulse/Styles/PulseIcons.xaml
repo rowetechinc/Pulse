@@ -30,7 +30,7 @@
 	<Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" x:Key="appbar_add">
         <Path Width="24" Height="24" Canvas.Left="12" Canvas.Top="12" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 22,12L 26,12L 26,22L 36,22L 36,26L 26,26L 26,36L 22,36L 22,26L 12,26L 12,22L 22,22L 22,12 Z " />
     </Canvas>
-	<Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" x:Key="appbar_minus">
+	<Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" x:Key="appbar_minus_box">
         <Path Width="24" Height="24" Canvas.Left="12" Canvas.Top="12" Stretch="Uniform" Fill="{DynamicResource BlackBrush}" Data="F1 M 19,38L 57,38L 57,44L 19,44L 19,38 Z "  />
     </Canvas>
     <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False" x:Key="appbar_refresh">
@@ -171,7 +171,21 @@
     <Canvas Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0" x:Key="circle_bad">
         <Path Width="42.75" Height="42.75" Canvas.Left="16.625" Canvas.Top="16.625" Stretch="Fill" Fill="{DynamicResource PulseStatusColorBad}" Data="F1 M 38,27.1542C 43.99,27.1542 48.8458,32.01 48.8458,38C 48.8458,43.99 43.99,48.8458 38,48.8458C 32.01,48.8458 27.1542,43.99 27.1542,38C 27.1542,32.01 32.01,27.1542 38,27.1542 Z M 38,16.625C 49.8051,16.625 59.375,26.1949 59.375,38C 59.375,49.8051 49.8051,59.375 38,59.375C 26.1949,59.375 16.625,49.8051 16.625,38C 16.625,26.1949 26.1949,16.625 38,16.625 Z M 38,20.5833C 28.381,20.5833 20.5833,28.381 20.5833,38C 20.5833,47.619 28.381,55.4167 38,55.4167C 47.6189,55.4167 55.4167,47.619 55.4167,38C 55.4167,28.381 47.619,20.5833 38,20.5833 Z "/>
     </Canvas>
+    <Canvas x:Key="appbar_app_plus" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+        <Path Width="40" Height="30" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 18,23L 58,23L 58,53L 18,53L 18,23 Z M 54,31L 22,31L 22,49L 54,49L 54,31 Z M 36,33L 40,33L 40,38L 45,38L 45,42L 40,42L 40,47L 36,47L 36,42L 31,42L 31,38L 36,38L 36,33 Z "/>
+    </Canvas>
 
+    <Canvas x:Key="appbar_app_remove" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+        <Path Width="40" Height="30" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 18,23L 58,23L 58,53L 18,53L 18,23 Z M 54,31L 22,31L 22,49L 54,49L 54,31 Z M 30.7269,35.9594L 33.9594,32.7269L 38,36.7675L 42.0406,32.7269L 45.2731,35.9594L 41.2325,40L 45.2731,44.0406L 42.0406,47.2731L 38,43.2325L 33.9594,47.2731L 30.7269,44.0406L 34.7675,40L 30.7269,35.9594 Z "/>
+    </Canvas>
+
+    <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" UseLayoutRounding="False" x:Key="appbar_arrow_right">
+        <Path Width="25" Height="18" Canvas.Left="12" Canvas.Top="15" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 12,22L 12,26L 28.25,26L 21,33L 27.5,33L 37,24L 27.5,15L 21,15L 28.25,22L 12,22 Z " />
+    </Canvas>
+
+    <Canvas x:Key="appbar_minus" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+        <Path Width="40" Height="30" Canvas.Left="18" Canvas.Top="23" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 19,38L 57,38L 57,44L 19,44L 19,38 Z "/>
+    </Canvas>
 
 
 </ResourceDictionary>
