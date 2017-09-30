@@ -156,6 +156,9 @@ namespace RTI
             // Singleton ProjectManager
             ContainerExtensions.Singleton<PulseManager, PulseManager>(_container);
 
+            // Register the PlaybackViewModel
+            ContainerExtensions.Singleton<PlaybackViewModel, PlaybackViewModel>(_container);
+
             // Singleton MainModernFrameViewModel
             ContainerExtensions.PerRequest<NavBarViewModel, NavBarViewModel>(_container);
 
@@ -167,9 +170,6 @@ namespace RTI
 
             // Register the ViewDataBaseViewModel
             ContainerExtensions.Singleton<ViewDataBaseViewModel, ViewDataBaseViewModel>(_container);
-
-            // Register the PlaybackViewModel
-            ContainerExtensions.Singleton<PlaybackViewModel, PlaybackViewModel>(_container);
 
             // Register the ValidationTestViewModel
             ContainerExtensions.Singleton<ValidationTestViewModel, ValidationTestViewModel>(_container);
