@@ -35,6 +35,7 @@
  * 06/16/2016      RC          4.4.10      Check if the data is valid before converting.
  * 09/28/2016      RC          4.4.13      Added export of Velocity Vectors in CSV.
  * 02/08/2017      RC          4.5.0       Fix bug when new project is selected an no ensembles are in the project.
+ * 10/06/2017      RC          4.5.7       Added export ENS. 
  * 
  */
 
@@ -122,7 +123,12 @@ namespace RTI
             /// <summary>
             /// Export ensembles to Waves Matlab file.
             /// </summary>
-            Waves
+            Waves,
+
+            /// <summary>
+            /// RoweTech binary ensemble.
+            /// </summary>
+            ENS
         }
 
         #endregion
@@ -1041,6 +1047,11 @@ namespace RTI
         /// </summary>
         public ReactiveCommand<System.Reactive.Unit> ExportPd0Command { get; protected set; }
 
+        /// <summary>
+        /// Command to export the given project to a ENS file.
+        /// </summary>
+        public ReactiveCommand<System.Reactive.Unit> ExportEnsCommand { get; protected set; }
+
         #endregion
 
         /// <summary>
@@ -1110,6 +1121,10 @@ namespace RTI
             // Export to PD0 command
             ExportPd0Command = ReactiveCommand.CreateAsyncTask(this.WhenAny(x => x._numEns, x => x.Value > 0),
                                                                     _ => ExportPd0());         // Load if there are ensembles in the project
+
+            // Export to ENS command
+            ExportEnsCommand = ReactiveCommand.CreateAsyncTask(this.WhenAny(x => x._numEns, x => x.Value > 0),
+                                                                    _ => ExportEns());         // Load if there are ensembles in the project
         }
 
         /// <summary>
@@ -1193,6 +1208,30 @@ namespace RTI
 
         #endregion
 
+        #region PD0
+
+        /// <summary>
+        /// Execute the export async.
+        /// </summary>
+        private async Task ExportEns()
+        {
+            await Task.Run(() => ExecuteExportEns());
+        }
+
+        /// <summary>
+        /// Export the selected project as PD0 files.
+        /// </summary>
+        private void ExecuteExportEns()
+        {
+            // Save the current options
+            _pm.AppConfiguration.SaveExportDataOptions(_Options);
+
+            // Start the export process
+            Export(Exporters.ENS);
+        }
+
+        #endregion
+
         #region Export
 
         /// <summary>
@@ -1225,6 +1264,10 @@ namespace RTI
                     case Exporters.PD0:
                         writer = new Pd0ExporterWriter();
                         filename = _pm.SelectedProject.ProjectName + "_export.pd0";
+                        break;
+                    case Exporters.ENS:
+                        writer = new EnsExporterWriter();
+                        filename = _pm.SelectedProject.ProjectName + "_export.ens";
                         break;
                     default:
                         break;

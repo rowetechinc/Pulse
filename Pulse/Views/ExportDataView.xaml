@@ -213,6 +213,14 @@
 				</StackPanel>
 			</Button>
 
+            <Button Command="{Binding Path=ExportEnsCommand}" Margin="5" HorizontalAlignment="Left" Background="#FF010101" >
+                <StackPanel Margin="5">
+                    <Image Source="../Images/new_project.png" Width="100" Height="100" Margin="5" />
+                    <TextBlock Text="ENS" HorizontalAlignment="Center" FontSize="16" Foreground="#FFF7FF12" />
+                    <TextBlock Text="Export the selected project's ensembles to a ENS format. This is useful when post processing the data." MaxWidth="160" TextWrapping="Wrap" Margin="5"  />
+                </StackPanel>
+            </Button>
+
         </StackPanel>
 
         <!--Progress Ring-->
