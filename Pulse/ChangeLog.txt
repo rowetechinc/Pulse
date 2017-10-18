@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.6.0
+ - Fixed bug in Prediction Model for burst data storage calculations.
+ - Store the options for the Data Output View.
+
 Pulse-4.5.7
  - Added ENS export option in ExportDataViewModel.
 

@@ -84,11 +84,11 @@
                 <CheckBox HorizontalAlignment="Left" Margin="5, 2"  Content="" Foreground="#FFC5CFD1" IsChecked="{Binding Path=IsRemoveShipSpeed}" Style="{StaticResource OnOffSwitchStyle}" ToolTip="{Binding RemoveShipSpeedTooltip}" />
                 <StackPanel Orientation="Horizontal" Margin="5,0">
                     <TextBlock Text="Use Bottom Track" Margin="5" Foreground="{StaticResource PulseFontColor}" />
-                    <CheckBox HorizontalAlignment="Left" Margin="5, 2"  Content="" Foreground="#FFC5CFD1" IsChecked="{Binding Path=IsRemoveShipSpeed}" Style="{StaticResource OnOffSwitchStyle}" ToolTip="{Binding RemoveShipSpeedTooltip}" />
+                    <CheckBox HorizontalAlignment="Left" Margin="5, 2"  Content="" Foreground="#FFC5CFD1" IsChecked="{Binding Path=CanUseBottomTrackVel}" Style="{StaticResource OnOffSwitchStyle}" ToolTip="{Binding RemoveShipSpeedTooltip}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,0">
                     <TextBlock Text="Use GPS Speed    " Margin="5" Foreground="{StaticResource PulseFontColor}" />
-                    <CheckBox HorizontalAlignment="Left" Margin="5, 2"  Content="" Foreground="#FFC5CFD1" IsChecked="{Binding Path=IsRemoveShipSpeed}" Style="{StaticResource OnOffSwitchStyle}" ToolTip="{Binding RemoveShipSpeedTooltip}" />
+                    <CheckBox HorizontalAlignment="Left" Margin="5, 2"  Content="" Foreground="#FFC5CFD1" IsChecked="{Binding Path=CanUseGpsVel}" Style="{StaticResource OnOffSwitchStyle}" ToolTip="{Binding RemoveShipSpeedTooltip}" />
                 </StackPanel>
 
                 <TextBlock Text="Water Track Options" Margin="5,15,20,0" FontWeight="Bold" Foreground="{StaticResource PulseFontHighlightColor}" />

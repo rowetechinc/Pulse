@@ -60,6 +60,11 @@ namespace RTI
         private IEventAggregator _eventAggregator;
 
         /// <summary>
+        /// Pulse manager to manage the application.
+        /// </summary>
+        private PulseManager _pm;
+
+        /// <summary>
         /// Serial port.
         /// </summary>
         private AdcpSerialPort _serialPort;
@@ -73,22 +78,6 @@ namespace RTI
         /// Write to a file.
         /// </summary>
         private BinaryWriter _binaryWriter;
-
-        /// <summary>
-        /// Transform type, Ship.
-        /// </summary>
-        private string TRANSFORM_SHIP = "SHIP";
-
-        /// <summary>
-        /// Transform type, Earth.
-        /// </summary>
-        private string TRANSFORM_EARTH = "EARTH";
-
-        /// <summary>
-        /// Transform type, Instrument.
-        /// </summary>
-        private string TRANSFORM_INSTRUMENT = "INSTRUMENT";
-
 
         /// <summary>
         /// Default recording directory.
@@ -140,6 +129,11 @@ namespace RTI
         /// </summary>
         private float _prevShipSpeedNormal = DataSet.Ensemble.BAD_VELOCITY;
 
+        /// <summary>
+        /// DataOutputViewModel options.
+        /// </summary>
+        private WpMagDirOutputViewOptions _options;
+
         #endregion
 
         #region Properties
@@ -160,17 +154,15 @@ namespace RTI
         /// <summary>
         /// Flag to turn on this feature.
         /// </summary>
-        private bool _IsOutputEnabled;
-        /// <summary>
-        /// Flag to turn on this feature.
-        /// </summary>
         public bool IsOutputEnabled
         {
-            get { return _IsOutputEnabled; }
+            get { return _options.IsOutputEnabled; }
             set
             {
-                _IsOutputEnabled = value;
+                _options.IsOutputEnabled = value;
                 this.NotifyOfPropertyChange(() => this.IsOutputEnabled);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -248,16 +240,12 @@ namespace RTI
         /// <summary>
         /// Selected COMM Port.
         /// </summary>
-        private string _SelectedCommPort;
-        /// <summary>
-        /// Selected COMM Port.
-        /// </summary>
         public string SelectedCommPort
         {
-            get { return _SelectedCommPort; }
+            get { return _options.SelectedCommPort; }
             set
             {
-                _SelectedCommPort = value;
+                _options.SelectedCommPort = value;
                 this.NotifyOfPropertyChange(() => this.SelectedCommPort);
 
                 // Set the serial options
@@ -268,22 +256,20 @@ namespace RTI
 
                 // Reset check to update
                 //this.NotifyOfPropertyChange(() => this.CanUpdate);
+
+                UpdateDatabaseOptions();
             }
         }
 
         /// <summary>
         /// Selected baud rate.
         /// </summary>
-        private int _SelectedBaud;
-        /// <summary>
-        /// Selected baud rate.
-        /// </summary>
         public int SelectedBaud
         {
-            get { return _SelectedBaud; }
+            get { return _options.SelectedBaud; }
             set
             {
-                _SelectedBaud = value;
+                _options.SelectedBaud = value;
                 this.NotifyOfPropertyChange(() => this.SelectedBaud);
 
                 // Set the serial options
@@ -294,6 +280,8 @@ namespace RTI
 
                 // Reset check to update
                 //this.NotifyOfPropertyChange(() => this.CanUpdate);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -304,17 +292,15 @@ namespace RTI
         /// <summary>
         /// Selected Format.
         /// </summary>
-        private string _SelectedTransform;
-        /// <summary>
-        /// Selected Format.
-        /// </summary>
         public string SelectedTransform
         {
-            get { return _SelectedTransform; }
+            get { return _options.SelectedTransform; }
             set
             {
-                _SelectedTransform = value;
+                _options.SelectedTransform = value;
                 this.NotifyOfPropertyChange(() => this.SelectedTransform);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -341,17 +327,15 @@ namespace RTI
         /// <summary>
         /// Flag if the data should be retransformed.
         /// </summary>
-        private bool _IsRetransformData;
-        /// <summary>
-        /// Flag if the data should be retransformed.
-        /// </summary>
         public bool IsRetransformData
         {
-            get { return _IsRetransformData; }
+            get { return _options.IsRetransformData; }
             set
             {
-                _IsRetransformData = value;
+                _options.IsRetransformData = value;
                 this.NotifyOfPropertyChange(() => this.IsRetransformData);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -373,17 +357,15 @@ namespace RTI
         /// <summary>
         /// Flag if the retransformed data and output data should use the GPS or Gyro incoming data.
         /// </summary>
-        private bool _IsUseGpsHeading;
-        /// <summary>
-        /// Flag if the retransformed data and output data should use the GPS or Gyro incoming data.
-        /// </summary>
         public bool IsUseGpsHeading
         {
-            get { return _IsUseGpsHeading; }
+            get { return _options.IsUseGpsHeading; }
             set
             {
-                _IsUseGpsHeading = value;
+                _options.IsUseGpsHeading = value;
                 this.NotifyOfPropertyChange(() => this.IsUseGpsHeading);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -407,17 +389,15 @@ namespace RTI
         /// <summary>
         /// Selected heading sources.
         /// </summary>
-        private Transform.HeadingSource _SelectedHeadingSource;
-        /// <summary>
-        /// Selected heading sources.
-        /// </summary>
         public Transform.HeadingSource SelectedHeadingSource
         {
-            get { return _SelectedHeadingSource; }
+            get { return _options.SelectedHeadingSource; }
             set
             {
-                _SelectedHeadingSource = value;
+                _options.SelectedHeadingSource = value;
                 this.NotifyOfPropertyChange(() => this.SelectedHeadingSource);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -435,17 +415,15 @@ namespace RTI
         /// <summary>
         /// Heading offset value in degrees.
         /// </summary>
-        private float _HeadingOffset;
-        /// <summary>
-        /// Heading offset value in degrees.
-        /// </summary>
         public float HeadingOffset
         {
-            get { return _HeadingOffset; }
+            get { return _options.HeadingOffset; }
             set
             {
-                _HeadingOffset = value;
+                _options.HeadingOffset = value;
                 this.NotifyOfPropertyChange(() => this.HeadingOffset);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -468,17 +446,15 @@ namespace RTI
         /// <summary>
         /// The offset from the tranducer and the ship.  This is need to calculate the Ship coordinate transform.
         /// </summary>
-        private float _ShipXdcrOffset;
-        /// <summary>
-        /// The offset from the tranducer and the ship.  This is need to calculate the Ship coordinate transform.
-        /// </summary>
         public float ShipXdcrOffset
         {
-            get { return _ShipXdcrOffset; }
+            get { return _options.ShipXdcrOffset; }
             set
             {
-                _ShipXdcrOffset = value;
+                _options.ShipXdcrOffset = value;
                 this.NotifyOfPropertyChange(() => this.ShipXdcrOffset);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -500,19 +476,15 @@ namespace RTI
         /// <summary>
         /// Is Recording data.
         /// </summary>
-        private bool _IsRecording;
-        /// <summary>
-        /// Is Recording data.
-        /// </summary>
         public bool IsRecording
         {
-            get { return _IsRecording; }
+            get { return _options.IsRecording; }
             set
             {
-                _IsRecording = value;
+                _options.IsRecording = value;
                 this.NotifyOfPropertyChange(() => this.IsRecording);
 
-                if (!_IsRecording)
+                if (!_options.IsRecording)
                 {
                     StopRecord();
                 }
@@ -520,6 +492,8 @@ namespace RTI
                 {
                     StartRecord();
                 }
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -567,17 +541,15 @@ namespace RTI
         /// <summary>
         /// Select the bins that will output the water direction and magnitude.
         /// </summary>
-        private string _SelectedBins;
-        /// <summary>
-        /// Select the bins that will output the water direction and magnitude.
-        /// </summary>
         public string SelectedBins
         {
-            get { return _SelectedBins; }
+            get { return _options.SelectedBins; }
             set
             {
-                _SelectedBins = value;
+                _options.SelectedBins = value;
                 this.NotifyOfPropertyChange(() => this.SelectedBins);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -599,53 +571,46 @@ namespace RTI
         /// <summary>
         /// Flag to remove the ship speed from the velocity data.
         /// </summary>
-        private bool _IsRemoveShipSpeed;
-        /// <summary>
-        /// Flag to remove the ship speed from the velocity data.
-        /// </summary>
         public bool IsRemoveShipSpeed
         {
-            get { return _IsRemoveShipSpeed; }
+            get { return _options.IsRemoveShipSpeed; }
             set
             {
-                _IsRemoveShipSpeed = value;
+                _options.IsRemoveShipSpeed = value;
                 this.NotifyOfPropertyChange(() => this.IsRemoveShipSpeed);
+
+                UpdateDatabaseOptions();
             }
         }
 
-        /// <summary>
-        /// Flag if can use Bottom Track to remove ship speed.
-        /// </summary>
-        private bool _CanUseBottomTrackVel;
         /// <summary>
         /// Flag if can use Bottom Track to remove ship speed.
         /// </summary>
         public bool CanUseBottomTrackVel
         {
-            get { return _CanUseBottomTrackVel; }
+            get { return _options.CanUseBottomTrackVel; }
             set
             {
-                _CanUseBottomTrackVel = value;
+                _options.CanUseBottomTrackVel = value;
                 this.NotifyOfPropertyChange(() => this.CanUseBottomTrackVel);
+
+                UpdateDatabaseOptions();
             }
         }
 
-        /// <summary>
-        /// Flag if can use GPS velocity to remove the ship speed.
-        /// This is used as a backup.
-        /// </summary>
-        private bool _CanUseGpsVel;
         /// <summary>
         /// Flag if can use GPS velocity to remove the ship speed.
         /// This is used as a backup.
         /// </summary>
         public bool CanUseGpsVel
         {
-            get { return _CanUseGpsVel; }
+            get { return _options.CanUseGpsVel; }
             set
             {
-                _CanUseGpsVel = value;
+                _options.CanUseGpsVel = value;
                 this.NotifyOfPropertyChange(() => this.CanUseGpsVel);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -696,36 +661,22 @@ namespace RTI
             _eventAggregator = IoC.Get<IEventAggregator>();
             _eventAggregator.Subscribe(this);
 
-            IsOutputEnabled = false;
+            // Get PulseManager
+            _pm = IoC.Get<PulseManager>();
 
-            SelectedTransform = TRANSFORM_SHIP;
+            // Get the options from the database
+            GetOptionsFromDatabase();
+
             FormatList = new List<string>();
-            FormatList.Add(TRANSFORM_SHIP);
-            FormatList.Add(TRANSFORM_EARTH);
-            FormatList.Add(TRANSFORM_INSTRUMENT);
+            FormatList.Add(WpMagDirOutputViewOptions.TRANSFORM_SHIP);
+            FormatList.Add(WpMagDirOutputViewOptions.TRANSFORM_EARTH);
+            FormatList.Add(WpMagDirOutputViewOptions.TRANSFORM_INSTRUMENT);
 
-            SelectedHeadingSource = Transform.HeadingSource.GPS1;
             HeadingSourceList = Enum.GetValues(typeof(Transform.HeadingSource)).Cast<Transform.HeadingSource>().ToList();
 
             _serialOptions = new SerialOptions();
             CommPortList = SerialOptions.PortOptions;
             BaudRateList = SerialOptions.BaudRateOptions;
-            _SelectedBaud = 115200;
-
-            IsRetransformData = true;
-
-            _IsRecording = false;
-
-            IsUseGpsHeading = true;
-            HeadingOffset = 0.0f;
-
-            SelectedBins = "4,8,12";
-
-            ShipXdcrOffset = 0.0f;
-
-            IsRemoveShipSpeed = true;
-            CanUseBottomTrackVel = true;
-            CanUseGpsVel = true;
 
             DataOutput = "";
 
@@ -755,11 +706,47 @@ namespace RTI
             //_adcpCodec.ProcessDataEvent -= _adcpCodec_ProcessDataEvent;
             //_adcpCodec.Dispose();
 
-            if (_IsRecording)
+            if (_options.IsRecording)
             {
                 StopRecord();
             }
         }
+
+        #region Database
+
+        /// <summary>
+        /// Get the options for this subsystem display
+        /// from the database.  If the options have not
+        /// been set to the database yet, default values 
+        /// will be used.
+        /// </summary>
+        private void GetOptionsFromDatabase()
+        {
+            _options = _pm.GetWpMagDirOutputViewOptions();
+
+            // Notify all the properties
+            NotifyOptionPropertyChange();
+        }
+
+        /// <summary>
+        /// Notify all the properties of a change
+        /// when a new option object is set.
+        /// </summary>
+        private void NotifyOptionPropertyChange()
+        {
+            //Notify property of changes
+            this.NotifyOfPropertyChange(null);
+        }
+
+        /// <summary>
+        /// Update the database with the latest options.
+        /// </summary>
+        private void UpdateDatabaseOptions()
+        {
+            _pm.UpdateWpMagDirOutputViewOptions(_options);
+        }
+
+        #endregion
 
         #region Status
 
@@ -1139,7 +1126,7 @@ namespace RTI
             }
 
             // SHIP
-            if(_SelectedTransform == TRANSFORM_SHIP)
+            if(_options.SelectedTransform == WpMagDirOutputViewOptions.TRANSFORM_SHIP)
             {
                 if(ens.IsShipVelocityAvail)
                 {
@@ -1148,7 +1135,7 @@ namespace RTI
             }
 
             // EARTH
-            if(_SelectedTransform == TRANSFORM_EARTH)
+            if(_options.SelectedTransform == WpMagDirOutputViewOptions.TRANSFORM_EARTH)
             {
                 if(ens.IsEarthVelocityAvail)
                 {
@@ -1157,7 +1144,7 @@ namespace RTI
             }
 
             // Instrument
-            if (_SelectedTransform == TRANSFORM_INSTRUMENT)
+            if (_options.SelectedTransform == WpMagDirOutputViewOptions.TRANSFORM_INSTRUMENT)
             {
                 if (ens.IsInstrumentVelocityAvail)
                 {
@@ -1238,30 +1225,30 @@ namespace RTI
 
             // Remove the Ship speed from the data
             // Remove Ship Speed
-            if (_IsRemoveShipSpeed)
+            if (_options.IsRemoveShipSpeed)
             {
-                ScreenData.RemoveShipSpeed.RemoveVelocity(ref ens, _prevShipSpeedEast, _prevShipSpeedNorth, _prevShipSpeedVert, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
-                ScreenData.RemoveShipSpeed.RemoveVelocityInstrument(ref ens, _prevShipSpeedX, _prevShipSpeedY, _prevShipSpeedZ, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
-                ScreenData.RemoveShipSpeed.RemoveVelocityShip(ref ens, _prevShipSpeedTransverse, _prevShipSpeedLongitudinal, _prevShipSpeedNormal, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocity(ref ens, _prevShipSpeedEast, _prevShipSpeedNorth, _prevShipSpeedVert, _options.CanUseBottomTrackVel, _options.CanUseGpsVel, _options.HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocityInstrument(ref ens, _prevShipSpeedX, _prevShipSpeedY, _prevShipSpeedZ, _options.CanUseBottomTrackVel, _options.CanUseGpsVel, _options.HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocityShip(ref ens, _prevShipSpeedTransverse, _prevShipSpeedLongitudinal, _prevShipSpeedNormal, _options.CanUseBottomTrackVel, _options.CanUseGpsVel, _options.HeadingOffset);
             }
 
             // EARTH
             // Record the Bottom for previous values
-            float[] prevShipSpeed = ScreenData.RemoveShipSpeed.GetPreviousShipSpeed(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            float[] prevShipSpeed = ScreenData.RemoveShipSpeed.GetPreviousShipSpeed(ens, HeadingOffset, _options.CanUseBottomTrackVel, _options.CanUseGpsVel);
             _prevShipSpeedEast = prevShipSpeed[0];
             _prevShipSpeedNorth = prevShipSpeed[1];
             _prevShipSpeedVert = prevShipSpeed[2];
 
             // Instrument
             // Record the Bottom for previous values
-            float[] prevShipSpeedInstrument = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedInstrument(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            float[] prevShipSpeedInstrument = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedInstrument(ens, HeadingOffset, _options.CanUseBottomTrackVel, _options.CanUseGpsVel);
             _prevShipSpeedX = prevShipSpeedInstrument[0];
             _prevShipSpeedY = prevShipSpeedInstrument[1];
             _prevShipSpeedZ = prevShipSpeedInstrument[2];
 
             // Ship
             // Record the Bottom for previous values
-            float[] prevShipSpeedShip = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedShip(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            float[] prevShipSpeedShip = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedShip(ens, HeadingOffset, _options.CanUseBottomTrackVel, _options.CanUseGpsVel);
             _prevShipSpeedTransverse = prevShipSpeedShip[0];
             _prevShipSpeedLongitudinal = prevShipSpeedShip[1];
             _prevShipSpeedNormal = prevShipSpeedShip[2];
@@ -1278,7 +1265,7 @@ namespace RTI
         public void Handle(EnsembleRawEvent message)
         {
             // If turned off, do not process the data
-            if (!_IsOutputEnabled)
+            if (!_options.IsOutputEnabled)
             {
                 return;
             }
@@ -1316,20 +1303,20 @@ namespace RTI
             // Retransform the data with the new heading
             // Apply HDT heading if requried and available
             // This will also apply the heading offset
-            if (_IsRetransformData || _IsUseGpsHeading || _HeadingOffset != 0)
+            if (_options.IsRetransformData || _options.IsUseGpsHeading || _options.HeadingOffset != 0)
             {
                 // Retransform the Profile datas
-                Transform.ProfileTransform(ref ens, origDataFormat, 0.25f, _SelectedHeadingSource, _HeadingOffset);
+                Transform.ProfileTransform(ref ens, origDataFormat, 0.25f, _options.SelectedHeadingSource, _options.HeadingOffset);
 
                 // Retransform the Bottom Track data
                 // This will also create the ship data
-                Transform.BottomTrackTransform(ref ens, origDataFormat, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset);
+                Transform.BottomTrackTransform(ref ens, origDataFormat, 0.90f, 10.0f, _options.SelectedHeadingSource, _options.HeadingOffset);
 
                 // WaterMass transform data
                 // This will also create the ship data
                 if (ens.IsInstrumentWaterMassAvail)
                 {
-                    Transform.WaterMassTransform(ref ens, origDataFormat, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset, _ShipXdcrOffset);
+                    Transform.WaterMassTransform(ref ens, origDataFormat, 0.90f, 10.0f, _options.SelectedHeadingSource, _options.HeadingOffset, _options.ShipXdcrOffset);
                 }
             }
 

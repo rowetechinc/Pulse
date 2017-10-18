@@ -59,6 +59,11 @@ namespace RTI
         private IEventAggregator _eventAggregator;
 
         /// <summary>
+        /// Pulse manager to manage the application.
+        /// </summary>
+        private PulseManager _pm;
+
+        /// <summary>
         /// Serial port.
         /// </summary>
         private AdcpSerialPort _serialPort;
@@ -87,31 +92,6 @@ namespace RTI
         /// Write to a file.
         /// </summary>
         private BinaryWriter _binaryWriter;
-
-        /// <summary>
-        /// Encoding type, PD6 and PD13.
-        /// </summary>
-        private string ENCODING_PD6_PD13 = "PD6 and PD13";
-
-        /// <summary>
-        /// Encoding type, VmDas.
-        /// </summary>
-        private string ENCODING_VMDAS = "VmDas";
-
-        /// <summary>
-        /// Encoding type, Binary Ensemble.
-        /// </summary>
-        private string ENCODING_Binary_ENS = "Binary Ensemble";
-
-        /// <summary>
-        /// Encoding type, PD0.
-        /// </summary>
-        private string ENCODING_PD0 = "PD0";
-
-        /// <summary>
-        /// Encoding type, Retransform PD6.
-        /// </summary>
-        private string ENCODING_RETRANSFORM_PD6 = "Retransform PD6";
 
         /// <summary>
         /// Default recording directory.
@@ -163,6 +143,11 @@ namespace RTI
         /// </summary>
         private float _prevShipSpeedNormal = 0.0f;
 
+        /// <summary>
+        /// DataOutputViewModel options.
+        /// </summary>
+        private DataOutputViewOptions _options;
+
         #endregion
 
         #region Properties
@@ -172,17 +157,15 @@ namespace RTI
         /// <summary>
         /// Flag to turn on this feature.
         /// </summary>
-        private bool _IsOutputEnabled;
-        /// <summary>
-        /// Flag to turn on this feature.
-        /// </summary>
         public bool IsOutputEnabled
         {
-            get { return _IsOutputEnabled; }
+            get { return _options.IsOutputEnabled; }
             set
             {
-                _IsOutputEnabled = value;
+                _options.IsOutputEnabled = value;
                 this.NotifyOfPropertyChange(() => this.IsOutputEnabled);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -260,16 +243,12 @@ namespace RTI
         /// <summary>
         /// Selected COMM Port.
         /// </summary>
-        private string _SelectedCommPort;
-        /// <summary>
-        /// Selected COMM Port.
-        /// </summary>
         public string SelectedCommPort
         {
-            get { return _SelectedCommPort; }
+            get { return _options.SelectedCommPort; }
             set
             {
-                _SelectedCommPort = value;
+                _options.SelectedCommPort = value;
                 this.NotifyOfPropertyChange(() => this.SelectedCommPort);
 
                 // Set the serial options
@@ -280,22 +259,20 @@ namespace RTI
 
                 // Reset check to update
                 //this.NotifyOfPropertyChange(() => this.CanUpdate);
+
+                UpdateDatabaseOptions();
             }
         }
 
         /// <summary>
         /// Selected baud rate.
         /// </summary>
-        private int _SelectedBaud;
-        /// <summary>
-        /// Selected baud rate.
-        /// </summary>
         public int SelectedBaud
         {
-            get { return _SelectedBaud; }
+            get { return _options.SelectedBaud; }
             set
             {
-                _SelectedBaud = value;
+                _options.SelectedBaud = value;
                 this.NotifyOfPropertyChange(() => this.SelectedBaud);
 
                 // Set the serial options
@@ -306,6 +283,8 @@ namespace RTI
 
                 // Reset check to update
                 //this.NotifyOfPropertyChange(() => this.CanUpdate);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -321,34 +300,30 @@ namespace RTI
         /// <summary>
         /// Minimum bin selected.
         /// </summary>
-        private int _MinBin;
-        /// <summary>
-        /// Minimum bin selected.
-        /// </summary>
         public int MinBin
         {
-            get { return _MinBin; }
+            get { return _options.VmDasMinBin; }
             set
             {
-                _MinBin = value;
+                _options.VmDasMinBin = value;
                 this.NotifyOfPropertyChange(() => this.MinBin);
+
+                UpdateDatabaseOptions();
             }
         }
 
         /// <summary>
         /// Maximum bin selected.
         /// </summary>
-        private int _MaxBin;
-        /// <summary>
-        /// Maximum bin selected.
-        /// </summary>
         public int MaxBin
         {
-            get { return _MaxBin; }
+            get { return _options.VmDasMaxBin; }
             set
             {
-                _MaxBin = value;
+                _options.VmDasMaxBin = value;
                 this.NotifyOfPropertyChange(() => this.MaxBin);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -416,24 +391,20 @@ namespace RTI
         /// <summary>
         /// Selected Format.
         /// </summary>
-        private string _SelectedFormat;
-        /// <summary>
-        /// Selected Format.
-        /// </summary>
         public string SelectedFormat
         {
-            get { return _SelectedFormat; }
+            get { return _options.SelectedFormat; }
             set
             {
-                _SelectedFormat = value;
+                _options.SelectedFormat = value;
                 this.NotifyOfPropertyChange(() => this.SelectedFormat);
 
-                if(_SelectedFormat == ENCODING_PD6_PD13)
+                if(_options.SelectedFormat == DataOutputViewOptions.ENCODING_PD6_PD13)
                 {
                     IsCalculateWaterTrack = true;
                 }
 
-                if (_SelectedFormat == ENCODING_VMDAS)
+                if (_options.SelectedFormat == DataOutputViewOptions.ENCODING_VMDAS)
                 {
                     IsBinsEnabled = true;
                 }
@@ -442,7 +413,7 @@ namespace RTI
                     IsBinsEnabled = false;
                 }
 
-                if (_SelectedFormat == ENCODING_PD0)
+                if (_options.SelectedFormat == DataOutputViewOptions.ENCODING_PD0)
                 {
                     IsPd0Selected = true;
                 }
@@ -450,6 +421,8 @@ namespace RTI
                 {
                     IsPd0Selected = false;
                 }
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -465,17 +438,15 @@ namespace RTI
         /// <summary>
         /// Flag if the data should be retransformed.
         /// </summary>
-        private bool _IsRetransformData;
-        /// <summary>
-        /// Flag if the data should be retransformed.
-        /// </summary>
         public bool IsRetransformData
         {
-            get { return _IsRetransformData; }
+            get { return _options.IsRetransformData; }
             set
             {
-                _IsRetransformData = value;
+                _options.IsRetransformData = value;
                 this.NotifyOfPropertyChange(() => this.IsRetransformData);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -497,17 +468,15 @@ namespace RTI
         /// <summary>
         /// Flag if the retransformed data and output data should use the GPS or Gyro incoming data.
         /// </summary>
-        private bool _IsUseGpsHeading;
-        /// <summary>
-        /// Flag if the retransformed data and output data should use the GPS or Gyro incoming data.
-        /// </summary>
         public bool IsUseGpsHeading
         {
-            get { return _IsUseGpsHeading; }
+            get { return _options.IsUseGpsHeading; }
             set
             {
-                _IsUseGpsHeading = value;
+                _options.IsUseGpsHeading = value;
                 this.NotifyOfPropertyChange(() => this.IsUseGpsHeading);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -531,17 +500,15 @@ namespace RTI
         /// <summary>
         /// Selected heading sources.
         /// </summary>
-        private Transform.HeadingSource _SelectedHeadingSource;
-        /// <summary>
-        /// Selected heading sources.
-        /// </summary>
         public Transform.HeadingSource SelectedHeadingSource
         {
-            get { return _SelectedHeadingSource; }
+            get { return _options.SelectedHeadingSource; }
             set
             {
-                _SelectedHeadingSource = value;
+                _options.SelectedHeadingSource = value;
                 this.NotifyOfPropertyChange(() => this.SelectedHeadingSource);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -559,17 +526,15 @@ namespace RTI
         /// <summary>
         /// Heading offset value in degrees.
         /// </summary>
-        private float _HeadingOffset;
-        /// <summary>
-        /// Heading offset value in degrees.
-        /// </summary>
         public float HeadingOffset
         {
-            get { return _HeadingOffset; }
+            get { return _options.HeadingOffset; }
             set
             {
-                _HeadingOffset = value;
+                _options.HeadingOffset = value;
                 this.NotifyOfPropertyChange(() => this.HeadingOffset);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -597,34 +562,30 @@ namespace RTI
         /// <summary>
         /// Selected Coordinate Transform.
         /// </summary>
-        private PD0.CoordinateTransforms _SelectedCoordTransform;
-        /// <summary>
-        /// Selected Coordinate Transform.
-        /// </summary>
         public PD0.CoordinateTransforms SelectedCoordTransform
         {
-            get { return _SelectedCoordTransform; }
+            get { return _options.SelectedCoordTransform; }
             set
             {
-                _SelectedCoordTransform = value;
+                _options.SelectedCoordTransform = value;
                 this.NotifyOfPropertyChange(() => this.SelectedCoordTransform);
+
+                UpdateDatabaseOptions();
             }
         }
 
         /// <summary>
         /// Is PD0 Selected.
         /// </summary>
-        private bool _IsPd0Selected;
-        /// <summary>
-        /// Is PD0 Selected.
-        /// </summary>
         public bool IsPd0Selected
         {
-            get { return _IsPd0Selected; }
+            get { return _options.IsPd0Selected; }
             set
             {
-                _IsPd0Selected = value;
+                _options.IsPd0Selected = value;
                 this.NotifyOfPropertyChange(() => this.IsPd0Selected);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -646,17 +607,15 @@ namespace RTI
         /// <summary>
         /// The offset from the tranducer and the ship.  This is need to calculate the Ship coordinate transform.
         /// </summary>
-        private float _ShipXdcrOffset;
-        /// <summary>
-        /// The offset from the tranducer and the ship.  This is need to calculate the Ship coordinate transform.
-        /// </summary>
         public float ShipXdcrOffset
         {
-            get { return _ShipXdcrOffset; }
+            get { return _options.ShipXdcrOffset; }
             set
             {
-                _ShipXdcrOffset = value;
+                _options.ShipXdcrOffset = value;
                 this.NotifyOfPropertyChange(() => this.ShipXdcrOffset);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -678,56 +637,50 @@ namespace RTI
         /// <summary>
         /// Flag to turn on manually calculating the Water Track.  Based off a selected bin.
         /// </summary>
-        private bool _IsCalculateWaterTrack;
-        /// <summary>
-        /// Flag to turn on manually calculating the Water Track.  Based off a selected bin.
-        /// </summary>
         public bool IsCalculateWaterTrack
         {
-            get { return _IsCalculateWaterTrack; }
+            get { return _options.IsCalculateWaterTrack; }
             set
             {
-                _IsCalculateWaterTrack = value;
+                _options.IsCalculateWaterTrack = value;
                 this.NotifyOfPropertyChange(() => this.IsCalculateWaterTrack);
+
+                UpdateDatabaseOptions();
             }
         }
 
-        /// <summary>
-        /// Selected minimum bin to calculate Water Track.
-        /// </summary>
-        private int _WtMinBin;
         /// <summary>
         /// Selected minimum bin to calculate Water Track.
         /// </summary>
         public int WtMinBin
         {
-            get { return _WtMinBin; }
+            get { return _options.WtMinBin; }
             set
             {
-                _WtMinBin = value;
+                _options.WtMinBin = value;
                 this.NotifyOfPropertyChange(() => this.WtMinBin);
 
                 VerifyWtBinSelection();
+
+                UpdateDatabaseOptions();
             }
         }
 
         /// <summary>
         /// Selected maximum bin to calculate Water Track.
         /// </summary>
-        private int _WtMaxBin;
-        /// <summary>
-        /// Selected maximum bin to calculate Water Track.
-        /// </summary>
         public int WtMaxBin
         {
-            get { return _WtMaxBin; }
+            get { return _options.WtMaxBin; }
             set
             {
-                _WtMaxBin = value;
+                _options.WtMaxBin = value;
                 this.NotifyOfPropertyChange(() => this.WtMaxBin);
 
                 // Verify a good bin
                 VerifyWtBinSelection();
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -788,19 +741,15 @@ namespace RTI
         /// <summary>
         /// Is Recording data.
         /// </summary>
-        private bool _IsRecording;
-        /// <summary>
-        /// Is Recording data.
-        /// </summary>
         public bool IsRecording
         {
-            get { return _IsRecording; }
+            get { return _options.IsRecording; }
             set
             {
-                _IsRecording = value;
+                _options.IsRecording = value;
                 this.NotifyOfPropertyChange(() => this.IsRecording);
 
-                if (!_IsRecording)
+                if (!_options.IsRecording)
                 {
                     StopRecord();
                 }
@@ -808,6 +757,8 @@ namespace RTI
                 {
                     StartRecord();
                 }
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -855,53 +806,46 @@ namespace RTI
         /// <summary>
         /// Flag to remove the ship speed from the velocity data.
         /// </summary>
-        private bool _IsRemoveShipSpeed;
-        /// <summary>
-        /// Flag to remove the ship speed from the velocity data.
-        /// </summary>
         public bool IsRemoveShipSpeed
         {
-            get { return _IsRemoveShipSpeed; }
+            get { return _options.IsRemoveShipSpeed; }
             set
             {
-                _IsRemoveShipSpeed = value;
+                _options.IsRemoveShipSpeed = value;
                 this.NotifyOfPropertyChange(() => this.IsRemoveShipSpeed);
+
+                UpdateDatabaseOptions();
             }
         }
 
-        /// <summary>
-        /// Flag if can use Bottom Track to remove ship speed.
-        /// </summary>
-        private bool _CanUseBottomTrackVel;
         /// <summary>
         /// Flag if can use Bottom Track to remove ship speed.
         /// </summary>
         public bool CanUseBottomTrackVel
         {
-            get { return _CanUseBottomTrackVel; }
+            get { return _options.CanUseBottomTrackVel; }
             set
             {
-                _CanUseBottomTrackVel = value;
+                _options.CanUseBottomTrackVel = value;
                 this.NotifyOfPropertyChange(() => this.CanUseBottomTrackVel);
+
+                UpdateDatabaseOptions();
             }
         }
 
-        /// <summary>
-        /// Flag if can use GPS velocity to remove the ship speed.
-        /// This is used as a backup.
-        /// </summary>
-        private bool _CanUseGpsVel;
         /// <summary>
         /// Flag if can use GPS velocity to remove the ship speed.
         /// This is used as a backup.
         /// </summary>
         public bool CanUseGpsVel
         {
-            get { return _CanUseGpsVel; }
+            get { return _options.CanUseGpsVel; }
             set
             {
-                _CanUseGpsVel = value;
+                _options.CanUseGpsVel = value;
                 this.NotifyOfPropertyChange(() => this.CanUseGpsVel);
+
+                UpdateDatabaseOptions();
             }
         }
 
@@ -952,53 +896,35 @@ namespace RTI
             _eventAggregator = IoC.Get<IEventAggregator>();
             _eventAggregator.Subscribe(this);
 
-            IsOutputEnabled = false;
+            // Get PulseManager
+            _pm = IoC.Get<PulseManager>();
+
+            // Get the options from the database
+            GetOptionsFromDatabase();
 
             NumBinsSelected = 4;
-            MinBin = 1;
-            MaxBin = 200;
-            SelectedFormat = ENCODING_PD6_PD13;
             FormatList = new List<string>();
-            FormatList.Add(ENCODING_Binary_ENS);
-            FormatList.Add(ENCODING_PD0);
-            FormatList.Add(ENCODING_PD6_PD13);
-            FormatList.Add(ENCODING_VMDAS);
+            FormatList.Add(DataOutputViewOptions.ENCODING_Binary_ENS);
+            FormatList.Add(DataOutputViewOptions.ENCODING_PD0);
+            FormatList.Add(DataOutputViewOptions.ENCODING_PD6_PD13);
+            FormatList.Add(DataOutputViewOptions.ENCODING_VMDAS);
             //FormatList.Add(ENCODING_PD0);
             //FormatList.Add(ENCODING_RETRANSFORM_PD6);
 
-            SelectedCoordTransform = PD0.CoordinateTransforms.Coord_Earth;
             CoordinateTransformList = new List<PD0.CoordinateTransforms>();
             CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Beam);
             CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Instrument);
             CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Ship);
             CoordinateTransformList.Add(PD0.CoordinateTransforms.Coord_Earth);
 
-            SelectedHeadingSource = Transform.HeadingSource.GPS1;
             HeadingSourceList = Enum.GetValues(typeof(Transform.HeadingSource)).Cast<Transform.HeadingSource>().ToList();
 
             _serialOptions = new SerialOptions();
             CommPortList = SerialOptions.PortOptions;
             BaudRateList = SerialOptions.BaudRateOptions;
-            _SelectedBaud = 115200;
-
-            IsRetransformData = true;
-
-            _IsRecording = false;
 
             _manualWT = new VesselMount.VmManualWaterTrack();
-            WtMinBin = 3;
-            WtMaxBin = 4;
             NumBins = 200;
-            IsCalculateWaterTrack = true;
-
-            IsUseGpsHeading = true;
-            HeadingOffset = 0.0f;
-
-            ShipXdcrOffset = 0.0f;
-
-            IsRemoveShipSpeed = true;
-            CanUseBottomTrackVel = true;
-            CanUseGpsVel = true;
 
             DataOutput = "";
 
@@ -1038,11 +964,47 @@ namespace RTI
             //_adcpCodec.ProcessDataEvent -= _adcpCodec_ProcessDataEvent;
             //_adcpCodec.Dispose();
 
-            if (_IsRecording)
+            if (_options.IsRecording)
             {
                 StopRecord();
             }
         }
+
+        #region Database
+
+        /// <summary>
+        /// Get the options for this subsystem display
+        /// from the database.  If the options have not
+        /// been set to the database yet, default values 
+        /// will be used.
+        /// </summary>
+        private void GetOptionsFromDatabase()
+        {
+            _options = _pm.GetDataOutputViewOptions();
+
+            // Notify all the properties
+            NotifyOptionPropertyChange();
+        }
+
+        /// <summary>
+        /// Notify all the properties of a change
+        /// when a new option object is set.
+        /// </summary>
+        private void NotifyOptionPropertyChange()
+        {
+            //Notify property of changes
+            this.NotifyOfPropertyChange(null);
+        }
+
+        /// <summary>
+        /// Update the database with the latest options.
+        /// </summary>
+        private void UpdateDatabaseOptions()
+        {
+            _pm.UpdateDataOutputViewOptions(_options);
+        }
+
+        #endregion
 
         #region Status
 
@@ -1356,22 +1318,22 @@ namespace RTI
         private void VerifyWtBinSelection()
         {
             // Verify min and max does not exceed number of bins
-            if(_WtMaxBin > _NumBins)
+            if(_options.WtMaxBin > _NumBins)
             {
                 WtMaxBin = _NumBins;
             }
 
-            if(_WtMinBin > _NumBins)
+            if(_options.WtMinBin > _NumBins)
             {
                 WtMinBin = _NumBins;
             }
 
             // Verify a good bin
-            if (_WtMinBin > _WtMaxBin)
+            if (_options.WtMinBin > _options.WtMaxBin)
             {
-                if (_WtMaxBin - 1 >= 0)
+                if (_options.WtMaxBin - 1 >= 0)
                 {
-                    WtMinBin = _WtMaxBin - 1;
+                    WtMinBin = _options.WtMaxBin - 1;
                 }
             }
         }
@@ -1390,30 +1352,30 @@ namespace RTI
 
             // Remove the Ship speed from the data
             // Remove Ship Speed
-            if (_IsRemoveShipSpeed)
+            if (_options.IsRemoveShipSpeed)
             {
-                ScreenData.RemoveShipSpeed.RemoveVelocity(ref ens, _prevShipSpeedEast, _prevShipSpeedNorth, _prevShipSpeedVert, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
-                ScreenData.RemoveShipSpeed.RemoveVelocityInstrument(ref ens, _prevShipSpeedX, _prevShipSpeedY, _prevShipSpeedZ, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
-                ScreenData.RemoveShipSpeed.RemoveVelocityShip(ref ens, _prevShipSpeedTransverse, _prevShipSpeedLongitudinal, _prevShipSpeedNormal, _CanUseBottomTrackVel, _CanUseGpsVel, _HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocity(ref ens, _prevShipSpeedEast, _prevShipSpeedNorth, _prevShipSpeedVert, _options.CanUseBottomTrackVel, _options.CanUseGpsVel, _options.HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocityInstrument(ref ens, _prevShipSpeedX, _prevShipSpeedY, _prevShipSpeedZ, _options.CanUseBottomTrackVel, _options.CanUseGpsVel, _options.HeadingOffset);
+                ScreenData.RemoveShipSpeed.RemoveVelocityShip(ref ens, _prevShipSpeedTransverse, _prevShipSpeedLongitudinal, _prevShipSpeedNormal, _options.CanUseBottomTrackVel, _options.CanUseGpsVel, _options.HeadingOffset);
             }
 
             // EARTH
             // Record the Bottom for previous values
-            float[] prevShipSpeed = ScreenData.RemoveShipSpeed.GetPreviousShipSpeed(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            float[] prevShipSpeed = ScreenData.RemoveShipSpeed.GetPreviousShipSpeed(ens, HeadingOffset, _options.CanUseBottomTrackVel, _options.CanUseGpsVel);
             _prevShipSpeedEast = prevShipSpeed[0];
             _prevShipSpeedNorth = prevShipSpeed[1];
             _prevShipSpeedVert = prevShipSpeed[2];
 
             // Instrument
             // Record the Bottom for previous values
-            float[] prevShipSpeedInstrument = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedInstrument(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            float[] prevShipSpeedInstrument = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedInstrument(ens, HeadingOffset, _options.CanUseBottomTrackVel, _options.CanUseGpsVel);
             _prevShipSpeedX = prevShipSpeedInstrument[0];
             _prevShipSpeedY = prevShipSpeedInstrument[1];
             _prevShipSpeedZ = prevShipSpeedInstrument[2];
 
             // Ship
             // Record the Bottom for previous values
-            float[] prevShipSpeedShip = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedShip(ens, HeadingOffset, _CanUseBottomTrackVel, _CanUseGpsVel);
+            float[] prevShipSpeedShip = ScreenData.RemoveShipSpeed.GetPreviousShipSpeedShip(ens, HeadingOffset, _options.CanUseBottomTrackVel, _options.CanUseGpsVel);
             _prevShipSpeedTransverse = prevShipSpeedShip[0];
             _prevShipSpeedLongitudinal = prevShipSpeedShip[1];
             _prevShipSpeedNormal = prevShipSpeedShip[2];
@@ -1430,7 +1392,7 @@ namespace RTI
         public void Handle(EnsembleRawEvent message)
         {
             // If turned off, do not process the data
-            if (!_IsOutputEnabled)
+            if (!_options.IsOutputEnabled)
             {
                 return;
             }
@@ -1486,20 +1448,20 @@ namespace RTI
             // Retransform the data with the new heading
             // Apply HDT heading if requried and available
             // This will also apply the heading offset
-            if (_IsRetransformData || _IsUseGpsHeading || _HeadingOffset != 0)
+            if (_options.IsRetransformData || _options.IsUseGpsHeading || _options.HeadingOffset != 0)
             {
                 // Retransform the Profile datas
-                Transform.ProfileTransform(ref ens, origDataFormat, 0.25f, _SelectedHeadingSource, _HeadingOffset);
+                Transform.ProfileTransform(ref ens, origDataFormat, 0.25f, _options.SelectedHeadingSource, _options.HeadingOffset);
 
                 // Retransform the Bottom Track data
                 // This will also create the ship data
-                Transform.BottomTrackTransform(ref ens, origDataFormat, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset);
+                Transform.BottomTrackTransform(ref ens, origDataFormat, 0.90f, 10.0f, _options.SelectedHeadingSource, _options.HeadingOffset);
 
                 // WaterMass transform data
                 // This will also create the ship data
                 if (ens.IsInstrumentWaterMassAvail)
                 {
-                    Transform.WaterMassTransform(ref ens, origDataFormat, 0.90f, 10.0f, _SelectedHeadingSource, _HeadingOffset, _ShipXdcrOffset);
+                    Transform.WaterMassTransform(ref ens, origDataFormat, 0.90f, 10.0f, _options.SelectedHeadingSource, _options.HeadingOffset, _options.ShipXdcrOffset);
                 }
             }
 
@@ -1507,14 +1469,14 @@ namespace RTI
             RemoveShipSpeed(ref ens);
 
             // Water Track
-            if (_IsCalculateWaterTrack)
+            if (_options.IsCalculateWaterTrack)
             {
-                _manualWT.Calculate(ref ens, _WtMinBin, _WtMaxBin);
+                _manualWT.Calculate(ref ens, _options.WtMinBin, _options.WtMaxBin);
             }
 
-            if (_SelectedFormat == ENCODING_VMDAS)
+            if (_options.SelectedFormat == DataOutputViewOptions.ENCODING_VMDAS)
             {
-                VmDasAsciiCodec.VmDasAsciiOutput output = _codecVmDas.Encode(ens, _MinBin, _MaxBin);
+                VmDasAsciiCodec.VmDasAsciiOutput output = _codecVmDas.Encode(ens, _options.VmDasMinBin, _options.VmDasMaxBin);
 
                 // Display data
                 DataOutput = output.Ascii;
@@ -1529,17 +1491,17 @@ namespace RTI
                 WriteData(output.Ascii);
 
                 // Update the Min and Max Bin selection
-                if (_MinBin != output.BinSelected.MinBin)
+                if (_options.VmDasMinBin != output.BinSelected.MinBin)
                 {
                     MinBin = output.BinSelected.MinBin;
                 }
 
-                if (_MaxBin != output.BinSelected.MaxBin)
+                if (_options.VmDasMaxBin != output.BinSelected.MaxBin)
                 {
                     MaxBin = output.BinSelected.MaxBin;
                 }
             }
-            else if (_SelectedFormat == ENCODING_PD6_PD13)
+            else if (_options.SelectedFormat == DataOutputViewOptions.ENCODING_PD6_PD13)
             {
                 // PD6 or PD13
                 EnsToPd6_13Codec.Pd6_13Data output = _codecPd6_13.Encode(ens);
@@ -1561,7 +1523,7 @@ namespace RTI
                 // Max size of data output buffer
                 dataOutputMax = 1000;
             }
-            else if (_SelectedFormat == ENCODING_Binary_ENS)
+            else if (_options.SelectedFormat == DataOutputViewOptions.ENCODING_Binary_ENS)
             {
                 // Convert to binary array
                 byte[] rawEns = ens.Encode();
@@ -1578,11 +1540,11 @@ namespace RTI
                 // Max size of data output buffer
                 dataOutputMax = 10000;
             }
-            else if (_SelectedFormat == ENCODING_PD0)
+            else if (_options.SelectedFormat == DataOutputViewOptions.ENCODING_PD0)
             {
                 byte[] pd0 = null;
 
-                switch (_SelectedCoordTransform)
+                switch (_options.SelectedCoordTransform)
                 {
                     case PD0.CoordinateTransforms.Coord_Beam:
                         pd0 = ens.EncodePd0Ensemble(PD0.CoordinateTransforms.Coord_Beam);
@@ -1610,7 +1572,7 @@ namespace RTI
                 // Max output buffer size
                 dataOutputMax = 10000;
             }
-            else if (_SelectedFormat == ENCODING_RETRANSFORM_PD6)
+            else if (_options.SelectedFormat == DataOutputViewOptions.ENCODING_RETRANSFORM_PD6)
             {
 
             }
