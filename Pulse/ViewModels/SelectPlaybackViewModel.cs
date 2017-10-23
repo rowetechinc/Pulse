@@ -26,6 +26,7 @@
  * -----------------------------------------------------------------
  * 09/03/2014      RC          4.0.3      Initial coding
  * 11/24/2015      RC          4.3.1      Select ENS and BIN as default options for playback files.
+ * 10/23/2017      RC          4.6.1      Made File playback match NavBarViewModel's file playback.
  * 
  * 
  */
@@ -34,6 +35,7 @@ using Caliburn.Micro;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -204,24 +206,131 @@ namespace RTI
             // Set flag
             IsLoading = true;
 
-            // Create the file playback based off the selected file
-            FilePlayback fp = new FilePlayback();
-            fp.FindEnsembles(files);
+            //// Create the file playback based off the selected file
+            //FilePlayback fp = new FilePlayback();
+            //fp.FindEnsembles(files);
 
-            // Wait for ensembles to be added
-            int timeout = 10;
-            while (fp.TotalEnsembles < 0 && timeout >= 0)
+            //// Wait for ensembles to be added
+            //int timeout = 10;
+            //while (fp.TotalEnsembles < 0 && timeout >= 0)
+            //{
+            //    System.Threading.Thread.Sleep(250);
+            //    timeout--;
+            //}
+
+            //// Set the selected playback to the pulsemanager
+            //_pm.SelectedPlayback = fp;
+
+            if (files.Length > 0)
             {
-                System.Threading.Thread.Sleep(250);
-                timeout--;
-            }
+                // Create the file playback based off the selected file
+                // Try to optimize and first load the file into the Binary only codec
+                // If this does not work, then try all the codecs
+                FilePlayback fp = new FilePlayback();
+                fp.FindRtbEnsembles(files);
 
-            // Set the selected playback to the pulsemanager
-            _pm.SelectedPlayback = fp;
+                // Wait for ensembles to be added
+                int timeout = 10;
+                while (fp.TotalEnsembles < 0 && timeout >= 0)
+                {
+                    System.Threading.Thread.Sleep(250);
+                    timeout--;
+                }
+
+                // Check if any ensembles were found
+                if (fp.TotalEnsembles > 0)
+                {
+                    // Add the ensembles to the project
+                    // Create a project if new, or load if old
+                    var project = CreateProject(files[0], fp.GetAllEnsembles());
+
+                    // Set the selected playback to the pulsemanager
+                    _pm.SelectedProject = project;
+                    //_pm.SelectedPlayback = fp;
+                }
+                else
+                {
+                    // Find the ensembles using all the codecs
+                    fp.FindEnsembles(files);
+
+                    var project = CreateProject(files[0], fp.GetAllEnsembles());
+
+                    // Set the selected playback to the pulsemanager
+                    _pm.SelectedProject = project;
+                    //_pm.SelectedPlayback = fp;
+
+                }
+            }
 
             // Reset flag
             IsLoading = false;
         }
+
+        #region Project
+
+        /// <summary>
+        /// Create a new project with the file name as the project name.
+        /// Add all the ensembles to the project.
+        /// If the project exist, and the same number of ensembles are in the 
+        /// project, it will return the project.
+        /// If the project exist and there is a different number of ensembles, 
+        /// a new project will be created with file name and the date and time
+        /// added to the end of the file name.
+        /// </summary>
+        /// <param name="filepath">File name to use as the project name.</param>
+        /// <param name="ensembles">Ensembles to add to the project.</param>
+        /// <returns>Project with ensemble data.</returns>
+        private Project CreateProject(string filepath, Cache<long, DataSet.Ensemble> ensembles)
+        {
+            // Get the file name from the file path
+            string filename = Path.GetFileNameWithoutExtension(filepath);
+
+            // Create an empty project.
+            Project project = null;
+
+            if (!string.IsNullOrEmpty(filename))
+            {
+                // Get a list of all the projects
+                var list = _pm.GetProjectList();
+
+                // Look to see if the project exist
+                // If the project name exist, but it is not the same number of ensembles,
+                // create a new unique name.  If it matches the previous project, then just load that project.
+                foreach (var prj in list)
+                {
+                    if (prj.ProjectName == filename)
+                    {
+                        // Check if the same number of ensembles 
+                        if (prj.GetNumberOfEnsembles() == ensembles.Count())
+                        {
+                            // This project already exist
+                            return prj;
+                        }
+
+                        // Create a unique filename
+                        filename = filename + "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                    }
+                }
+
+                // Create the new project based off
+                // the project name and project directory
+                project = new Project(filename, RTI.Pulse.Commons.GetProjectDefaultFolderPath(), null);
+
+                // Write the ensembles to the project
+                //project.RecordDbEnsemble(ensembles);
+                AdcpDatabaseWriter writer = new AdcpDatabaseWriter(false);
+                writer.WriteFileToDatabase(project, ensembles);
+
+                // Add project to DB
+                _pm.AddNewProject(project);
+
+                project.Dispose();
+            }
+
+            return project;
+        }
+
+        #endregion
 
     }
 }

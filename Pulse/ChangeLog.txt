@@ -1,5 +1,11 @@
 ﻿Pulse Changelog
 
+Pulse-4.6.1
+ - Fixed bug with DVL codecs not being initialized.
+ - Fixed bug with Burst power calculation.
+ - In NavBarViewModel, in LoadFiles() first check if its a binary file, then try all codec types.   
+ - In SelectPlaybackViewModel, made File playback match NavBarViewModel's file playback.  
+
 Pulse-4.6.0
  - Fixed bug in Prediction Model for burst data storage calculations.
  - Store the options for the Data Output View.

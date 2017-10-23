@@ -31,7 +31,7 @@
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 11/24/2015      RC          4.3.1      Select ENS and BIN as default options for playback files.
  * 12/03/2015      RC          4.4.0      Added record button and recording to file to the record button.
- * 02/08/2017      RC          
+ * 10/23/2017      RC          4.6.1      In LoadFiles() first check if its a binary file, then try all codec types.          
  * 
  */
 
@@ -365,6 +365,8 @@ namespace RTI
             if(files.Length > 0)
             {
                 // Create the file playback based off the selected file
+                // Try to optimize and first load the file into the Binary only codec
+                // If this does not work, then try all the codecs
                 FilePlayback fp = new FilePlayback();
                 fp.FindRtbEnsembles(files);
 
@@ -376,13 +378,28 @@ namespace RTI
                     timeout--;
                 }
 
-                // Add the ensembles to the project
-                // Create a project if new, or load if old
-                var project = CreateProject(files[0], fp.GetAllEnsembles());
+                // Check if any ensembles were found
+                if (fp.TotalEnsembles > 0)
+                {
+                    // Add the ensembles to the project
+                    // Create a project if new, or load if old
+                    var project = CreateProject(files[0], fp.GetAllEnsembles());
 
-                // Set the selected playback to the pulsemanager
-                _pm.SelectedProject = project;
-                //_pm.SelectedPlayback = fp;
+                    // Set the selected playback to the pulsemanager
+                    _pm.SelectedProject = project;
+                    //_pm.SelectedPlayback = fp;
+                }
+                else
+                {
+                    // Find the ensembles using all the codecs
+                    fp.FindEnsembles(files);
+
+                    var project = CreateProject(files[0], fp.GetAllEnsembles());
+
+                    // Set the selected playback to the pulsemanager
+                    _pm.SelectedProject = project;
+
+                }
             }
 
             // Reset flag
