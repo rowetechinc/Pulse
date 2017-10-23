@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.5.5 ChangeLog</title>
+		<title>Version 4.6.1 ChangeLog</title>
 		<style type="text/css">
 .auto-style1 {
 	text-decoration: underline;
@@ -10,55 +10,64 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.5.5</span>
-            <br />   - Fixed bug when the internet is connected, it will give an error with AutoUpdate.
-            <br />   - Check if the website exists in AutoUpdate.
-            <br />   - Handle UDP data in communication.
-            <br />   - Removed SerialNumber generator for AddProjectVM.
-            <br />   - In ScanAdcpViewModel, added SerialNumberGenerator to allow either scan or select.
-            <br />   - Remove Ship Speed in DataOutputVM and WpMagDirOutputVM.
-            <br />   - Added BaseDataOutputView/VM.
-            <br />   - Added WpMagDirOutputView/VM to output a special PD6 style message that contains mag and dir of water for selected bins.
-            <br />   - Fixed a bug with the DataOutputViewModel to output the data with a [cr][lf]
-            <br />   - Fixed data size in wizard for burst deployments in AdcpSubsystemConfigurationViewModel.
-            <br />   - In AdcpConfiguration, fixed data size in wizard for burst deployment.
-            <br />   - Fixed background and foreground colors for the numeric up/down boxes.
-            <br />   - Added PredictionModel and PredicitonModelInput.
-            <br />   - Added TCP and UDP server.
-            <br />   - Added DataOutputView/ViewModel.
-            <br />   - Added Ship Velocity to ViewDataTextViewModel.
+            <br /><span class="auto-style1">Pulse-4.6.1</span>
+            <br />   Pulse-4.6.1
+            <br />   - Fixed bug with DVL codecs not being initialized.
+            <br />   - Fixed bug with Burst power calculation.
+            <br />   - In NavBarViewModel, in LoadFiles() first check if its a binary file, then try all codec types.
+            <br />   - In SelectPlaybackViewModel, made File playback match NavBarViewModel's file playback.
+            <br />   
+            <br />   Pulse-4.6.0
+            <br />   - Fixed bug in Prediction Model for burst data storage calculations.
+            <br />   - Store the options for the Data Output View.
+            <br />   
+            <br />   Pulse-4.5.7
+            <br />   - Added ENS export option in ExportDataViewModel.
+            <br />   
+            <br />   Pulse-4.5.6
+            <br />   - Reduce the startup time by removing an image.
+            <br />   - Store options for DataOutputViewModel.
+            <br />   - Store options for WpMagDirOutputViewModel.
+            <br />   - In PredictionModel, fix bug in GetBurstDataStorage() when calculating number of burst per deployment.
+            <br />   - In PredictionModel, fix bug in CalculatePowerBurst() when calculating number of burst per deployment.
+            <br />   
+            <br />   Pulse-Display-4.4.7
             <br />   - In ScreenDataViewModel, fixed RemovedShip to include instrument and ship transform.
             <br />   - In AdcpConnection, added AdcpUdp and removed AdcpTcp.
             <br />   - In TerminalAdcpViewModel, added AdcpUdp and removed AdcpTcp.
             <br />   - In SerialNumberGeneratorVM, added UpdateSerialNumber() to add a new serial number.
             <br />   - In TerminalAdcpViewModel, in ScanSerialPorts(), made it also reconnect the serial port.
-            <br />   - Moved PulseDiaglogViewModel.
-            <br />   - Added PredictionModel.
-            <br />   - In DistanceTraveled, test for NaN for Latitude or Longitude in AccumulateGps().
-            <br />   - In ScreenDataViewModel, in SetPreviousBottomTrackVelocity() checked if VTG message exists.
-            <br />   - In TimeSeriesPlotViewModel, check if the series type is set in GenerateReport().
-            <br />   - In TerminalAdcpViewModel, added some additional command buttons.
-            <br /><span class="auto-style1">RTI-3.4.3</span>
-            <br /> - RTI-3.4.3
-            <br /> - Fixed bug by adding a line feed to the end EnsToPd6_13Codec.
-            <br /> - Made the spacing for the PD6 data match the documentation.
-            <br /> - In RemoveShipSpeed, added GetPreviousBottomTrackVelocity() to get the previous Bottom Track velocity to store for next iteration.
-            <br /> - In ShipVelocityDataSet, added VelocityVectors.
-            <br /> - In VelocityVector, added GenerateShipVectors().
-            <br /> - Added AdcpUdp.
-            <br /> - In BottomTrackDataSet, fixed bug if no beams in data.
-            <br /> - In RemoveShipSpeed, check if Bottom Track has no beams.
-            <br /> - In PD4_5Codec, fixed a bug where the thread lock holds in SearchForHeaderStart().
-            <br /> - In SerialNumber, added option to add new line in GetSerialNumberDescString().
-            <br /> - In Ensemble, added EnsembleWaterProfileTextOutput() to display all data as text.
-            <br /> - In Subsystem, added IsVerticalBeam() to check if the code is for a vertical beam subsystem.
-            <br /> - In FilePlayback, fixed bug in FindRtbEnsembles() when ensemble numbers are duplicated.
-            <br /> - In all the codecs, make them in charge of clearing there buffers if the data is not in there format.
-            <br /> - Added VmDas ASCII codec.
-            <br /> - Added a Ship Velocity data set.  Also added Ship Velocity to Bottom Track dataset.
-            <br /> - Added Ship coordinate transform to Transform.cs.
-            <br /> - Added Water Mass Ship Data Set.
-            <br /> - Added VmManualWaterTrack.cs.
+            <br />   - In AdcpConnection, Added original data format to handle PD0 transformation.
+            <br />   - In ScreenDataViewModel and ScreenDataBaseViewModel, added original data format to know how to retransform the data.  PD0 is differnt from RTB.
+            <br />   - In ScreenDataViewModel, added FillInMissingWpData() to fill in data when Water Profile is turned off.
+            <br />   - Change the images in PlaybackView.xaml to VisualBrushes.  This decreased startup time dramatically.
+            <br />   - In DistanceTraveled, in AccumulateGps() verify a good _FirstGpsPos is set.
+            <br /><span class="auto-style1">RTI-3.4.4</span>
+            <br />   RTI-3.4.4
+            <br />   - In InstrumentVelocityDataSet and EarthVelocityDataSet, if no Water Profile, fix bug IsBinGood() to check if the bin is good.
+            <br />   - In Subsystem, added GetBeamAngle() to give the beam angle for a given subsystem.
+            <br />   - In Transform, get the correct Beam Angle based off the subsystem code.
+            <br />   - In Subsystem, added new Subsystem codes.
+            <br />   - In AdcpCodec, pass the original data format when the data is sent based off the codec used.
+            <br />   - In Transform, know the original data format to know which beam matrix to use to transform the data.
+            <br />   - In AdcpDvlCodecReadFile, AdcpBinaryCodecReadFile, AdcpPd0CodecReadFile, added original data format.
+            <br />   - In IPlayback, added GetOrigDataFormat() to know the what format the data was recorded.
+            <br />   - In FilePlayback and ProjectPlayback, pass the data format the data was recorded.
+            <br />   - Added EnsExporterWriter.
+            <br />   - Fixed bug in Pd6_13Codec where _buffer was not initialized and threw an exception.
+            <br />   - Fixed bug in DvlCodec where _buffer was not initialized and threw an exception.
+            <br />   
+            <br />   RTI-3.4.3
+            <br />   - Fixed bug by adding a line feed to the end EnsToPd6_13Codec.
+            <br />   - Made the spacing for the PD6 data match the documentation.
+            <br />   - In RemoveShipSpeed, added GetPreviousBottomTrackVelocity() to get the previous Bottom Track velocity to store for next iteration.
+            <br />   - In ShipVelocityDataSet, added VelocityVectors.
+            <br />   - In VelocityVector, added GenerateShipVectors().
+            <br />   - Added AdcpUdp.
+            <br />   - In BottomTrackDataSet, fixed bug if no beams in data.
+            <br />   - In RemoveShipSpeed, check if Bottom Track has no beams.
+            <br />   - In PD4_5Codec, fixed a bug where the thread lock holds in SearchForHeaderStart().
+            <br />   - In SerialNumber, added option to add new line in GetSerialNumberDescString().
             <br />
         </p>
 	</body>
