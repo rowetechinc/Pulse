@@ -3346,10 +3346,10 @@ namespace RTI
                     case Subsystem.SUB_1_2MHZ_VERT_PISTON_A:
                     case Subsystem.SUB_600KHZ_VERT_PISTON_B:
                     case Subsystem.SUB_300KHZ_VERT_PISTON_C:
-                    case Subsystem.SUB_150KHZ_VERT_PISTON_D:
-                    case Subsystem.SUB_75KHZ_VERT_PISTON_E:
-                    case Subsystem.SUB_38KHZ_VERT_PISTON_F:
-                    case Subsystem.SUB_20KHZ_VERT_PISTON_G:
+                    //case Subsystem.SUB_150KHZ_VERT_PISTON_D:
+                    //case Subsystem.SUB_75KHZ_VERT_PISTON_E:
+                    //case Subsystem.SUB_38KHZ_VERT_PISTON_F:
+                    //case Subsystem.SUB_20KHZ_VERT_PISTON_G:
                         // Set the selected transform
                         SelectedTransform = Core.Commons.Transforms.BEAM;
                         break;
