@@ -199,6 +199,10 @@ namespace RTI
 
             // Determine how many pixels per second should be used
             //int pixelsPerSecond = (int)Math.Round(PingModelImg.Width / totalPingTime);
+            if(totalPingTime == 0)
+            {
+                totalPingTime = 1;
+            }
             double pixelsPerSecond = PingModelCanvas.Width / totalPingTime;
 
             // Add all the configurations to the image
