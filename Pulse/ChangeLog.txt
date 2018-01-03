@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.7.0
+ - Fixed bug in Prediction Model with System Init Time.
+ - Made the serial port not send a BREAK at startup for the ADCP.
+
 Pulse-4.6.1
  - Fixed bug with DVL codecs not being initialized.
  - Fixed bug with Burst power calculation.
