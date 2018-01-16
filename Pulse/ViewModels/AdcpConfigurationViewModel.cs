@@ -489,6 +489,51 @@ namespace RTI
             }
         }
 
+        /// <summary>
+        /// Water temperature in Celcuis.
+        /// </summary>
+        private float _Temperature;
+        /// <summary>
+        /// Water temperature in Celcuis.
+        /// </summary>
+        public float Temperature
+        {
+            get { return _Temperature; }
+            set
+            {
+                _Temperature = value;
+                if(_pm.IsProjectSelected)
+                {
+                    _pm.SelectedProject.Configuration.Commands.CWT = value;
+                    _pm.SelectedProject.Save();
+                }
+
+                this.NotifyOfPropertyChange(() => this.Temperature);
+            }
+        }
+
+        /// <summary>
+        /// Transducer depth in meters.
+        /// </summary>
+        private float _XdcrDepth;
+        /// <summary>
+        /// Transducer depth in meters.
+        /// </summary>
+        public float XdcrDepth
+        {
+            get { return _XdcrDepth; }
+            set
+            {
+                _XdcrDepth = value;
+                if(_pm.IsProjectSelected)
+                {
+                    _pm.SelectedProject.Configuration.Commands.CTD = value;
+                    _pm.SelectedProject.Save();
+                }
+                this.NotifyOfPropertyChange(() => this.XdcrDepth);
+            }
+        }
+
         #endregion
 
         #region Ping Model
@@ -658,6 +703,14 @@ namespace RTI
             {
                 DeploymentDays = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
             }
+
+            if(_pm.SelectedProject.Configuration.Commands.CWT <= 0)
+            {
+                _pm.SelectedProject.Configuration.Commands.CWT = 10;
+            }
+
+            Temperature = _pm.SelectedProject.Configuration.Commands.CWT;
+            XdcrDepth = _pm.SelectedProject.Configuration.Commands.CTD;
         }
 
         #endregion
@@ -679,15 +732,15 @@ namespace RTI
                 {
                     // Create the VM and add it to the list
                     AdcpSubsystemConfigurationViewModel ssVM = new AdcpSubsystemConfigurationViewModel(ssCfg, this);
-                    ssVM.Predictor.DeploymentDuration = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
-                    ssVM.Predictor.BatteryType = _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType;
+                    // ssVM.Predictor.DeploymentDuration = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
+                    // ssVM.Predictor.BatteryType = _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType;
 
                     // Add the vm to the list
                     SubsystemConfigList.Add(ssVM);
 
                     // Accumluate the data sizes and number batteries for each subsystem configuration
                     dataSize += ssVM.GetDataSize();
-                    numberBattery += ssVM.Predictor.NumberBatteryPacks;
+                    numberBattery += ssVM.NumberBatteryPacks;
                 }
 
                 // Set the combined values
@@ -748,15 +801,18 @@ namespace RTI
                 {
                     // Create the VM and add it to the list
                     AdcpSubsystemConfigurationViewModel ssVM = new AdcpSubsystemConfigurationViewModel(ssCfg, this);
-                    ssVM.Predictor.DeploymentDuration = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
-                    ssVM.Predictor.BatteryType = _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType;
+                    //ssVM.Predictor.DeploymentDuration = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
+                    //ssVM.Predictor.BatteryType = _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType;
 
                     // Add the vm to the list
                     SubsystemConfigList.Add(ssVM);
 
+                    // Calculate the prediction model
+                    ssVM.CalcPrediction();
+
                     // Accumluate the data sizes and number batteries for each subsystem configuration
                     dataSize += ssVM.GetDataSize();
-                    numberBattery += ssVM.Predictor.NumberBatteryPacks;
+                    numberBattery += ssVM.NumberBatteryPacks;
                 }
 
                 // Set the combined values
@@ -876,7 +932,7 @@ namespace RTI
 
                 dataSize += ssVM.GetDataSize();
 
-                numberBattery += ssVM.Predictor.NumberBatteryPacks;
+                numberBattery += ssVM.NumberBatteryPacks;
                 
             }
 
@@ -911,7 +967,7 @@ namespace RTI
                 ssVM.UpdateBatteryType(battType);
 
                 dataSize += ssVM.GetDataSize();
-                numberBattery += ssVM.Predictor.NumberBatteryPacks;
+                numberBattery += ssVM.NumberBatteryPacks;
 
             }
 

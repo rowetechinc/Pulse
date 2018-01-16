@@ -267,7 +267,9 @@
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
 									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 								
 								<!--Title-->
 								<TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Prediction Model" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" HorizontalAlignment="Center" />
@@ -276,24 +278,34 @@
 								<TextBlock Grid.Row="1" Grid.Column="0" Text="Deployment Duration:" Foreground="Gray" Margin="5" VerticalAlignment="Center" />
 								<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Path=DeploymentDays}" Margin="5" Minimum="1" Background="White" Foreground="Black" />
 								<TextBlock Grid.Row="1" Grid.Column="2" Text="days" Foreground="Gray" Margin="5" />
-								
-								<!--Battery Type-->
-								<TextBlock Grid.Row="2" Grid.Column="0" Text="Battery Type:" Foreground="Gray" Margin="5" VerticalAlignment="Center" />
-								<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Path=BatteryTypeList}" SelectedValue="{Binding Path=SelectedBatteryType}" Margin="5" />
+
+                                <!--Temperature-->
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Temperature:" Foreground="Gray" Margin="5" VerticalAlignment="Center" />
+                                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Path=Temperature}" Margin="5" Minimum="1" Background="White" Foreground="Black" />
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="C" Foreground="Gray" Margin="5" />
+
+                                <!--XDCR Depth-->
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Tranducer Depth:" Foreground="Gray" Margin="5" VerticalAlignment="Center" />
+                                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Path=XdcrDepth}" Margin="5" Minimum="1" Background="White" Foreground="Black" />
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="m" Foreground="Gray" Margin="5" />
+
+                                <!--Battery Type-->
+								<TextBlock Grid.Row="4" Grid.Column="0" Text="Battery Type:" Foreground="Gray" Margin="5" VerticalAlignment="Center" />
+								<ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=BatteryTypeList}" SelectedValue="{Binding Path=SelectedBatteryType}" Margin="5" />
 								
 								<!--Num Batteries-->
-								<TextBlock Grid.Row="3" Grid.Column="0" Text="Number of Batteries:" Foreground="Gray" Margin="5" />
-								<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=NumberBatteryPacks}" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" />
-								<TextBlock Grid.Row="3" Grid.Column="2" Text="packs" Foreground="Gray" Margin="5" />
+								<TextBlock Grid.Row="5" Grid.Column="0" Text="Number of Batteries:" Foreground="Gray" Margin="5" />
+								<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Path=NumberBatteryPacks}" Margin="5" Foreground="{StaticResource PulseFontOrangeColor}" />
+								<TextBlock Grid.Row="5" Grid.Column="2" Text="packs" Foreground="Gray" Margin="5" />
 								
 								<!--Data Size-->
-								<TextBlock Grid.Row="4" Grid.Column="0" Text="Data Size:" Foreground="Gray" Margin="5" />
-								<TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=DataSize}" Foreground="{StaticResource PulseFontOrangeColor}" Margin="5" />
+								<TextBlock Grid.Row="6" Grid.Column="0" Text="Data Size:" Foreground="Gray" Margin="5" />
+								<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=DataSize}" Foreground="{StaticResource PulseFontOrangeColor}" Margin="5" />
 								
 								<!--Total Data Usage-->
-								<TextBlock Grid.Row="5" Grid.Column="0" Text="Total Data Usage:" Foreground="Gray" Margin="5" />
-								<ProgressBar Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Maximum="{Binding InternalStorageTotal}" Value="{Binding Path=PredictedStorageUsed, Mode=OneWay}" Margin="5" Height="20" Style="{StaticResource CustomProgressBar}" VerticalAlignment="Center" /> 
-								<TextBlock Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=PredictedStorageStr}" Margin="5" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" />
+								<TextBlock Grid.Row="7" Grid.Column="0" Text="Total Data Usage:" Foreground="Gray" Margin="5" />
+								<ProgressBar Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Maximum="{Binding InternalStorageTotal}" Value="{Binding Path=PredictedStorageUsed, Mode=OneWay}" Margin="5" Height="20" Style="{StaticResource CustomProgressBar}" VerticalAlignment="Center" /> 
+								<TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=PredictedStorageStr}" Margin="5" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" />
 										
 							</Grid>
 						</Border>

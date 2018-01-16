@@ -307,11 +307,6 @@ namespace RTI
         #region Predictor
 
         /// <summary>
-        /// The prediction model for this subsystem configuration.
-        /// </summary>
-        public AdcpPredictor Predictor { get; protected set; }
-
-        /// <summary>
         /// Number of bytes converted to best scale for the amount
         /// of data that will be written for the given deployment.
         /// </summary>
@@ -326,25 +321,69 @@ namespace RTI
         /// <summary>
         /// Predicted Bottom Track Range truncated.
         /// </summary>
-        public string PredictedBottomRange
+        private double _PredictedBottomRange;
+        /// <summary>
+        /// Predicted Bottom Track Range truncated.
+        /// </summary>
+        public double PredictedBottomRange
         {
             get
             {
-                return Predictor.PredictedBottomRange.ToString("0.0000");
+                return _PredictedBottomRange;
+            }
+            set
+            {
+                _PredictedBottomRange = value;
+                this.NotifyOfPropertyChange(() => this.PredictedBottomRange);
+            }
+        }
+
+        /// <summary>
+        /// Predicted Bottom Track Range truncated.
+        /// </summary>
+        public string PredictedBottomRangeStr
+        {
+            get
+            {
+                return _PredictedBottomRange.ToString("0.0000"); ;
             }
         }
 
         /// <summary>
         /// Predicted Profile Range truncated.
         /// </summary>
-        public string PredictedProfileRange
+        private double _PredictedProfileRange;
+        /// <summary>
+        /// Predicted Profile Range truncated.
+        /// </summary>
+        public double PredictedProfileRange
         {
             get
             {
-                return Predictor.PredictedProfileRange.ToString("0.0000");
+                return _PredictedProfileRange;
+            }
+            set
+            {
+                _PredictedProfileRange = value;
+                this.NotifyOfPropertyChange(() => this.PredictedProfileRange);
             }
         }
 
+        /// <summary>
+        /// Predicted Bottom Track Range truncated.
+        /// </summary>
+        public string PredictedProfileRangeStr
+        {
+            get
+            {
+                return _PredictedProfileRange.ToString("0.0000"); ;
+            }
+        }
+
+        /// <summary>
+        /// Predicted Maximum Velocity truncated.
+        /// </summary>
+        private string _MaximumVelocity;
         /// <summary>
         /// Predicted Maximum Velocity truncated.
         /// </summary>
@@ -352,10 +391,19 @@ namespace RTI
         {
             get
             {
-                return Predictor.MaximumVelocity.ToString("0.0000");
+                return _MaximumVelocity;
+            }
+            set
+            {
+                _MaximumVelocity = value;
+                this.NotifyOfPropertyChange(() => this.MaximumVelocity);
             }
         }
 
+        /// <summary>
+        /// Predicted Standard Deviation truncated.
+        /// </summary>
+        private string _StandardDeviation;
         /// <summary>
         /// Predicted Standard Deviation truncated.
         /// </summary>
@@ -363,10 +411,19 @@ namespace RTI
         {
             get
             {
-                return Predictor.StandardDeviation.ToString("0.0000");
+                return _StandardDeviation;
+            }
+            set
+            {
+                _StandardDeviation = value;
+                this.NotifyOfPropertyChange(() => this.StandardDeviation);
             }
         }
 
+        /// <summary>
+        /// Predicted First Bin Position truncated.
+        /// </summary>
+        private string _ProfileFirstBinPosition;
         /// <summary>
         /// Predicted First Bin Position truncated.
         /// </summary>
@@ -374,18 +431,63 @@ namespace RTI
         {
             get
             {
-                return Predictor.ProfileFirstBinPosition.ToString("0.0000");
+                return _ProfileFirstBinPosition;
+            }
+            set
+            {
+                _ProfileFirstBinPosition = value;
+                this.NotifyOfPropertyChange(() => this.ProfileFirstBinPosition);
             }
         }
 
         /// <summary>
         /// Predicted Number of Battery Packs truncated.
         /// </summary>
-        public string NumberBatteryPacks
+        private double _NumberBatteryPacks;
+        /// <summary>
+        /// Predicted Number of Battery Packs truncated.
+        /// </summary>
+        public double NumberBatteryPacks
         {
             get
             {
-                return Predictor.NumberBatteryPacks.ToString("0.0000");
+                return _NumberBatteryPacks;
+            }
+            set
+            {
+                _NumberBatteryPacks = value;
+                this.NotifyOfPropertyChange(() => this.NumberBatteryPacks);
+            }
+        }
+
+        /// <summary>
+        /// Predicted Number of Battery Packs truncated.
+        /// </summary>
+        public string NumberBatteryPackStr
+        {
+            get
+            {
+                return _NumberBatteryPacks.ToString("0.0000");
+            }
+        }
+
+        /// <summary>
+        /// Predicted Number of bytes in the deployment.
+        /// </summary>
+        private long _NumberBytes;
+        /// <summary>
+        /// Predicted Number of bytes in the deployment.
+        /// </summary>
+        public long NumberBytes
+        {
+            get
+            {
+                return _NumberBytes;
+            }
+            set
+            {
+                _NumberBytes = value;
+                this.NotifyOfPropertyChange(() => this.NumberBytes);
             }
         }
 
@@ -428,8 +530,8 @@ namespace RTI
             // Create the VM
             //Predictor = config.Predictor as AdcpPredictor;
             //Predictor = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Predictor as AdcpPredictor;
-            SetupPredictor();
-            RangeVM = new AdcpRangePlannerViewModel(Predictor.PredictedProfileRange, Predictor.PredictedBottomRange);
+            CalcPrediction();
+            RangeVM = new AdcpRangePlannerViewModel(PredictedProfileRange, PredictedBottomRange);
 
             // Update the properties with the latest values
             UpdateProperties();
@@ -459,7 +561,7 @@ namespace RTI
         private void UpdateProperties()
         {
             // This will update all the properties
-            this.NotifyOfPropertyChange();
+            this.NotifyOfPropertyChange(null);
 
             this.NotifyOfPropertyChange(() => this.CWPP);
             this.NotifyOfPropertyChange(() => this.CWPTBP);
@@ -481,28 +583,28 @@ namespace RTI
 
         }
 
-        /// <summary>
-        /// Update all the properties for the RangeVM.
-        /// </summary>
-        private void UpdateRangeVMProperties()
-        {
-            if (_pm.IsProjectSelected)
-            {
-                // Get the predictor from the selected project subsystem configuration
-                AdcpPredictor predictor = new AdcpPredictor(new AdcpPredictorUserInput());
+        ///// <summary>
+        ///// Update all the properties for the RangeVM.
+        ///// </summary>
+        //private void UpdateRangeVMProperties()
+        //{
+        //    if (_pm.IsProjectSelected)
+        //    {
+        //        // Get the predictor from the selected project subsystem configuration
+        //        AdcpPredictor predictor = new AdcpPredictor(new AdcpPredictorUserInput());
 
-                // Update all the properites
-                RangeVM.WaterProfileRange = predictor.PredictedProfileRange;
-                RangeVM.BottomTrackRange = predictor.PredictedBottomRange;
-                RangeVM.WpBlank = predictor.CWPBL;
-                RangeVM.WpFirstBinRange = predictor.ProfileFirstBinPosition;
-                if (_pm.IsProjectSelected && _pm.SelectedProject.Configuration != null)
-                {
-                    RangeVM.DepthToBottom = _pm.SelectedProject.Configuration.Commands.SPOS_WaterDepth;
-                }
+        //        // Update all the properites
+        //        RangeVM.WaterProfileRange = predictor.PredictedProfileRange;
+        //        RangeVM.BottomTrackRange = predictor.PredictedBottomRange;
+        //        RangeVM.WpBlank = predictor.CWPBL;
+        //        RangeVM.WpFirstBinRange = predictor.ProfileFirstBinPosition;
+        //        if (_pm.IsProjectSelected && _pm.SelectedProject.Configuration != null)
+        //        {
+        //            RangeVM.DepthToBottom = _pm.SelectedProject.Configuration.Commands.SPOS_WaterDepth;
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
         #endregion
 
@@ -515,10 +617,14 @@ namespace RTI
         /// <param name="days">New deployment days.</param>
         public void UpdateDeploymentDays(uint days)
         {
-            Predictor.DeploymentDuration = days;
+            //Predictor.DeploymentDuration = days;
+            _pm.SelectedProject.Configuration.DeploymentOptions.Duration = days;
 
-            // This will update all the properties
-            UpdateProperties();
+            //// This will update all the properties
+            //UpdateProperties();
+
+            // Calculate the latest prediction
+            CalcPrediction();
         }
 
         /// <summary>
@@ -528,10 +634,14 @@ namespace RTI
         /// <param name="battType">New battery type.</param>
         public void UpdateBatteryType(DeploymentOptions.AdcpBatteryType battType)
         {
-            Predictor.BatteryType = battType;
+            //Predictor.BatteryType = battType;
+            _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType = battType;
 
-            // This will update all the properties
-            UpdateProperties();
+            //// This will update all the properties
+            //UpdateProperties();
+
+            // Calculate the latest prediction
+            CalcPrediction();
         }
 
         /// <summary>
@@ -540,21 +650,18 @@ namespace RTI
         /// <returns>Deployment size in bytes.</returns>
         public long GetDataSize()
         {
-            if (CBI_NumEnsembles > 0)
-            {
-                long prjBytes = AdcpPredictor.WavesRecordBytesPerDeployment((ushort)CBI_NumEnsembles, (uint)CWPBN, (uint)Predictor.DeploymentDuration, (float)CBI_BurstInterval.ToSecondsD());
-                return prjBytes;
-            }
+            // Calculate the latest prediction
+            CalcPrediction();
 
-            return Predictor.DataSizeBytes;
+            return NumberBytes;
         }
 
         /// <summary>
         /// Setup the predictor.
         /// </summary>
-        public void SetupPredictor()
+        public void CalcPrediction()
         {
-            AdcpPredictorUserInput predInput = new AdcpPredictorUserInput(_pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].SubsystemConfig.SubSystem);
+            PredictionModelInput predInput = new PredictionModelInput(_pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].SubsystemConfig.SubSystem);
 
             if (_pm.SelectedProject.Configuration.DeploymentOptions.Duration <= 0)
             {
@@ -564,14 +671,20 @@ namespace RTI
             {
                 predInput.DeploymentDuration = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
             }
+
+            // Absorption
+            predInput.Temperature = _pm.SelectedProject.Configuration.Commands.CWT;
+            predInput.Salinity = _pm.SelectedProject.Configuration.Commands.CWS;
+            predInput.XdcrDepth = _pm.SelectedProject.Configuration.Commands.CTD;
+
             predInput.CEI = _pm.SelectedProject.Configuration.Commands.CEI.ToSecondsD();
 
             predInput.CWPON = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPON;
             predInput.CBTON = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTON;
 
             predInput.CBTTBP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTTBP;
-            //predInput.CBTBB_TransmitPulseType = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTBB_Mode;
-            predInput.CBTBB_TransmitPulseType = Commands.AdcpSubsystemCommands.eCBTBB_Mode.NARROWBAND_LONG_RANGE;   // DEFAULT to narrowband because it autoswitches now
+            predInput.CBTBB_TransmitPulseType = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTBB_Mode;
+            //predInput.CBTBB_TransmitPulseType = Commands.AdcpSubsystemCommands.eCBTBB_Mode.NARROWBAND_LONG_RANGE;   // DEFAULT to narrowband because it autoswitches now
 
             predInput.CWPTBP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPTBP;
             predInput.CWPBN = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBN;
@@ -583,8 +696,49 @@ namespace RTI
 
             predInput.BatteryType = _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType;
 
-            // Set the predictor
-            Predictor = new AdcpPredictor(predInput);
+            predInput.CBI_BurstInterval = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.ToSecondsD();
+            predInput.CBI_SamplesPerBurst = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles;
+            predInput.CBI_IsInterleaved = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag;
+
+            // Create Prediction model
+            PredictionModel Predictor = new PredictionModel();
+
+            // Set the prediction values
+            PredictionModel.PredictedRanges ranges = Predictor.GetPredictedRange(predInput);
+            PredictedBottomRange = ranges.BottomTrack;
+            PredictedProfileRange = ranges.WaterProfile;
+            ProfileFirstBinPosition = ranges.FirstBinPosition.ToString("0.0000");
+
+            double maxVel = Predictor.GetMaxVelocity(predInput);
+            MaximumVelocity = maxVel.ToString("0.0000");
+
+            double std = Predictor.GetStandardDeviation(predInput);
+            StandardDeviation = std.ToString("0.0000");
+
+            double numBatts = Predictor.BatteryUsage(predInput);
+            NumberBatteryPacks = numBatts;
+
+            if (CBI_NumEnsembles > 0)
+            {
+                NumberBytes = Predictor.GetDataStorageBurst(predInput);
+            }
+            else
+            {
+                NumberBytes = Predictor.GetDataStorage(predInput);
+            }
+
+            if (RangeVM != null)
+            {
+                // Update all the properites
+                RangeVM.WaterProfileRange = ranges.WaterProfile;
+                RangeVM.BottomTrackRange = ranges.BottomTrack;
+                RangeVM.WpBlank = predInput.CWPBL;
+                RangeVM.WpFirstBinRange = ranges.FirstBinPosition;
+                if (_pm.IsProjectSelected && _pm.SelectedProject.Configuration != null)
+                {
+                    RangeVM.DepthToBottom = predInput.XdcrDepth;
+                }
+            }
         }
 
         #endregion

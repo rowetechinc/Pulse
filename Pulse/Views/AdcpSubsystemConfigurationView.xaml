@@ -90,12 +90,12 @@
 						
 						<!--Profile Range-->
 						<TextBlock Grid.Row="5" Grid.Column="0" Text="Profile Range:" Foreground="Gray" />
-						<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Path=PredictedProfileRange}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Path=PredictedProfileRangeStr}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
 						<TextBlock Grid.Row="5" Grid.Column="2" Text="m" Foreground="Gray" />
 						
 						<!--Bottom Track Range-->
 						<TextBlock Grid.Row="6" Grid.Column="0" Text="Bottom Track Range:" Foreground="Gray" />
-						<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=PredictedBottomRange}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=PredictedBottomRangeStr}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
 						<TextBlock Grid.Row="6" Grid.Column="2" Text="m" Foreground="Gray" />
 					
 					</Grid>
