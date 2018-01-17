@@ -398,19 +398,19 @@ namespace RTI
                 }
                 else
                 {
-                    MessageBox.Show(@"There is no update available please try again later.",
-                                    @"No update available",
-                                    MessageBoxButton.OK,
-                                    MessageBoxImage.Information);
+                    //MessageBox.Show(@"There is no update available please try again later.",
+                    //                @"No update available",
+                    //                MessageBoxButton.OK,
+                    //                MessageBoxImage.Information);
                 }
             }
             else
             {
-                MessageBox.Show(
-                        @"There is a problem reaching update server please check your internet connection and try again later.",
-                        @"Update check failed",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                //MessageBox.Show(
+                //        @"There is a problem reaching update server please check your internet connection and try again later.",
+                //        @"Update check failed",
+                //        MessageBoxButton.OK,
+                //        MessageBoxImage.Error);
             }
         }
 
