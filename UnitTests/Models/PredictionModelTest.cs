@@ -281,8 +281,8 @@ namespace RTI
             double xdcrDepth = 0.0;
 
             PredictionModel.PredictedRanges ranges = model.GetPredictedRange(_CWPON_, _CWPBB_TransmitPulseType_, _CWPBS_, _CWPBN_, _CWPBL_, _CBTON_, _CBTBB_TransmitPulseType_, _SystemFrequency_, _BeamDiameter_, _CyclesPerElement_, _BeamAngle_, _SpeedOfSound_, _CWPBB_LagLength_, _BroadbandPower_, salinity, temperature, xdcrDepth);
-            double correctWpRange = 147.75;
-            double correctBtRange = 294.54;
+            double correctWpRange = 100.05;
+            double correctBtRange = 199.14;
             double correctFirstBin = 5.484;
             double correctWpRangeUserSettings = _CWPBL_ + (_CWPBS_ * _CWPBN_);
             Assert.AreEqual(correctWpRange, ranges.WaterProfile, 0.01);
@@ -317,8 +317,8 @@ namespace RTI
             input.BroadbandPower = true;
 
             PredictionModel.PredictedRanges ranges = model.GetPredictedRange(input);
-            double correctWpRange = 147.75;
-            double correctBtRange = 294.54;
+            double correctWpRange = 100.05;
+            double correctBtRange = 199.14;
             double correctFirstBin = 5.484;
             double correctWpRangeUserSettings = input.CWPBL + (input.CWPBS * input.CWPBN);
             Assert.AreEqual(correctWpRange, ranges.WaterProfile, 0.01);
@@ -356,8 +356,8 @@ namespace RTI
             double xdcrDepth = 0.0;
 
             PredictionModel.PredictedRanges ranges = model.GetPredictedRange(_CWPON_, _CWPBB_TransmitPulseType_, _CWPBS_, _CWPBN_, _CWPBL_, _CBTON_, _CBTBB_TransmitPulseType_, _SystemFrequency_, _BeamDiameter_, _CyclesPerElement_, _BeamAngle_, _SpeedOfSound_, _CWPBB_LagLength_, _BroadbandPower_, salinity, temperature, xdcrDepth);
-            double correctWpRange = 228.27;
-            double correctBtRange = 414.54;
+            double correctWpRange = 180.57;
+            double correctBtRange = 319.14;
             double correctFirstBin = 5.025;
             double correctWpRangeUserSettings = _CWPBL_ + (_CWPBS_ * _CWPBN_);
             Assert.AreEqual(correctWpRange, ranges.WaterProfile, 0.01);
@@ -412,11 +412,11 @@ namespace RTI
             double xdcrDepth = 0.0;
 
             double power = model.CalculatePower(_CEI_, _DeploymentDuration_, _Beams_, _SystemFrequency_, _CWPON_, _CWPBL_, _CWPBS_, _CWPBN_, _CWPBB_LagLength_, _CWPBB_TransmitPulseType_, _CWPP_, _CWPTBP_, _CBTON_, _CBTBB_TransmitPulseType_, _BeamAngle_, _SpeedOfSound_, _SystemBootPower_, _SystemWakeupTime_, _SystemInitPower_, _SystemInitTime_, _BroadbandPower_, _SystemSavePower_, _SystemSaveTime_, _SystemSleepPower_, _BeamDiameter_, _CyclesPerElement_, temperature, salinity, xdcrDepth);
-            double correctAnswer = 35185.23;
+            double correctAnswer = 30754.86;
             Assert.AreEqual(correctAnswer, power, 0.01);
 
             double batteryUsage = model.BatteryUsage(power, _DeploymentDuration_, _BatteryCapacity_, _BatteryDerate_, _BatterySelfDischarge_);
-            double correctBattery = 94.08;
+            double correctBattery = 82.23;
             Assert.AreEqual(correctBattery, batteryUsage, 0.01);
         }
 
@@ -465,11 +465,11 @@ namespace RTI
             double xdcrDepth = 0.0;
 
             double power = model.CalculatePower(_CEI_, _DeploymentDuration_, _Beams_, _SystemFrequency_, _CWPON_, _CWPBL_, _CWPBS_, _CWPBN_, _CWPBB_LagLength_, _CWPBB_TransmitPulseType_, _CWPP_, _CWPTBP_, _CBTON_, _CBTBB_TransmitPulseType_, _BeamAngle_, _SpeedOfSound_, _SystemBootPower_, _SystemWakeupTime_, _SystemInitPower_, _SystemInitTime_, _BroadbandPower_, _SystemSavePower_, _SystemSaveTime_, _SystemSleepPower_, _BeamDiameter_, _CyclesPerElement_, temperature, salinity, xdcrDepth);
-            double correctAnswer = 39200.67;
+            double correctAnswer = 34770.30;
             Assert.AreEqual(correctAnswer, power, 0.01);
 
             double batteryUsage = model.BatteryUsage(power, _DeploymentDuration_, _BatteryCapacity_, _BatteryDerate_, _BatterySelfDischarge_);
-            double correctBattery = 104.82;
+            double correctBattery = 92.97;
             Assert.AreEqual(correctBattery, batteryUsage, 0.01);
         }
 
@@ -518,11 +518,11 @@ namespace RTI
             double xdcrDepth = 0.0;
 
             double power = model.CalculatePower(_CEI_, _DeploymentDuration_, _Beams_, _SystemFrequency_, _CWPON_, _CWPBL_, _CWPBS_, _CWPBN_, _CWPBB_LagLength_, _CWPBB_TransmitPulseType_, _CWPP_, _CWPTBP_, _CBTON_, _CBTBB_TransmitPulseType_, _BeamAngle_, _SpeedOfSound_, _SystemBootPower_, _SystemWakeupTime_, _SystemInitPower_, _SystemInitTime_, _BroadbandPower_, _SystemSavePower_, _SystemSaveTime_, _SystemSleepPower_, _BeamDiameter_, _CyclesPerElement_, temperature, salinity, xdcrDepth);
-            double correctAnswer = 17433.35;
+            double correctAnswer = 16852.22;
             Assert.AreEqual(correctAnswer, power, 0.01);
 
             double batteryUsage = model.BatteryUsage(power, _DeploymentDuration_, _BatteryCapacity_, _BatteryDerate_, _BatterySelfDischarge_);
-            double correctBattery = 46.61;
+            double correctBattery = 45.06;
             Assert.AreEqual(correctBattery, batteryUsage, 0.01);
         }
 
@@ -633,11 +633,11 @@ namespace RTI
             double xdcrDepth = 0.0;
 
             double power = model.CalculatePowerBurst(_CEI_, _DeploymentDuration_, _Beams_, _SystemFrequency_, _CWPON_, _CWPBL_, _CWPBS_, _CWPBN_, _CWPBB_LagLength_, _CWPBB_TransmitPulseType_, _CWPP_, _CWPTBP_, _CBTON_, _CBTBB_TransmitPulseType_, _BeamAngle_, _SpeedOfSound_, _SystemBootPower_, _SystemWakeupTime_, _SystemInitPower_, _SystemInitTime_, _BroadbandPower_, _SystemSavePower_, _SystemSaveTime_, _SystemSleepPower_, _BeamDiameter_, _CyclesPerElement_, temperature, salinity, xdcrDepth, _CBI_EnsemblesPerBurst_, _CBI_BurstInterval_, _CBI_IsInterleaved_);
-            double correctAnswer = 17516.19;
+            double correctAnswer = 12475.41;
             Assert.AreEqual(correctAnswer, power, 0.01);
 
             double batteryUsage = model.BatteryUsage(power, _DeploymentDuration_, _BatteryCapacity_, _BatteryDerate_, _BatterySelfDischarge_);
-            double correctBattery = 46.84;
+            double correctBattery = 33.36;
             Assert.AreEqual(correctBattery, batteryUsage, 0.01);
         }
     }

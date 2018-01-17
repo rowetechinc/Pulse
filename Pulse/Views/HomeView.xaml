@@ -133,6 +133,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <!--Pulse Version-->
@@ -161,8 +162,14 @@
                     <TextBlock Text="{Binding Path=PulseVersionUpdateToDate}" Foreground="{StaticResource PulseTitleFontColor}" />
                 </StackPanel>
 
+                <TextBlock Grid.Row="5">           
+                    <Hyperlink NavigateUri="{Binding Path=PulseUpdateUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Run Text="{Binding Path=PulseUpdateUrl}" />
+                    </Hyperlink>
+                </TextBlock>
+
                 <!--Desc-->
-                <StackPanel Grid.Row="5" Margin="0,20,0,0">
+                <StackPanel Grid.Row="6" Margin="0,20,0,0">
                     <TextBlock Text="{Binding Path=Copyright}" />
                 </StackPanel>
 

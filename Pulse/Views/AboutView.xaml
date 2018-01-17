@@ -30,6 +30,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<!--Title-->
 				<TextBlock Grid.Row="0" Text="Pulse" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" FontSize="48" />
@@ -49,19 +50,25 @@
                 <!--RTI Version-->
 				<StackPanel Grid.Row="3" Orientation="Horizontal">
 					<TextBlock Text="RTI Version: " HorizontalAlignment="Left" VerticalAlignment="Center" />
-					<TextBlock Text="{Binding Path=RtiVersion}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource PulseFontHighlightColor}"  />
-				</StackPanel>
+                    <TextBlock Text="{Binding Path=RtiVersion}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource PulseFontHighlightColor}"  />
+                </StackPanel>
 				
 				<!--Up to Date-->
-				<StackPanel Grid.Row="4" Orientation="Horizontal">
-					<Viewbox Height="20" Width="20" Margin="2" Visibility="{Binding Path=IsCheckingForUpdates, Converter={StaticResource BoolToVisConverter}}">
-						<mahapps:ProgressRing IsActive="{Binding IsCheckingForUpdates}" Foreground="Red" />
-					</Viewbox>
-					<TextBlock Text="{Binding Path=PulseVersionUpdateToDate}" Foreground="{StaticResource PulseTitleFontColor}" />
-				</StackPanel>
-				
-				<!--Desc-->
-				<StackPanel Grid.Row="5" Margin="0,20,0,0">
+                <StackPanel Grid.Row="4" Orientation="Horizontal">
+                    <Viewbox Height="20" Width="20" Margin="2" Visibility="{Binding Path=IsCheckingForUpdates, Converter={StaticResource BoolToVisConverter}}">
+                        <mahapps:ProgressRing IsActive="{Binding IsCheckingForUpdates}" Foreground="Red" />
+                    </Viewbox>
+                    <TextBlock Text="{Binding Path=PulseVersionUpdateToDate}" Foreground="{StaticResource PulseTitleFontColor}" />
+                </StackPanel>
+
+                <TextBlock Grid.Row="5">           
+                    <Hyperlink NavigateUri="{Binding Path=PulseUpdateUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Run Text="{Binding Path=PulseUpdateUrl}" />
+                    </Hyperlink>
+                </TextBlock>
+
+                <!--Desc-->
+				<StackPanel Grid.Row="6" Margin="0,20,0,0">
                     <TextBlock Text="{Binding Path=Copyright}" />
                 </StackPanel>
 				

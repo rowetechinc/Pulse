@@ -31,6 +31,7 @@
  * 08/07/2014      RC          4.0.0       Updated ReactiveCommand to 6.0.
  * 10/27/2015      RC          4.3.1       Added version number for Pulse Display.
  * 09/11/2017      RC          4.5.4       Check if the website exists for AutoUpdate.
+ * 01/17/2018      RC          4.7.2       Made messagebox pop up for AutoUpdater.  Add URL to update.
  * 
  */
 
@@ -49,6 +50,8 @@ namespace RTI
     using System.Diagnostics;
     using System.Threading.Tasks;
     using System.Net;
+    using System.Windows.Threading;
+    using System.Windows;
 
     /// <summary>
     /// About the Pulse Software.
@@ -165,6 +168,23 @@ namespace RTI
             {
                 _IsCheckingForUpdates = value;
                 this.NotifyOfPropertyChange(() => this.IsCheckingForUpdates);
+            }
+        }
+
+        /// <summary>
+        /// RTI Pulse Update URL.
+        /// </summary>
+        private string _PulseUpdateUrl;
+        /// <summary>
+        /// RTI Pulse Update URL.
+        /// </summary>
+        public string PulseUpdateUrl
+        {
+            get { return _PulseUpdateUrl; }
+            set
+            {
+                _PulseUpdateUrl = value;
+                this.NotifyOfPropertyChange(() => this.PulseUpdateUrl);
             }
         }
 
@@ -383,6 +403,7 @@ namespace RTI
 
             IsCheckingForUpdates = false;
             PulseVersionUpdateToDate = "Checking for an update...";
+            PulseUpdateUrl = "";
 
             // Get the copyright info
             GetCopyrightInfo();
@@ -414,7 +435,7 @@ namespace RTI
         /// </summary>
         public void Dispose()
         {
-            AutoUpdater.CheckForUpdateEvent -= AutoUpdater_AutoUpdaterEvent;
+            AutoUpdater.CheckForUpdateEvent -= AutoUpdaterOnCheckForUpdateEvent;
         }
 
         #region License
@@ -474,16 +495,15 @@ namespace RTI
                 if (response != null && response.StatusCode == HttpStatusCode.OK && response.ResponseUri == new System.Uri(url))
                 {
                     IsCheckingForUpdates = true;
-                    //AutoUpdater.Start("http://66.147.244.164/~rowetech/pulse/Pulse_AppCast.xml");
-                    //AutoUpdater.Start("http://www.rowetechinc.com/pulse/Pulse_AppCast.xml");
-                    AutoUpdater.Start("http://www.rowetechinc.co/pulse/Pulse_AppCast.xml");
-                    AutoUpdater.CheckForUpdateEvent += new AutoUpdater.CheckForUpdateEventHandler(AutoUpdater_AutoUpdaterEvent);
+                    AutoUpdater.Start(url);
+                    AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
                 }
                 response.Close();
             }
-            catch(System.Net.WebException)
+            catch(System.Net.WebException e)
             {
                 // No Internet connection, so do nothing
+                log.Error("No Internet connection to check for updates.", e);
             }
             catch(Exception e)
             {
@@ -496,25 +516,81 @@ namespace RTI
         /// and if so, which version is available.
         /// </summary>
         /// <param name="args">Results for checking if an update exist.</param>
-        void AutoUpdater_AutoUpdaterEvent(UpdateInfoEventArgs args)
+        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         {
-            if(args == null)
+            if (args != null)
             {
-                return;
-            }
+                if (!args.IsUpdateAvailable)
+                {
+                    PulseVersionUpdateToDate = string.Format("Pulse is up to date");
+                    PulseUpdateUrl = "";
+                }
+                else
+                {
+                    PulseVersionUpdateToDate = string.Format("Pulse version {0} is available", args.CurrentVersion);
+                    PulseUpdateUrl = args.DownloadURL;
+                }
+                // Unsubscribe
+                AutoUpdater.CheckForUpdateEvent -= AutoUpdaterOnCheckForUpdateEvent;
+                IsCheckingForUpdates = false;
 
-            if (!args.IsUpdateAvailable)
-            {
-                PulseVersionUpdateToDate = string.Format("Pulse is up to date");
+
+                if (args.IsUpdateAvailable)
+                {
+                    MessageBoxResult dialogResult;
+                    if (args.Mandatory)
+                    {
+                        dialogResult =
+                            MessageBox.Show(@"There is new version " + args.CurrentVersion + "  available. \nYou are using version " + args.InstalledVersion + ". \nThis is required update. \nPress Ok to begin updating the application.",
+                                            @"Update Available",
+                                            MessageBoxButton.OK,
+                                            MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        dialogResult =
+                            MessageBox.Show(
+                                @"There is new version " + args.CurrentVersion + " available. \nYou are using version " + args.InstalledVersion + ".  \nDo you want to update the application now?",
+                                @"Update Available",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Information);
+                    }
+
+                    if (dialogResult.Equals(MessageBoxResult.Yes))
+                    {
+                        try
+                        {
+                            if (AutoUpdater.DownloadUpdate())
+                            {
+                                //Application.Current.Exit();
+                                System.Windows.Application.Current.Shutdown();
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageBox.Show(exception.Message, 
+                                exception.GetType().ToString(), 
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(@"There is no update available please try again later.", 
+                                    @"No update available",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
+                }
             }
             else
             {
-                PulseVersionUpdateToDate = string.Format("Pulse version {0} is available", args.CurrentVersion);
+                MessageBox.Show(
+                        @"There is a problem reaching update server please check your internet connection and try again later.",
+                        @"Update check failed", 
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
             }
-
-            // Unsubscribe
-            AutoUpdater.CheckForUpdateEvent -= AutoUpdater_AutoUpdaterEvent;
-            IsCheckingForUpdates = false;
         }
 
         #endregion

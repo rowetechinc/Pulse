@@ -30,6 +30,7 @@
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 02/17/2017      RC          4.5.1      Added Compass Calibration as a button.
  * 03/30/2017      RC          4.5.2      Fixed data size in wizard for burst deployments.
+ * 01/18/2017      RC          4.7.2      Updated the Prediction Model.
  * 
  * 
  * 
@@ -509,6 +510,12 @@ namespace RTI
                 }
 
                 this.NotifyOfPropertyChange(() => this.Temperature);
+
+                // Update the latest values
+                foreach (var ssVM in SubsystemConfigList)
+                {
+                    ssVM.CalcPrediction();
+                }
             }
         }
 
@@ -531,6 +538,12 @@ namespace RTI
                     _pm.SelectedProject.Save();
                 }
                 this.NotifyOfPropertyChange(() => this.XdcrDepth);
+
+                // Update the latest values
+                foreach (var ssVM in SubsystemConfigList)
+                {
+                    ssVM.CalcPrediction();
+                }
             }
         }
 

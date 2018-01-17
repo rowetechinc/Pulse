@@ -281,12 +281,12 @@
 
                                 <!--Temperature-->
                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Temperature:" Foreground="Gray" Margin="5" VerticalAlignment="Center" />
-                                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Path=Temperature}" Margin="5" Minimum="1" Background="White" Foreground="Black" />
+                                <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Path=Temperature}" Margin="5" Background="White" Foreground="Black" />
                                 <TextBlock Grid.Row="2" Grid.Column="2" Text="C" Foreground="Gray" Margin="5" />
 
                                 <!--XDCR Depth-->
                                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Tranducer Depth:" Foreground="Gray" Margin="5" VerticalAlignment="Center" />
-                                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Path=XdcrDepth}" Margin="5" Minimum="1" Background="White" Foreground="Black" />
+                                <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Path=XdcrDepth}" Margin="5" Minimum="0" Background="White" Foreground="Black" />
                                 <TextBlock Grid.Row="3" Grid.Column="2" Text="m" Foreground="Gray" Margin="5" />
 
                                 <!--Battery Type-->

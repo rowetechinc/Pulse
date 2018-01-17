@@ -28,6 +28,7 @@
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 09/17/2014      RC          4.1.0      Added DvlSetup.
  * 09/11/2017      RC          4.5.4       Check if the website exists for AutoUpdate.
+ * 01/17/2018      RC          4.7.2       Made messagebox pop up for AutoUpdater.  Add URL to update.
  * 
  */
 
@@ -42,6 +43,7 @@ namespace RTI
     using AutoUpdaterDotNET;
     using System.IO;
     using System.Net;
+    using System.Windows;
 
     /// <summary>
     /// Home page for the application.
@@ -194,6 +196,24 @@ namespace RTI
             }
         }
 
+
+        /// <summary>
+        /// RTI Pulse Update URL.
+        /// </summary>
+        private string _PulseUpdateUrl;
+        /// <summary>
+        /// RTI Pulse Update URL.
+        /// </summary>
+        public string PulseUpdateUrl
+        {
+            get { return _PulseUpdateUrl; }
+            set
+            {
+                _PulseUpdateUrl = value;
+                this.NotifyOfPropertyChange(() => this.PulseUpdateUrl);
+            }
+        }
+
         #region Copyright Info
 
         /// <summary>
@@ -217,73 +237,6 @@ namespace RTI
 
         #endregion
 
-        #region Auto Update
-
-        /// <summary>
-        /// Check for updates to the application.  This will download the version of the application from 
-        /// website/pulse/Pulse_AppCast.xml.  It will then check the version against the verison of this application
-        /// set in Properties->AssemblyInfo.cs.  If the one on the website is greater, it will display a message 
-        /// to update the application.
-        /// 
-        /// Also subscribe to the event to determine if an update is necssary.
-        /// </summary>
-        private void CheckForUpdates()
-        {
-            string url = @"http://www.rowetechinc.com/pulse/Pulse_AppCast.xml";
-
-            try
-            {
-                WebRequest request = WebRequest.Create(url);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                if (response != null && response.StatusCode == HttpStatusCode.OK && response.ResponseUri == new System.Uri(url))
-                {
-                    IsCheckingForUpdates = true;
-                    //AutoUpdater.Start("http://66.147.244.164/~rowetech/pulse/Pulse_AppCast.xml");
-                    //AutoUpdater.Start("http://www.rowetechinc.com/pulse/Pulse_AppCast.xml");
-                    AutoUpdater.Start("http://www.rowetechinc.co/pulse/Pulse_AppCast.xml");
-                    AutoUpdater.CheckForUpdateEvent += new AutoUpdater.CheckForUpdateEventHandler(AutoUpdater_AutoUpdaterEvent);
-                }
-                response.Close();
-            }
-            catch (System.Net.WebException)
-            {
-                // No Internet connection, so do nothing
-            }
-            catch (Exception e)
-            {
-                log.Error("Error checking for an update on the web.", e);
-            }
-        }
-
-        /// <summary>
-        /// Event handler for the AutoUpdater.   This will get if an update is available
-        /// and if so, which version is available.
-        /// </summary>
-        /// <param name="args">Results for checking if an update exist.</param>
-        void AutoUpdater_AutoUpdaterEvent(UpdateInfoEventArgs args)
-        {
-            if (args == null)
-            {
-                return;
-            }
-
-            if (!args.IsUpdateAvailable)
-            {
-                PulseVersionUpdateToDate = string.Format("Pulse is up to date");
-            }
-            else
-            {
-                PulseVersionUpdateToDate = string.Format("Pulse version {0} is available", args.CurrentVersion);
-            }
-
-            // Unsubscribe
-            AutoUpdater.CheckForUpdateEvent -= AutoUpdater_AutoUpdaterEvent;
-            IsCheckingForUpdates = false;
-        }
-
-        #endregion
-
-
         /// <summary>
         /// Initialize the values.
         /// </summary>
@@ -294,6 +247,7 @@ namespace RTI
             PulseVersion = Pulse.Version.VERSION + Pulse.Version.VERSION_ADDITIONAL;
             PulseDisplayVersion = PulseDisplay.Version.VERSION + Pulse.Version.VERSION_ADDITIONAL;
             RtiVersion = Core.Commons.VERSION + Core.Commons.RTI_VERSION_ADDITIONAL;
+            PulseUpdateUrl = "";
             // Set Event Aggregator
             _events = IoC.Get<IEventAggregator>();
 
@@ -339,8 +293,128 @@ namespace RTI
         /// </summary>
         public override void Dispose()
         {
-            AutoUpdater.CheckForUpdateEvent -= AutoUpdater_AutoUpdaterEvent;
+            AutoUpdater.CheckForUpdateEvent -= AutoUpdaterOnCheckForUpdateEvent;
         }
+
+        #region Auto Update
+
+        /// <summary>
+        /// Check for updates to the application.  This will download the version of the application from 
+        /// website/pulse/Pulse_AppCast.xml.  It will then check the version against the verison of this application
+        /// set in Properties->AssemblyInfo.cs.  If the one on the website is greater, it will display a message 
+        /// to update the application.
+        /// 
+        /// Also subscribe to the event to determine if an update is necssary.
+        /// </summary>
+        private void CheckForUpdates()
+        {
+            string url = @"http://www.rowetechinc.co/pulse/Pulse_AppCast.xml";
+
+            try
+            {
+                WebRequest request = WebRequest.Create(url);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                if (response != null && response.StatusCode == HttpStatusCode.OK && response.ResponseUri == new System.Uri(url))
+                {
+                    IsCheckingForUpdates = true;
+                    AutoUpdater.Start(url);
+                    AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+                }
+                response.Close();
+            }
+            catch (System.Net.WebException)
+            {
+                // No Internet connection, so do nothing
+            }
+            catch (Exception e)
+            {
+                log.Error("Error checking for an update on the web.", e);
+            }
+        }
+
+        /// <summary>
+        /// Event handler for the AutoUpdater.   This will get if an update is available
+        /// and if so, which version is available.
+        /// </summary>
+        /// <param name="args">Results for checking if an update exist.</param>
+        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            if (args != null)
+            {
+                if (!args.IsUpdateAvailable)
+                {
+                    PulseVersionUpdateToDate = string.Format("Pulse is up to date");
+                    PulseUpdateUrl = "";
+                }
+                else
+                {
+                    PulseVersionUpdateToDate = string.Format("Pulse version {0} is available", args.CurrentVersion);
+                    PulseUpdateUrl = args.DownloadURL;
+                }
+                // Unsubscribe
+                AutoUpdater.CheckForUpdateEvent -= AutoUpdaterOnCheckForUpdateEvent;
+                IsCheckingForUpdates = false;
+
+
+                if (args.IsUpdateAvailable)
+                {
+                    MessageBoxResult dialogResult;
+                    if (args.Mandatory)
+                    {
+                        dialogResult =
+                            MessageBox.Show(@"There is new version " + args.CurrentVersion + "  available. \nYou are using version " + args.InstalledVersion + ". \nThis is required update. \nPress Ok to begin updating the application.",
+                                            @"Update Available",
+                                            MessageBoxButton.OK,
+                                            MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        dialogResult =
+                            MessageBox.Show(
+                                @"There is new version " + args.CurrentVersion + " available. \nYou are using version " + args.InstalledVersion + ".  \nDo you want to update the application now?",
+                                @"Update Available",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Information);
+                    }
+
+                    if (dialogResult.Equals(MessageBoxResult.Yes))
+                    {
+                        try
+                        {
+                            if (AutoUpdater.DownloadUpdate())
+                            {
+                                //Application.Current.Exit();
+                                System.Windows.Application.Current.Shutdown();
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageBox.Show(exception.Message,
+                                exception.GetType().ToString(),
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(@"There is no update available please try again later.",
+                                    @"No update available",
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                        @"There is a problem reaching update server please check your internet connection and try again later.",
+                        @"Update check failed",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+            }
+        }
+
+        #endregion
 
         #region Load Pulse Options
 

@@ -70,7 +70,7 @@
 						
 						<!--Num Batteries-->
 						<TextBlock Grid.Row="1" Grid.Column="0" Text="Number of Batteries:" Foreground="Gray" />
-						<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=NumberBatteryPacks}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
+						<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=NumberBatteryPackStr}" Margin="5,0" Foreground="{StaticResource PulseFontOrangeColor}" />
 						<TextBlock Grid.Row="1" Grid.Column="2" Text="packs" Foreground="Gray" />
 						
 						<!--Maximum Velocity-->

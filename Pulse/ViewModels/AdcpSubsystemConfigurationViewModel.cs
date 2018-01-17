@@ -30,6 +30,7 @@
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 10/19/2016      RC          4.4.13     Made the default BT mode Narrowband in prediction model.
  * 03/30/2017      RC          4.5.2      Fixed data size in wizard for burst deployments.
+ * 01/18/2017      RC          4.7.2      Updated the Prediction Model.
  * 
  * 
  */
@@ -335,6 +336,7 @@ namespace RTI
             {
                 _PredictedBottomRange = value;
                 this.NotifyOfPropertyChange(() => this.PredictedBottomRange);
+                this.NotifyOfPropertyChange(() => this.PredictedBottomRangeStr);
             }
         }
 
@@ -366,6 +368,7 @@ namespace RTI
             {
                 _PredictedProfileRange = value;
                 this.NotifyOfPropertyChange(() => this.PredictedProfileRange);
+                this.NotifyOfPropertyChange(() => this.PredictedProfileRangeStr);
             }
         }
 
@@ -457,6 +460,7 @@ namespace RTI
             {
                 _NumberBatteryPacks = value;
                 this.NotifyOfPropertyChange(() => this.NumberBatteryPacks);
+                this.NotifyOfPropertyChange(() => this.NumberBatteryPackStr);
             }
         }
 
@@ -563,23 +567,23 @@ namespace RTI
             // This will update all the properties
             this.NotifyOfPropertyChange(null);
 
-            this.NotifyOfPropertyChange(() => this.CWPP);
-            this.NotifyOfPropertyChange(() => this.CWPTBP);
-            this.NotifyOfPropertyChange(() => this.CWPBS);
-            this.NotifyOfPropertyChange(() => this.CWPBN);
-            this.NotifyOfPropertyChange(() => this.CWPBL);
-            this.NotifyOfPropertyChange(() => this.CWPBB_TransmitPulseType);
-            this.NotifyOfPropertyChange(() => this.CWPBB_LagLength);
-            this.NotifyOfPropertyChange(() => this.CBTON);
-            this.NotifyOfPropertyChange(() => this.CBI_BurstInterval);
+            //this.NotifyOfPropertyChange(() => this.CWPP);
+            //this.NotifyOfPropertyChange(() => this.CWPTBP);
+            //this.NotifyOfPropertyChange(() => this.CWPBS);
+            //this.NotifyOfPropertyChange(() => this.CWPBN);
+            //this.NotifyOfPropertyChange(() => this.CWPBL);
+            //this.NotifyOfPropertyChange(() => this.CWPBB_TransmitPulseType);
+            //this.NotifyOfPropertyChange(() => this.CWPBB_LagLength);
+            //this.NotifyOfPropertyChange(() => this.CBTON);
+            //this.NotifyOfPropertyChange(() => this.CBI_BurstInterval);
 
-            this.NotifyOfPropertyChange(() => this.DataSize);
-            this.NotifyOfPropertyChange(() => this.NumberBatteryPacks);
-            this.NotifyOfPropertyChange(() => this.PredictedBottomRange);
-            this.NotifyOfPropertyChange(() => this.PredictedProfileRange);
-            this.NotifyOfPropertyChange(() => this.MaximumVelocity);
-            this.NotifyOfPropertyChange(() => this.StandardDeviation);
-            this.NotifyOfPropertyChange(() => this.ProfileFirstBinPosition);
+            //this.NotifyOfPropertyChange(() => this.DataSize);
+            //this.NotifyOfPropertyChange(() => this.NumberBatteryPackStr);
+            //this.NotifyOfPropertyChange(() => this.PredictedBottomRangeStr);
+            //this.NotifyOfPropertyChange(() => this.PredictedProfileRangeStr);
+            //this.NotifyOfPropertyChange(() => this.MaximumVelocity);
+            //this.NotifyOfPropertyChange(() => this.StandardDeviation);
+            //this.NotifyOfPropertyChange(() => this.ProfileFirstBinPosition);
 
         }
 
@@ -739,6 +743,24 @@ namespace RTI
                     RangeVM.DepthToBottom = predInput.XdcrDepth;
                 }
             }
+
+            //this.NotifyOfPropertyChange(() => this.CWPP);
+            //this.NotifyOfPropertyChange(() => this.CWPTBP);
+            //this.NotifyOfPropertyChange(() => this.CWPBS);
+            //this.NotifyOfPropertyChange(() => this.CWPBN);
+            //this.NotifyOfPropertyChange(() => this.CWPBL);
+            //this.NotifyOfPropertyChange(() => this.CWPBB_TransmitPulseType);
+            //this.NotifyOfPropertyChange(() => this.CWPBB_LagLength);
+            //this.NotifyOfPropertyChange(() => this.CBTON);
+            //this.NotifyOfPropertyChange(() => this.CBI_BurstInterval);
+
+            //this.NotifyOfPropertyChange(() => this.DataSize);
+            //this.NotifyOfPropertyChange(() => this.NumberBatteryPackStr);
+            //this.NotifyOfPropertyChange(() => this.PredictedBottomRangeStr);
+            //this.NotifyOfPropertyChange(() => this.PredictedProfileRangeStr);
+            //this.NotifyOfPropertyChange(() => this.ProfileFirstBinPosition);
+            //this.NotifyOfPropertyChange(() => this.MaximumVelocity);
+            //this.NotifyOfPropertyChange(() => this.StandardDeviation);
         }
 
         #endregion

@@ -1,5 +1,12 @@
 ﻿Pulse Changelog
 
+Pulse-4.7.2
+ - Update project pages with absorption prediction model.
+ - Fix AutoUpdate to have a messagebox pop up when an update is available.
+
+Pulse-4.7.1
+ - Added Absorption to prediction model
+
 Pulse-4.7.0
  - Fixed bug in Prediction Model with System Init Time.
  - Made the serial port not send a BREAK at startup for the ADCP.
