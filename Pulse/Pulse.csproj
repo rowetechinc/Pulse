@@ -264,7 +264,6 @@
     <Compile Include="ViewModels\BroadbandModeViewModel.cs" />
     <Compile Include="ViewModels\BurstModeViewModel.cs" />
     <Compile Include="ViewModels\CommunicationViewModel.cs" />
-    <Compile Include="ViewModels\CompassRoseViewModel.cs" />
     <Compile Include="ViewModels\TemperatureViewModel.cs" />
     <Compile Include="ViewModels\WpMagDirOutputViewModel.cs" />
     <Compile Include="ViewModels\DataOutputViewModel.cs" />
@@ -345,9 +344,6 @@
     </Compile>
     <Compile Include="Views\AdcpUtilitiesView.xaml.cs">
       <DependentUpon>AdcpUtilitiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CompassRoseView.xaml.cs">
-      <DependentUpon>CompassRoseView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WpMagDirOutputView.xaml.cs">
       <DependentUpon>WpMagDirOutputView.xaml</DependentUpon>
@@ -533,10 +529,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AdcpUtilitiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CompassRoseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
