@@ -729,6 +729,7 @@ namespace RTI
             HeatmapPlot = new HeatmapPlotViewModel(HeatmapPlotSeries.HeatmapPlotType.Earth_Velocity_Magnitude, _options.HeatmapOptions);
             HeatmapPlot.Plot.LegendPosition = LegendPosition.TopCenter;
             HeatmapPlot.AddSeries(_options.HeatmapOptions);
+            HeatmapPlot.AddBtSeries();
             HeatmapPlot.UpdateOptionsEvent += HeatmapPlot_UpdateOptionsEvent;                                       // Options changed event
 
             _ensembleHistory = new LimitedList<DataSet.Ensemble>(DisplayMaxEnsembles);                              // Ensemble History
