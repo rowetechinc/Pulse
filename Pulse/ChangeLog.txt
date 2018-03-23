@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.8.1
+ - Added tooltips to special BREAK button in terminal and fixed the colors.
+
 Pulse-4.8.0
  - Update Heatmap Plot.
  - Update Mark Bad Below Bottom.
