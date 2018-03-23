@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.8.0
+ - Update Heatmap Plot.
+ - Update Mark Bad Below Bottom.
+
 Pulse-4.7.2
  - Update project pages with absorption prediction model.
  - Fix AutoUpdate to have a messagebox pop up when an update is available.

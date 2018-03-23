@@ -292,13 +292,12 @@ namespace RTI
         {
             try
             {
-                string url = @"http://www.rowetechinc.com/pulse/Pulse_AppCast.xml";
+                string url = @"http://www.rowetechinc.co/pulse/Pulse_AppCast.xml";
 
                 WebRequest request = WebRequest.Create(url);
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 if (response != null && response.StatusCode == HttpStatusCode.OK && response.ResponseUri == new System.Uri(url))
                 {
-                    //AutoUpdater.Start("http://66.147.244.164/~rowetech/pulse/Pulse_AppCast.xml");
                     AutoUpdater.Start(url);
                 }
                 response.Close();
