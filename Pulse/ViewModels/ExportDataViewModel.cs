@@ -36,6 +36,7 @@
  * 09/28/2016      RC          4.4.13      Added export of Velocity Vectors in CSV.
  * 02/08/2017      RC          4.5.0       Fix bug when new project is selected an no ensembles are in the project.
  * 10/06/2017      RC          4.5.7       Added export ENS. 
+ * 03/27/2018      RC          4.9.0       Added Screening Options.
  * 
  */
 
@@ -71,11 +72,6 @@ namespace RTI
         /// Pulse manager.
         /// </summary>
         private PulseManager _pm;
-
-        /// <summary>
-        /// ViewModel to screen the data.
-        /// </summary>
-        private ScreenDataBaseViewModel _screenDataVM;
 
         /// <summary>
         /// Beam coordiante transform.
@@ -1023,6 +1019,43 @@ namespace RTI
 
                 // Save Options
                 SaveOptions();
+            }
+        }
+
+        #endregion
+
+        #region Screen Model
+
+        /// <summary>
+        /// Selected index.
+        /// </summary>
+        private int _SelectedIndex;
+        /// <summary>
+        /// Selected index.
+        /// </summary>
+        public int SelectedIndex
+        {
+            get { return _SelectedIndex; }
+            set
+            {
+                _SelectedIndex = value;
+                this.NotifyOfPropertyChange(() => this.SelectedIndex);
+            }
+        }
+
+        /// <summary>
+        /// ViewModel to screen the data.
+        /// </summary>
+        private ScreenDataBaseViewModel _screenDataVM;
+
+        /// <summary>
+        /// ViewModel to screen the data.
+        /// </summary>
+        public ScreenDataBaseViewModel ScreenDataVM
+        {
+            get
+            {
+                return _screenDataVM;
             }
         }
 

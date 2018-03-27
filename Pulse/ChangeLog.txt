@@ -1,5 +1,10 @@
 ﻿Pulse Changelog
 
+Pulse-4.9.0
+ - In Project view, make the user refresh or generate a missing image instead of doing it automatically.
+ - Clean up Export view.
+ - In Export, added Screening Options.
+
 Pulse-4.8.1
  - Added tooltips to special BREAK button in terminal and fixed the colors.
 

@@ -36,6 +36,7 @@
  * 07/27/2015      RC          4.1.5      Changed importing a file to FilePlayback.
  * 11/25/2015      RC          4.3.1      Select ENS and BIN as default options for playback files.
  * 02/27/2017      RC          4.5.1      Improved the performance of loading a project in ScanProjectAsync().
+ * 03/207/2018     RC          4.9.0      Remove auto generating the images.
  * 
  */
 
@@ -285,6 +286,8 @@ namespace RTI
         {
             IsProjectLoading = true;
 
+            List<ProjectListItemViewModel> missingImageList = new List<ProjectListItemViewModel>(); 
+
             ProjectList = new ReactiveList<ProjectListItemViewModel>();
 
             var list = await Task.Run(() => _pm.GetProjectList());
@@ -299,18 +302,21 @@ namespace RTI
                     // Check if the project image exist
                     if(prjVM.ProjectImage == null)
                     {
-                        // Get the project for the image name
-                        Project project = _pm.GetProject(prjVM.ProjectName);
+                        // Add name to list to later create image
+                        missingImageList.Add(prjVM);
 
-                        // If the project image does not exist, create the image now
-                        if (!File.Exists(project.GetProjectImagePath()))
-                        {
-                            Task.Run(() =>
-                            {
-                                prjVM.RefreshDisplay();
-                                this.NotifyOfPropertyChange(() => this.ProjectList);
-                            });
-                        }
+                        // Get the project for the image name
+                        //Project project = _pm.GetProject(prjVM.ProjectName);
+
+                        //// If the project image does not exist, create the image now
+                        //if (!File.Exists(project.GetProjectImagePath()))
+                        //{
+                        //    Task.Run(() =>
+                        //    {
+                        //        prjVM.RefreshDisplay();
+                        //        this.NotifyOfPropertyChange(() => this.ProjectList);
+                        //    });
+                        //}
                     }
 
                     // Set the last selected project
@@ -331,6 +337,24 @@ namespace RTI
                     prj.Dispose();
                 }));
             }
+
+            //// Load the missing project images 1 at a time.
+            //// If a load them all it once, it takes to much memory
+            //foreach (var prjVM in missingImageList)
+            //{
+            //    //Get the project for the image name
+            //    Project project = _pm.GetProject(prjVM.ProjectName);
+
+            //    // If the project image does not exist, create the image now
+            //    if (!File.Exists(project.GetProjectImagePath()))
+            //    {
+            //        Task.Run(() =>
+            //        {
+            //            prjVM.RefreshDisplay();
+            //            this.NotifyOfPropertyChange(() => this.ProjectList);
+            //        });
+            //    }
+            //}
 
             IsProjectLoading = false;
         }

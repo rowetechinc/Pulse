@@ -242,10 +242,12 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Text="Heading:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="1" Text="Pitch:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="2" Text="Roll:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="3" Text="Orientation:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                     </Grid>
                 </Border>
             </Grid>
@@ -272,6 +274,9 @@
 
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=RollRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <TextBlock Grid.Column="1" Grid.Row="2" Text="Deg" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <!--oxy:Plot x:Name="rollPlot" Grid.Column="2" Grid.Row="2" Model="{Binding Path=RollPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Path=AdcpOrientation}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <!--oxy:Plot x:Name="rollPlot" Grid.Column="2" Grid.Row="2" Model="{Binding Path=RollPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
             </Grid>
 

@@ -920,6 +920,33 @@ namespace RTI
 
         #endregion
 
+        #region ADCP Orientation
+
+        /// <summary>
+        /// Display the orientation of the ADCP.
+        /// </summary>
+        public string AdcpOrientation
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsEnsembleAvail)
+                {
+                    if(_DisplayEnsemble.AncillaryData.IsUpwardFacing())
+                    {
+                        return "Upward Facing";
+                    }
+
+                    return "Downward Facing";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        #endregion
+
         #endregion
 
         /// <summary>
