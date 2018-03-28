@@ -54,6 +54,7 @@
  * 10/26/2015      RC          4.3.1       Added DiagnosticsViewModel    
  * 08/28/2017      RC          4.5.2       Added OutputDataViewModel
  * 09/02/2017      RC          4.5.3       Added WpMagDirViewModel and BaseDataOutputViewModel.
+ * 03/28/2018      RC          4.10.0      Added DataFormatViewModel.
  * 
  */
 
@@ -155,6 +156,9 @@ namespace RTI
 
             // Singleton ProjectManager
             ContainerExtensions.Singleton<PulseManager, PulseManager>(_container);
+
+            // Singleton DataFormatViewModel
+            ContainerExtensions.Singleton<DataFormatViewModel, DataFormatViewModel>(_container);
 
             // Register the PlaybackViewModel
             ContainerExtensions.Singleton<PlaybackViewModel, PlaybackViewModel>(_container);

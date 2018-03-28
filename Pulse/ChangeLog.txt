@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.10.0
+ - Added DataFormatOptions.
+ - Added DataFormatView to NavBar.
+
 Pulse-4.9.0
  - In Project view, make the user refresh or generate a missing image instead of doing it automatically.
  - Clean up Export view.

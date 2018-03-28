@@ -74,7 +74,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;Name and file
 	Name "Rowe Technology Inc. - Pulse"
-	OutFile "Pulse.Installer.v.4.9.0.Update.exe"
+	OutFile "Pulse.Installer.v.4.10.0.Update.exe"
 
 	;Default installation folder
 	InstallDir "$PROGRAMFILES\Rowe Technology Inc\Pulse"
@@ -124,9 +124,9 @@ Var /GLOBAL VERSION_MINOR
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Section "Core" SecCore
 
-	StrCpy $VERSION_NUM "4.9.0" 
+	StrCpy $VERSION_NUM "4.10.0" 
 	StrCpy $VERSION_MAJOR "4"
-	StrCpy $VERSION_MINOR "9"
+	StrCpy $VERSION_MINOR "10"
 
 	SetOutPath $INSTDIR
 

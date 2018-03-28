@@ -168,6 +168,25 @@
                 <TextBlock Text="VM" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" FontWeight="Bold" />
             </StackPanel>
 
+            <!--Data Format-->
+            <StackPanel Margin="2">
+                <Button Command="{Binding Path=DataFormatCommand}" CommandParameter="{Binding}" Style="{DynamicResource MetroCircleButtonStyle}" Background="{StaticResource PulseFontHighlightColor}" Height="36" Width="36" >
+                    <ToolTipService.ToolTip>
+                        <TextBlock Foreground="White" Text="Data Format Options" />
+                    </ToolTipService.ToolTip>
+                    <StackPanel>
+                        <Rectangle Width="12" Height="12">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource data_format}" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <!--TextBlock Text="View Data" HorizontalAlignment="Center" FontSize="6" /-->
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Text="Data Format" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" FontWeight="Bold" />
+            </StackPanel>
+
             <ToggleButton Margin="40,5,5,5" Width="110" Background="White" BorderBrush="Gray" BorderThickness="2" IsChecked="{Binding IsRecording}">
                 <StackPanel Orientation="Horizontal">
                     <Image Grid.Row="0" Source="{Binding RecordImage}" Width="30" Height="30" />

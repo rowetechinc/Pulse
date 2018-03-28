@@ -218,6 +218,11 @@ namespace RTI
         public ReactiveCommand<object> VmOptionsCommand { get; protected set; }
 
         /// <summary>
+        /// Command to go Data Format View.
+        /// </summary>
+        public ReactiveCommand<object> DataFormatCommand { get; protected set; }
+
+        /// <summary>
         /// Command to go Averaging view.
         /// </summary>
         public ReactiveCommand<object> AveragingCommand { get; protected set; }
@@ -293,6 +298,10 @@ namespace RTI
             // Command to go to VesselMount Options View
             VmOptionsCommand = ReactiveCommand.Create();
             VmOptionsCommand.Subscribe(_ => _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.VesselMountOptionsView)));
+
+            // Command to go to Data Format View
+            DataFormatCommand = ReactiveCommand.Create();
+            DataFormatCommand.Subscribe(_ => _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.DataFormatView)));
 
             // Command to go to VesselMount Options View
             AveragingCommand = ReactiveCommand.Create();

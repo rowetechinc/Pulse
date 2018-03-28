@@ -40,6 +40,7 @@
  * 07/09/2015      RC          0.0.5       Added Environment.Exit(Environment.ExitCode) to shutdown all threads.
  * 08/28/2017      RC          4.5.2       Added DataOutputView.
  * 09/11/2017      RC          4.5.4       Check if the website exists for AutoUpdate.
+ * 03/28/2018      RC          4.10.0      Added DataFormatView.
  * 
  */
 
@@ -884,6 +885,12 @@ namespace RTI
                 case ViewNavEvent.ViewId.DataOutputView:
                     var dataOut = IoC.Get<BaseDataOutputViewModel>();
                     ActivateItem(dataOut);
+                    IsNavBarEnabled = true;
+                    IsPlaybackEnabled = true;
+                    break;
+                case ViewNavEvent.ViewId.DataFormatView:
+                    var dataFormat = IoC.Get<DataFormatViewModel>();
+                    ActivateItem(dataFormat);
                     IsNavBarEnabled = true;
                     IsPlaybackEnabled = true;
                     break;
