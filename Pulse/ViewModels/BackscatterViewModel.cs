@@ -491,6 +491,7 @@ namespace RTI
         /// The profile plots only need the last ensemble. 
         /// </summary>
         /// <param name="ensemble">Ensemble to display.</param>
+        /// <param name="maxEnsembles">Maximum ensembles to display.</param>
         public void DisplayBulkData(DataSet.Ensemble ensemble, int maxEnsembles)
         {
             //MaxEnsembles = maxEnsembles;

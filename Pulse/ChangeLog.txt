@@ -1,7 +1,7 @@
 ﻿Pulse Changelog
 
 Pulse-4.11.0
- - Updated how the Ensembles are past to the display.
+ - Updated how the Ensembles are passed to the display.
 
 Pulse-4.10.1
  - Fixed bug in PD4/5 where the HeaderStart was not locked when clearing the codec.

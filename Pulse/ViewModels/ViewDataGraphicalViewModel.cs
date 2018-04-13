@@ -965,7 +965,7 @@ namespace RTI
         /// </summary>
         /// <param name="ensembles">Ensembles to display.</param>
         /// <param name="maxEnsembles">Max Ensembles to display.</param>
-        private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles)
+        private void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles)
         {
             IsLoading = true;
 
@@ -1441,7 +1441,8 @@ namespace RTI
         /// The profile plots only need the last ensemble. 
         /// </summary>
         /// <param name="ensembles">Event that contains the Ensembles to display.</param>
-        public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles)
+        /// <param name="maxEnsembles">Maximum ensembles to display.</param>
+        public void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles)
         {
             IsLoading = true;
 

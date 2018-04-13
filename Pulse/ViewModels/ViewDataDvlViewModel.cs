@@ -3427,6 +3427,7 @@ namespace RTI
         /// Add the bulk data to the plots.
         /// </summary>
         /// <param name="ensembles">Ensembles to get the data.</param>
+        /// <param name="maxEnsembles">Maximum ensembles to display.</param>
         private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles = 0)
         {
             // Set a flag for loading
