@@ -45,11 +45,12 @@ namespace RTI
     using System.Windows;
     using System.Collections.Concurrent;
     using System.Threading.Tasks;
+    using System.Diagnostics;
 
     /// <summary>
     /// Base view for all the Graphical views.
     /// </summary>
-    public class ViewDataBaseGraphicalViewModel : PulseViewModel, IHandle<EnsembleEvent>, IHandle<BulkEnsembleEvent>, IHandle<ProjectEvent>, IHandle<CloseVmEvent>
+    public class ViewDataBaseGraphicalViewModel : DisplayViewModel, IHandle<ProjectEvent>, IHandle<CloseVmEvent>
     {
         #region Variables
 
@@ -126,6 +127,7 @@ namespace RTI
         {
             // Project Manager
             _pm = IoC.Get<PulseManager>();
+            _pm.RegisterDisplayVM(this);
             _events = IoC.Get<IEventAggregator>();
             _events.Subscribe(this);
             _isProcessingBuffer = false;
@@ -242,12 +244,12 @@ namespace RTI
                 BulkEnsembleEvent ensEvent = null;
                 if (_buffer.TryDequeue(out ensEvent))
                 {
-                    // Set the maximum display for each VM
-                    foreach (var vm in GraphicalVMList)
-                    {
-                        vm.ClearPlots();
-                        vm.DisplayMaxEnsembles = ensEvent.Ensembles.Count();
-                    }
+                    //// Set the maximum display for each VM
+                    //foreach (var vm in GraphicalVMList)
+                    //{
+                    //    vm.ClearPlots();
+                    //    vm.DisplayMaxEnsembles = ensEvent.Ensembles.Count();
+                    //}
 
                     // Look for all the configurations
                     // 12 is maximum configurations
@@ -291,10 +293,17 @@ namespace RTI
                             }
                         }
 
+                        // Get the number of ensembles and use it to set the max display
+                        int maxEnsembles = 0;
+                        if (_pm.IsProjectSelected)
+                        {
+                            maxEnsembles = _pm.SelectedProject.GetNumberOfEnsembles();
+                        }
+
                         // Pass the ensembles to the displays
                         foreach (var vm in _graphicalVMDict.Values)
                         {
-                            vm.DisplayBulkData(ensEvent.Ensembles);
+                            vm.DisplayBulkData(ensEvent.Ensembles, maxEnsembles);
                         }
                     }
                 }
@@ -314,7 +323,7 @@ namespace RTI
         /// display the latest ensemble.
         /// </summary>
         /// <param name="ensEvent">Ensemble event.</param>
-        public void Handle(EnsembleEvent ensEvent)
+        public override void Handle(EnsembleEvent ensEvent)
         {
             if (ensEvent.Ensemble != null && ensEvent.Ensemble.IsEnsembleAvail)
             {
@@ -336,7 +345,7 @@ namespace RTI
         /// display the latest ensemble.
         /// </summary>
         /// <param name="ensEvent">Ensemble event.</param>
-        public void Handle(BulkEnsembleEvent ensEvent)
+        public override void Handle(BulkEnsembleEvent ensEvent)
         {
             _buffer.Enqueue(ensEvent);
 
@@ -344,7 +353,8 @@ namespace RTI
             if (!_isProcessingBuffer)
             {
                 // Execute async
-                Task.Run(() => BulkEnsembleDisplayExecute());
+                //Task.Run(() => BulkEnsembleDisplayExecute());
+                BulkEnsembleDisplayExecute();
             }
         }
 

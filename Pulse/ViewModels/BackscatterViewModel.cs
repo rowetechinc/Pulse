@@ -50,7 +50,7 @@ namespace RTI
     /// Backscatter display to show the heatmaps for the 
     /// velocities and backscatter.
     /// </summary>
-    public class BackscatterViewModel : PulseViewModel, IHandle<EnsembleEvent>
+    public class BackscatterViewModel : DisplayViewModel
     {
 
         #region Variables
@@ -288,6 +288,7 @@ namespace RTI
 
             // Get PulseManager
             _pm = IoC.Get<PulseManager>();
+            _pm.RegisterDisplayVM(this);
 
             // Get the Event Aggregator
             _events = IoC.Get<IEventAggregator>();
@@ -414,16 +415,18 @@ namespace RTI
         /// The profile plots only need the last ensemble. 
         /// </summary>
         /// <param name="ensembles">Event that contains the Ensembles to display.</param>
-        public void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
+        /// <param name="maxEnsembles">Maximum ensembles to display.</param>
+        public void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles)
         {
             //Task.Run(() => DisplayData(ensemble));
             //DisplayData(ensemble);
-
-            for (int x = 0; x < ensembles.Count(); x++)
+            try
             {
-                // Get the ensemble
-                DataSet.Ensemble ens = ensembles.IndexValue(x);
-                DisplayData(ens);
+                AmpltiduePlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
+            }
+            catch (Exception e)
+            {
+                log.Error("Error adding ensemble to Heatmap plots.", e);
             }
         }
 
@@ -488,31 +491,16 @@ namespace RTI
         /// The profile plots only need the last ensemble. 
         /// </summary>
         /// <param name="ensemble">Ensemble to display.</param>
-        public void DisplayBulkData(DataSet.Ensemble ensemble)
+        public void DisplayBulkData(DataSet.Ensemble ensemble, int maxEnsembles)
         {
-            //Task.Run(() => DisplayData(ensemble));
+            //MaxEnsembles = maxEnsembles;
+            ////Task.Run(() => DisplayData(ensemble));
             DisplayData(ensemble);
         }
 
         #endregion
 
-        #region EventHandler
-
-        ///// <summary>
-        ///// Handle event when EnsembleEvent is received.
-        ///// This will create the displays for each config
-        ///// if it has not been created already.  It will also
-        ///// display the latest ensemble.
-        ///// </summary>
-        ///// <param name="ensEvent">Ensemble event.</param>
-        //public async void Handle(EnsembleEvent ensEvent)
-        //{
-        //    if (ensEvent.Ensemble != null && ensEvent.Ensemble.IsEnsembleAvail)
-        //    {
-        //        await EastVelPlot.AddIncomingData(ensEvent.Ensemble, 500);
-        //        await MagVelPlot.AddIncomingData(ensEvent.Ensemble, 500);
-        //    }
-        //}
+        #region EventHandlers
 
         /// <summary>
         /// Eventhandler for the latest ensemble data.
@@ -520,7 +508,7 @@ namespace RTI
         /// It will set the max ensemble and then check the data and display the data.
         /// </summary>
         /// <param name="ensEvent">Ensemble event.</param>
-        public void Handle(EnsembleEvent ensEvent)
+        public override void Handle(EnsembleEvent ensEvent)
         {
             // Check if source matches this display
             if (_Config.Source != ensEvent.Source || ensEvent.Ensemble == null)
@@ -533,9 +521,14 @@ namespace RTI
             DisplayData(ensEvent.Ensemble);
         }
 
-        #endregion
-
-        #region EventHandlers
+        /// <summary>
+        /// Bulk ensemble event.
+        /// </summary>
+        /// <param name="ensEvent"></param>
+        public override void Handle(BulkEnsembleEvent ensEvent)
+        {
+            // Do Nothing
+        }
 
         /// <summary>
         /// Update the options.

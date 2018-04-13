@@ -1,5 +1,11 @@
 ﻿Pulse Changelog
 
+Pulse-4.11.0
+ - Updated how the Ensembles are past to the display.
+
+Pulse-4.10.1
+ - Fixed bug in PD4/5 where the HeaderStart was not locked when clearing the codec.
+
 Pulse-4.10.0
  - Added DataFormatOptions.
  - Added DataFormatView to NavBar.

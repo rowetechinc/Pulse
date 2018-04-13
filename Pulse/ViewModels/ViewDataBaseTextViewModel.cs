@@ -47,7 +47,7 @@ namespace RTI
     /// <summary>
     /// Base view for all the Text data.
     /// </summary>
-    public class ViewDataBaseTextViewModel : PulseViewModel, IHandle<EnsembleEvent>, IHandle<ProjectEvent>, IHandle<CloseVmEvent>
+    public class ViewDataBaseTextViewModel : DisplayViewModel, IHandle<ProjectEvent>, IHandle<CloseVmEvent>
     {
         #region Variables
 
@@ -114,6 +114,7 @@ namespace RTI
         {
             // Project Manager
             _pm = IoC.Get<PulseManager>();
+            _pm.RegisterDisplayVM(this);
             _events = IoC.Get<IEventAggregator>();
             _events.Subscribe(this);
 
@@ -222,7 +223,7 @@ namespace RTI
         /// display the latest ensemble.
         /// </summary>
         /// <param name="ensEvent">Ensemble event.</param>
-        public void Handle(EnsembleEvent ensEvent)
+        public override void Handle(EnsembleEvent ensEvent)
         {
             if (ensEvent.Ensemble != null && ensEvent.Ensemble.IsEnsembleAvail)
             {
@@ -234,6 +235,15 @@ namespace RTI
                     Application.Current.Dispatcher.BeginInvoke(new System.Action(() => AddConfig(ssDataConfig)));
                 }
             }
+        }
+
+        /// <summary>
+        /// Bulk Ensemble event.
+        /// </summary>
+        /// <param name="ensEvent"></param>
+        public override void Handle(BulkEnsembleEvent ensEvent)
+        {
+            // DO NOTHING
         }
 
         /// <summary>

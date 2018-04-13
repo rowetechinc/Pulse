@@ -50,7 +50,7 @@ namespace RTI
     /// View the data DVL.  This will create all the
     /// objects to view the data graphically.
     /// </summary>
-    public class ViewDataDvlViewModel : PulseViewModel, IHandle<EnsembleEvent>, IHandle<ProjectEvent>, IHandle<SelectedEnsembleEvent>
+    public class ViewDataDvlViewModel : DisplayViewModel, IHandle<ProjectEvent>, IHandle<SelectedEnsembleEvent>
     {
         #region Class and Enums
 
@@ -3025,6 +3025,7 @@ namespace RTI
 
                 // Get PulseManager
                 _pm = IoC.Get<PulseManager>();
+                _pm.RegisterDisplayVM(this);
 
                 //_isProcessingBuffer = false;
                 _buffer = new ConcurrentQueue<DataSet.Ensemble>();
@@ -3214,9 +3215,10 @@ namespace RTI
         /// The profile plots only need the last ensemble. 
         /// </summary>
         /// <param name="ensembles">Event that contains the Ensembles to display.</param>
-        public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
+        /// <param name="maxEnsembles">Maximum Ensembles to display.</param>
+        public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles = 0)
         {
-            await Task.Run(() => AddSeriesBulk(ensembles));
+            await Task.Run(() => AddSeriesBulk(ensembles, maxEnsembles));
         }
 
         #endregion
@@ -3425,16 +3427,16 @@ namespace RTI
         /// Add the bulk data to the plots.
         /// </summary>
         /// <param name="ensembles">Ensembles to get the data.</param>
-        private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles)
+        private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles = 0)
         {
             // Set a flag for loading
             IsLoading = true;
 
             // Bottom Track Range
-            BottomTrackRangePlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config);
+            BottomTrackRangePlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
 
             // Bottom Track Velocity
-            BottomTrackSpeedPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config);
+            BottomTrackSpeedPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
 
             // Accumulate Report data
             await Task.Run(() => _reportText.LoadData(ensembles, _Config.SubSystem, _Config));
@@ -3577,7 +3579,7 @@ namespace RTI
         /// It will set the max ensemble and then check the data and display the data.
         /// </summary>
         /// <param name="ensEvent">Ensemble event.</param>
-        public void Handle(EnsembleEvent ensEvent)
+        public override void Handle(EnsembleEvent ensEvent)
         {
             // Check if source matches this display
             if (_Config.Source != ensEvent.Source || ensEvent.Ensemble == null)
@@ -3588,6 +3590,15 @@ namespace RTI
             // Display the data
             //Task.Run(() => DisplayData(ensEvent.Ensemble));
             DisplayData(ensEvent.Ensemble);
+        }
+
+        /// <summary>
+        /// Bulk Ensemble event.
+        /// </summary>
+        /// <param name="ensEvent"></param>
+        public override void Handle(BulkEnsembleEvent ensEvent)
+        {
+            // DO NOTHING
         }
 
         /// <summary>

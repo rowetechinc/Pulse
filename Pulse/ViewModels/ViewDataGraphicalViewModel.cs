@@ -66,7 +66,7 @@ namespace RTI
     /// objects to view the data graphically.  This includes
     /// plots, time series and contour plots.
     /// </summary>
-    public class ViewDataGraphicalViewModel : PulseViewModel, IHandle<EnsembleEvent>, IHandle<ProjectEvent>, IHandle<SelectedEnsembleEvent>
+    public class ViewDataGraphicalViewModel : DisplayViewModel, IHandle<ProjectEvent>, IHandle<SelectedEnsembleEvent>
     {
         #region Class and Enums
 
@@ -619,6 +619,7 @@ namespace RTI
 
             // Get PulseManager
             _pm = IoC.Get<PulseManager>();
+            _pm.RegisterDisplayVM(this);
 
             // Get the options from the database
             GetOptionsFromDatabase();
@@ -963,18 +964,19 @@ namespace RTI
         /// Add the data is bulk.  This will reduce the number of screen updates.
         /// </summary>
         /// <param name="ensembles">Ensembles to display.</param>
-        private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles)
+        /// <param name="maxEnsembles">Max Ensembles to display.</param>
+        private async void AddSeriesBulk(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles)
         {
             IsLoading = true;
 
             // Time series plot
-            await Task.Run(() => TimeSeries1Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
-            await Task.Run(() => TimeSeries2Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
-            await Task.Run(() => TimeSeries3Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+            TimeSeries1Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
+            TimeSeries2Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
+            TimeSeries3Plot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
 
             try
             {
-                await Task.Run(() => HeatmapPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+                HeatmapPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
             }
             catch (Exception e)
             {
@@ -982,13 +984,13 @@ namespace RTI
             }
 
             // Correlation plot
-            await Task.Run(() => CorrPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+            CorrPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config);
 
             // Amplitude plot
-            await Task.Run(() => AmpPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+            AmpPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config);
 
             // Velocity Profile plot
-            await Task.Run(() => VelProfilePlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config));
+            VelProfilePlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config);
 
             // Only the last ensemble needs to be displayed
             if (ensembles.Count() > 0)
@@ -1008,7 +1010,7 @@ namespace RTI
                         }
 
                         // Velocity 3D plot
-                        await Task.Run(() => VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(ensemble)));
+                        VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(ensemble));
 
                         //VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetInstrumentVelocityVectors(ensemble));
                     }
@@ -1439,7 +1441,7 @@ namespace RTI
         /// The profile plots only need the last ensemble. 
         /// </summary>
         /// <param name="ensembles">Event that contains the Ensembles to display.</param>
-        public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles)
+        public async void DisplayBulkData(Cache<long, DataSet.Ensemble> ensembles, int maxEnsembles)
         {
             IsLoading = true;
 
@@ -1447,7 +1449,8 @@ namespace RTI
             //CheckData(ensemble);
 
             // Update Plots
-            await Task.Run(() => AddSeriesBulk(ensembles));
+            //await Task.Run(() => AddSeriesBulk(ensembles, maxEnsembles));
+            AddSeriesBulk(ensembles, maxEnsembles);
 
             // Add the ensemble to ensemble history
             //_ensembleHistory.Add(ensemble);
@@ -1475,7 +1478,7 @@ namespace RTI
         /// It will set the max ensemble and then check the data and display the data.
         /// </summary>
         /// <param name="ensEvent">Ensemble event.</param>
-        public void Handle(EnsembleEvent ensEvent)
+        public override void Handle(EnsembleEvent ensEvent)
         {
             // Check if source matches this display
             if (_Config.Source != ensEvent.Source || ensEvent.Ensemble == null)
@@ -1486,6 +1489,15 @@ namespace RTI
             // Display the data
             //Task.Run(() => DisplayData(ensEvent.Ensemble));
             DisplayData(ensEvent.Ensemble);
+        }
+
+        /// <summary>
+        /// Bulk Ensemble event.
+        /// </summary>
+        /// <param name="ensEvent"></param>
+        public override void Handle(BulkEnsembleEvent ensEvent)
+        {
+            // DO NOTHING
         }
 
         /// <summary>

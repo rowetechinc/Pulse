@@ -41,6 +41,7 @@ namespace RTI
     using Caliburn.Micro;
     using ReactiveUI;
     using System.Windows;
+    using System.Diagnostics;
 
     /// <summary>
     /// Base ViewModel to display the data to the user.

@@ -106,7 +106,7 @@ namespace RTI
     /// The ProjectManager will query the ProjectManagerDatabaseWriter
     /// for the selected data.
     /// </summary>
-    public class ViewDataTextViewModel : PulseViewModel, IHandle<EnsembleEvent>, IHandle<ProjectEvent>, IHandle<SelectedEnsembleEvent>
+    public class ViewDataTextViewModel : DisplayViewModel, IHandle<ProjectEvent>, IHandle<SelectedEnsembleEvent>
     {
 
         #region Variables
@@ -2583,6 +2583,7 @@ namespace RTI
             _eventAggregator = IoC.Get<IEventAggregator>();
             _subsystemConfig = config;
             _pm = IoC.Get<PulseManager>();
+            _pm.RegisterDisplayVM(this);
             _buffer = new ConcurrentQueue<DataSet.Ensemble>();
             //_displayCounter = 0;
 
@@ -3562,7 +3563,7 @@ namespace RTI
         /// update the plots and the text data.
         /// </summary>
         /// <param name="ensEvent">Latest ensemble event to display.</param>
-        public void Handle(EnsembleEvent ensEvent)
+        public override void Handle(EnsembleEvent ensEvent)
         {
             // Check if the ensemble is good
             if (ensEvent.Ensemble == null || ensEvent.Ensemble.EnsembleData == null || !ensEvent.Ensemble.IsEnsembleAvail)
@@ -3588,6 +3589,15 @@ namespace RTI
 
             // Display the data
             DisplayData(ensEvent.Ensemble);
+        }
+
+        /// <summary>
+        /// Bulk Ensemble event.
+        /// </summary>
+        /// <param name="ensEvent"></param>
+        public override void Handle(BulkEnsembleEvent ensEvent)
+        {
+            // DO NOTHING
         }
 
         /// <summary>

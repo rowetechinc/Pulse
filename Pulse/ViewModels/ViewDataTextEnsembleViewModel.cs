@@ -50,7 +50,7 @@ namespace RTI
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public class ViewDataTextEnsembleViewModel : PulseViewModel, IHandle<EnsembleEvent>, IHandle<SelectedEnsembleEvent>
+    public class ViewDataTextEnsembleViewModel : DisplayViewModel, IHandle<SelectedEnsembleEvent>
     {
 
         #region Variables
@@ -59,6 +59,12 @@ namespace RTI
         /// Setup logger to report errors.
         /// </summary>
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        /// <summary>
+        /// Pulse manager to manage the application.
+        /// </summary>
+        private PulseManager _pm;
+
 
         /// <summary>
         /// Subsystem Data Configuration for this view.
@@ -959,6 +965,10 @@ namespace RTI
             // Set Subsystem 
             _Config = config;
 
+            // Get PulseManager
+            _pm = IoC.Get<PulseManager>();
+            _pm.RegisterDisplayVM(this);
+
             // Set GPS data default
             SetGpsDataDefault();
 
@@ -1169,7 +1179,7 @@ namespace RTI
         /// display the latest ensemble.
         /// </summary>
         /// <param name="ensEvent">Ensemble event.</param>
-        public void Handle(EnsembleEvent ensEvent)
+        public override void Handle(EnsembleEvent ensEvent)
         {
             // Check if source matches this display
             if (_Config.Source != ensEvent.Source || ensEvent.Ensemble == null)
@@ -1177,9 +1187,31 @@ namespace RTI
                 return;
             }
 
-            // Receive the ensemble
-            ReceiveEnsemble(ensEvent.Ensemble);
 
+            // If no subsystem is given, then a project is not selected
+            // So receive all data and display
+            // If the serial number is not set, this may be an old ensemble
+            // Try to display it anyway
+            if (!_Config.SubSystem.IsEmpty() && !ensEvent.Ensemble.EnsembleData.SysSerialNumber.IsEmpty())
+            {
+                // Verify the subsystem matches this viewmodel's subystem.
+                if ((_Config.SubSystem == ensEvent.Ensemble.EnsembleData.GetSubSystem())        // Check if Subsystem matches 
+                        && (_Config == ensEvent.Ensemble.EnsembleData.SubsystemConfig))         // Check if Subsystem Config matches
+                {
+                    // Receive the ensemble
+                    ReceiveEnsemble(ensEvent.Ensemble);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Bulk Ensemble event.
+        /// </summary>
+        /// <param name="ensEvent"></param>
+        public override void Handle(BulkEnsembleEvent ensEvent)
+        {
+            // DO NOTHING
         }
 
         /// <summary>
