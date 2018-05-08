@@ -80,9 +80,19 @@ namespace RTI
         private BinaryWriter _binaryWriter;
 
         /// <summary>
+        /// Max file to record.
+        /// </summary>
+        public const int MAX_FILE_SIZE = 16777216;      // 16mbs 
+
+        /// <summary>
+        /// Current File size.
+        /// </summary>
+        private long _fileSizeMonitor;
+
+        /// <summary>
         /// Default recording directory.
         /// </summary>
-        public const string DEFAULT_RECORD_DIR = @"C:\RTI_Capture";
+        public const string DEFAULT_RECORD_DIR = Pulse.Commons.DEFAULT_RECORD_DIR;
 
         /// <summary>
         /// Previous Ship Speed East.  Used to remove ship speed from Velocity data.
@@ -664,6 +674,8 @@ namespace RTI
             // Get PulseManager
             _pm = IoC.Get<PulseManager>();
 
+            _fileSizeMonitor = 0;
+
             // Get the options from the database
             GetOptionsFromDatabase();
 
@@ -916,7 +928,7 @@ namespace RTI
         /// Set the directory for the raw recording results and
         /// turn on the flag.
         /// </summary>
-        public void StartRecord()
+        public void StartRecord(long bytesWritten = 0)
         {
             // Stop the recording if on
             if (_binaryWriter != null)
@@ -928,6 +940,12 @@ namespace RTI
             DateTime currDateTime = DateTime.Now;
             string filename = string.Format("RTI_{0:yyyyMMddHHmmss}.bin", currDateTime);
             string filePath = string.Format("{0}\\{1}", DEFAULT_RECORD_DIR, filename);
+
+            // Initialize bytes written
+            BytesWritten = bytesWritten;
+
+            // Reset file size counter
+            _fileSizeMonitor = 0;
 
             try
             {
@@ -991,6 +1009,19 @@ namespace RTI
                     StartRecord();
                 }
 
+                // See if a new file needs to be created based off the max file size
+                if (_fileSizeMonitor + data.Length > MAX_FILE_SIZE)
+                {
+                    // Record the current file size
+                    long currentSize = BytesWritten;
+
+                    // Stop the current recording
+                    StopRecord();
+
+                    // Start a new file
+                    StartRecord(currentSize);
+                }
+
                 // Verify writer is created
                 if (_binaryWriter != null)
                 {
@@ -1001,6 +1032,8 @@ namespace RTI
 
                         // Accumulate the number of bytes written
                         BytesWritten += data.Length;
+
+                        _fileSizeMonitor += data.Length;
                     }
                     catch (Exception e)
                     {
@@ -1029,6 +1062,19 @@ namespace RTI
                     StartRecord();
                 }
 
+                // See if a new file needs to be created based off the max file size
+                if (_fileSizeMonitor + data.Length > MAX_FILE_SIZE)
+                {
+                    // Record the current file size
+                    long currentSize = BytesWritten;
+
+                    // Stop the current recording
+                    StopRecord();
+
+                    // Start a new file
+                    StartRecord(currentSize);
+                }
+
                 // Verify writer is created
                 if (_binaryWriter != null)
                 {
@@ -1039,6 +1085,8 @@ namespace RTI
 
                         // Accumulate the number of bytes written
                         BytesWritten += data.Length;
+
+                        _fileSizeMonitor += data.Length;
                     }
                     catch (Exception e)
                     {
