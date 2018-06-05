@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.10.1 ChangeLog</title>
+		<title>Version 4.11.0 ChangeLog</title>
 		<style type="text/css">
 .auto-style1 {
 	text-decoration: underline;
@@ -10,7 +10,19 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.10.1</span>
+            <br /><span class="auto-style1">Pulse-4.11.0</span>
+            <br />  Pulse-4.11.1
+            <br />  * Update the prediction model.
+            <br />  * Changed DilutionOfPrecision to not throw an exception but pass NaN.
+            <br />  * Added CBTON and CBI to deployment command list.
+            <br />  * Fixed bug processing Nmea2Data in AdcpConnection.
+            <br />
+            <br />  Pulse-4.11.0
+            <br />  - Updated how the Ensembles are passed to the display.
+            <br />  - Moved loading data with CreateProject() for playback to PulseManager in NavBarViewModel and SelectPlaybackViewModel.
+            <br />  - In NmeaDataSet, check for exceptions in SetValue() and SetNmeaStringArray().
+            <br />  - In SerialOptions, added 57600 baud rate.
+            <br />
             <br />   Pulse-4.10.1
             <br />  - Fixed bug in PD4/5 where the HeaderStart was not locked when clearing the codec.
             <br />

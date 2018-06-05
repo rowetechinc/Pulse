@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.11.1
+ * Updated Prediction Model System Init Time.
+
 Pulse-4.11.0
  - Updated how the Ensembles are passed to the display.
  - Moved loading data with CreateProject() for playback to PulseManager in NavBarViewModel and SelectPlaybackViewModel.
