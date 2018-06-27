@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.11.3
+ * Update the prediction model for Narrowband Range.
+
 Pulse-4.11.2
  * Fixed bug in DecodeCSHOW with DecodeCWPRT and only 2 parameters.
  * In AdcpSubsystemCommand, increased the number of paramater for CBI from 2 to 3. AdcpSubsystemCommands.CBI_NUM_PARAM
