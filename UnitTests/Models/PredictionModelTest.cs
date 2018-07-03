@@ -49,7 +49,7 @@ namespace RTI
             bool IsE0000015 = true;
 
             double bytes = model.GetDataStorage(cwpbn, beam, deploymentDuration, cei, IsE0000001, IsE0000002, IsE0000003, IsE0000004, IsE0000005, IsE0000006, IsE0000007, IsE0000008, IsE0000009, IsE0000010, IsE0000011, IsE0000012, IsE0000013, IsE0000014, IsE0000015);
-            double correctAnswer = 12151296000;
+            double correctAnswer = 12172032000;
             Assert.AreEqual(correctAnswer, bytes);
         }
 
@@ -85,7 +85,7 @@ namespace RTI
             input.CED_IsE0000015 = true;
 
             double bytes = model.GetDataStorage(input);
-            double correctAnswer = 12151296000;
+            double correctAnswer = 12172032000;
             Assert.AreEqual(correctAnswer, bytes);
         }
 
@@ -119,7 +119,7 @@ namespace RTI
             bool IsE0000015 = false;
 
             double bytes = model.GetDataStorage(cwpbn, beam, deploymentDuration, cei, IsE0000001, IsE0000002, IsE0000003, IsE0000004, IsE0000005, IsE0000006, IsE0000007, IsE0000008, IsE0000009, IsE0000010, IsE0000011, IsE0000012, IsE0000013, IsE0000014, IsE0000015);
-            double correctAnswer = 7133184000;
+            double correctAnswer = 7153920000;
             Assert.AreEqual(correctAnswer, bytes);
         }
 
@@ -154,7 +154,7 @@ namespace RTI
             input.CED_IsE0000015 = false;
 
             double bytes = model.GetDataStorage(input);
-            double correctAnswer = 7133184000;
+            double correctAnswer = 7153920000;
             Assert.AreEqual(correctAnswer, bytes);
         }
 
@@ -181,6 +181,32 @@ namespace RTI
 
             double std = model.GetStandardDeviation(CWPP, _CWPBS_, _CWPBB_LagLength_, _BeamAngle_, _CWPBB_TransmitPulseType_, _SystemFrequency_, _SpeedOfSound_, _CyclesPerElement_, _SNR_, _Beta_, _NbFudge_);
             double correctAnswer = 0.010;
+            Assert.AreEqual(correctAnswer, std, 0.01);
+        }
+
+        /// <summary>
+        /// Test the predictor with the default input.
+        /// </summary>
+        [Test]
+        public void StdNb()
+        {
+
+            PredictionModel model = new PredictionModel();
+
+            int CWPP = 9;
+            double _CWPBS_ = 4;
+            double _CWPBB_LagLength_ = 1.0;
+            double _BeamAngle_ = 20.0;
+            Commands.AdcpSubsystemCommands.eCWPBB_TransmitPulseType _CWPBB_TransmitPulseType_ = Commands.AdcpSubsystemCommands.eCWPBB_TransmitPulseType.NARROWBAND;
+            double _SystemFrequency_ = 288000.0;
+            double _SpeedOfSound_ = 1490.0;
+            double _CyclesPerElement_ = 12.0;
+            double _SNR_ = 30.0;
+            double _Beta_ = 1.0;
+            double _NbFudge_ = 1.4;
+
+            double std = model.GetStandardDeviation(CWPP, _CWPBS_, _CWPBB_LagLength_, _BeamAngle_, _CWPBB_TransmitPulseType_, _SystemFrequency_, _SpeedOfSound_, _CyclesPerElement_, _SNR_, _Beta_, _NbFudge_);
+            double correctAnswer = 0.07;
             Assert.AreEqual(correctAnswer, std, 0.01);
         }
 
@@ -220,15 +246,17 @@ namespace RTI
 
             PredictionModel model = new PredictionModel();
 
+            Commands.AdcpSubsystemCommands.eCWPBB_TransmitPulseType type = Commands.AdcpSubsystemCommands.eCWPBB_TransmitPulseType.NARROWBAND;
             double _CWPBB_LagLength_ = 1.0;
             double _BeamAngle_ = 20.0;
-            double _SystemFrequency_ = 288000.0;
+            double _SystemFrequency_ = 1152000.0;
             double _SpeedOfSound_ = 1490.0;
             double _CyclesPerElement_ = 12.0;
+            double _CWPBS_ = 0.6;
 
-            double std = model.GetMaxVelocity(_CWPBB_LagLength_, _BeamAngle_, _SystemFrequency_, _SpeedOfSound_, _CyclesPerElement_);
-            double correctAnswer = 2.669;
-            Assert.AreEqual(correctAnswer, std, 0.001);
+            double vel = model.GetMaxVelocity(type, _CWPBB_LagLength_, _CWPBS_, _BeamAngle_, _SystemFrequency_, _SpeedOfSound_, _CyclesPerElement_);
+            double correctAnswer = 1.867;
+            Assert.AreEqual(correctAnswer, vel, 0.001);
         }
 
         /// <summary>
@@ -249,6 +277,29 @@ namespace RTI
 
             double std = model.GetMaxVelocity(input);
             double correctAnswer = 2.669;
+            Assert.AreEqual(correctAnswer, std, 0.001);
+        }
+
+        /// <summary>
+        /// Test the predictor with the default input.
+        /// </summary>
+        [Test]
+        public void MaxVelocityInputNb()
+        {
+
+            PredictionModel model = new PredictionModel();
+            PredictionModelInput input = new PredictionModelInput();
+
+            input.CWPBB_LagLength = 1.0;
+            input.BeamAngle = 20.0;
+            input.SystemFrequency = 1152000.0;
+            input.SpeedOfSound = 1467;
+            input.CyclesPerElement = 12;
+            input.CWPBB_TransmitPulseType = Commands.AdcpSubsystemCommands.eCWPBB_TransmitPulseType.NARROWBAND;
+            input.CWPBS = 0.6f;
+
+            double std = model.GetMaxVelocity(input);
+            double correctAnswer = 1.867;
             Assert.AreEqual(correctAnswer, std, 0.001);
         }
 
@@ -356,7 +407,7 @@ namespace RTI
             double xdcrDepth = 0.0;
 
             PredictionModel.PredictedRanges ranges = model.GetPredictedRange(_CWPON_, _CWPBB_TransmitPulseType_, _CWPBS_, _CWPBN_, _CWPBL_, _CBTON_, _CBTBB_TransmitPulseType_, _SystemFrequency_, _BeamDiameter_, _CyclesPerElement_, _BeamAngle_, _SpeedOfSound_, _CWPBB_LagLength_, _BroadbandPower_, salinity, temperature, xdcrDepth);
-            double correctWpRange = 180.57;
+            double correctWpRange = 152.57;
             double correctBtRange = 319.14;
             double correctFirstBin = 5.025;
             double correctWpRangeUserSettings = _CWPBL_ + (_CWPBS_ * _CWPBN_);

@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.11.4
+ * Updated bug in Prediction Model for Narrowband Max Velocity.
+
 Pulse-4.11.3
  * Update the prediction model for Narrowband Range.
 
