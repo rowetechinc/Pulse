@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.11.5
+ * In AdcpSubsystemCommands, changed the CepoIndex in the command to a Hex value.
+
 Pulse-4.11.4
  * Updated bug in Prediction Model for Narrowband Max Velocity.
 
