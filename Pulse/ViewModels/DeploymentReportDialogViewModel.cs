@@ -82,7 +82,7 @@ namespace RTI
         {
             get
             {
-                if (Configuration.DeploymentOptions.Duration == 1)
+                if (Configuration.DeploymentOptions.Duration == 1.0)
                 {
                     return "1 day.";
                 }

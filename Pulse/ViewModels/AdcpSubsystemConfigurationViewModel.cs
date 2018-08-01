@@ -619,10 +619,10 @@ namespace RTI
         /// to display the new values.
         /// </summary>
         /// <param name="days">New deployment days.</param>
-        public void UpdateDeploymentDays(uint days)
+        public void UpdateDeploymentDays(double days)
         {
             //Predictor.DeploymentDuration = days;
-            _pm.SelectedProject.Configuration.DeploymentOptions.Duration = days;
+            //_pm.SelectedProject.Configuration.DeploymentOptions.Duration = days;
 
             //// This will update all the properties
             //UpdateProperties();
@@ -665,102 +665,105 @@ namespace RTI
         /// </summary>
         public void CalcPrediction()
         {
-            PredictionModelInput predInput = new PredictionModelInput(_pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].SubsystemConfig.SubSystem);
-
-            if (_pm.SelectedProject.Configuration.DeploymentOptions.Duration <= 0)
+            if (_pm.SelectedProject.Configuration.SubsystemConfigDict.ContainsKey(ConfigKey))
             {
-                predInput.DeploymentDuration = 1;
-            }
-            else
-            {
-                predInput.DeploymentDuration = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
-            }
+                PredictionModelInput predInput = new PredictionModelInput(_pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].SubsystemConfig.SubSystem);
 
-            // Absorption
-            predInput.Temperature = _pm.SelectedProject.Configuration.Commands.CWT;
-            predInput.Salinity = _pm.SelectedProject.Configuration.Commands.CWS;
-            predInput.XdcrDepth = _pm.SelectedProject.Configuration.Commands.CTD;
-
-            predInput.CEI = _pm.SelectedProject.Configuration.Commands.CEI.ToSecondsD();
-
-            predInput.CWPON = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPON;
-            predInput.CBTON = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTON;
-
-            predInput.CBTTBP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTTBP;
-            predInput.CBTBB_TransmitPulseType = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTBB_Mode;
-            //predInput.CBTBB_TransmitPulseType = Commands.AdcpSubsystemCommands.eCBTBB_Mode.NARROWBAND_LONG_RANGE;   // DEFAULT to narrowband because it autoswitches now
-
-            predInput.CWPTBP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPTBP;
-            predInput.CWPBN = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBN;
-            predInput.CWPBS = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBS;
-            predInput.CWPBL = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBL;
-            predInput.CWPBB_TransmitPulseType = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBB_TransmitPulseType;
-            predInput.CWPBB_LagLength = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBB_LagLength;
-            predInput.CWPP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPP;
-
-            predInput.BatteryType = _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType;
-
-            predInput.CBI_BurstInterval = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.ToSecondsD();
-            predInput.CBI_SamplesPerBurst = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles;
-            predInput.CBI_IsInterleaved = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag;
-
-            // Create Prediction model
-            PredictionModel Predictor = new PredictionModel();
-
-            // Set the prediction values
-            PredictionModel.PredictedRanges ranges = Predictor.GetPredictedRange(predInput);
-            PredictedBottomRange = ranges.BottomTrack;
-            PredictedProfileRange = ranges.WaterProfile;
-            ProfileFirstBinPosition = ranges.FirstBinPosition.ToString("0.0000");
-
-            double maxVel = Predictor.GetMaxVelocity(predInput);
-            MaximumVelocity = maxVel.ToString("0.0000");
-
-            double std = Predictor.GetStandardDeviation(predInput);
-            StandardDeviation = std.ToString("0.0000");
-
-            double numBatts = Predictor.BatteryUsage(predInput);
-            NumberBatteryPacks = numBatts;
-
-            if (CBI_NumEnsembles > 0)
-            {
-                NumberBytes = Predictor.GetDataStorageBurst(predInput);
-            }
-            else
-            {
-                NumberBytes = Predictor.GetDataStorage(predInput);
-            }
-
-            if (RangeVM != null)
-            {
-                // Update all the properites
-                RangeVM.WaterProfileRange = ranges.WaterProfile;
-                RangeVM.BottomTrackRange = ranges.BottomTrack;
-                RangeVM.WpBlank = predInput.CWPBL;
-                RangeVM.WpFirstBinRange = ranges.FirstBinPosition;
-                if (_pm.IsProjectSelected && _pm.SelectedProject.Configuration != null)
+                if (_pm.SelectedProject.Configuration.DeploymentOptions.Duration <= 0)
                 {
-                    RangeVM.DepthToBottom = predInput.XdcrDepth;
+                    predInput.DeploymentDuration = 1;
                 }
+                else
+                {
+                    predInput.DeploymentDuration = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
+                }
+
+                // Absorption
+                predInput.Temperature = _pm.SelectedProject.Configuration.Commands.CWT;
+                predInput.Salinity = _pm.SelectedProject.Configuration.Commands.CWS;
+                predInput.XdcrDepth = _pm.SelectedProject.Configuration.Commands.CTD;
+
+                predInput.CEI = _pm.SelectedProject.Configuration.Commands.CEI.ToSecondsD();
+
+                predInput.CWPON = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPON;
+                predInput.CBTON = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTON;
+
+                predInput.CBTTBP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTTBP;
+                predInput.CBTBB_TransmitPulseType = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBTBB_Mode;
+                //predInput.CBTBB_TransmitPulseType = Commands.AdcpSubsystemCommands.eCBTBB_Mode.NARROWBAND_LONG_RANGE;   // DEFAULT to narrowband because it autoswitches now
+
+                predInput.CWPTBP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPTBP;
+                predInput.CWPBN = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBN;
+                predInput.CWPBS = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBS;
+                predInput.CWPBL = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBL;
+                predInput.CWPBB_TransmitPulseType = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBB_TransmitPulseType;
+                predInput.CWPBB_LagLength = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPBB_LagLength;
+                predInput.CWPP = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CWPP;
+
+                predInput.BatteryType = _pm.SelectedProject.Configuration.DeploymentOptions.BatteryType;
+
+                predInput.CBI_BurstInterval = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.ToSecondsD();
+                predInput.CBI_SamplesPerBurst = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles;
+                predInput.CBI_IsInterleaved = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag;
+
+                // Create Prediction model
+                PredictionModel Predictor = new PredictionModel();
+
+                // Set the prediction values
+                PredictionModel.PredictedRanges ranges = Predictor.GetPredictedRange(predInput);
+                PredictedBottomRange = ranges.BottomTrack;
+                PredictedProfileRange = ranges.WaterProfile;
+                ProfileFirstBinPosition = ranges.FirstBinPosition.ToString("0.0000");
+
+                double maxVel = Predictor.GetMaxVelocity(predInput);
+                MaximumVelocity = maxVel.ToString("0.0000");
+
+                double std = Predictor.GetStandardDeviation(predInput);
+                StandardDeviation = std.ToString("0.0000");
+
+                double numBatts = Predictor.BatteryUsage(predInput);
+                NumberBatteryPacks = numBatts;
+
+                if (CBI_NumEnsembles > 0)
+                {
+                    NumberBytes = Predictor.GetDataStorageBurst(predInput);
+                }
+                else
+                {
+                    NumberBytes = Predictor.GetDataStorage(predInput);
+                }
+
+                if (RangeVM != null)
+                {
+                    // Update all the properites
+                    RangeVM.WaterProfileRange = ranges.WaterProfile;
+                    RangeVM.BottomTrackRange = ranges.BottomTrack;
+                    RangeVM.WpBlank = predInput.CWPBL;
+                    RangeVM.WpFirstBinRange = ranges.FirstBinPosition;
+                    if (_pm.IsProjectSelected && _pm.SelectedProject.Configuration != null)
+                    {
+                        RangeVM.DepthToBottom = predInput.XdcrDepth;
+                    }
+                }
+
+                //this.NotifyOfPropertyChange(() => this.CWPP);
+                //this.NotifyOfPropertyChange(() => this.CWPTBP);
+                //this.NotifyOfPropertyChange(() => this.CWPBS);
+                //this.NotifyOfPropertyChange(() => this.CWPBN);
+                //this.NotifyOfPropertyChange(() => this.CWPBL);
+                //this.NotifyOfPropertyChange(() => this.CWPBB_TransmitPulseType);
+                //this.NotifyOfPropertyChange(() => this.CWPBB_LagLength);
+                //this.NotifyOfPropertyChange(() => this.CBTON);
+                //this.NotifyOfPropertyChange(() => this.CBI_BurstInterval);
+
+                //this.NotifyOfPropertyChange(() => this.DataSize);
+                //this.NotifyOfPropertyChange(() => this.NumberBatteryPackStr);
+                //this.NotifyOfPropertyChange(() => this.PredictedBottomRangeStr);
+                //this.NotifyOfPropertyChange(() => this.PredictedProfileRangeStr);
+                //this.NotifyOfPropertyChange(() => this.ProfileFirstBinPosition);
+                //this.NotifyOfPropertyChange(() => this.MaximumVelocity);
+                //this.NotifyOfPropertyChange(() => this.StandardDeviation);
             }
-
-            //this.NotifyOfPropertyChange(() => this.CWPP);
-            //this.NotifyOfPropertyChange(() => this.CWPTBP);
-            //this.NotifyOfPropertyChange(() => this.CWPBS);
-            //this.NotifyOfPropertyChange(() => this.CWPBN);
-            //this.NotifyOfPropertyChange(() => this.CWPBL);
-            //this.NotifyOfPropertyChange(() => this.CWPBB_TransmitPulseType);
-            //this.NotifyOfPropertyChange(() => this.CWPBB_LagLength);
-            //this.NotifyOfPropertyChange(() => this.CBTON);
-            //this.NotifyOfPropertyChange(() => this.CBI_BurstInterval);
-
-            //this.NotifyOfPropertyChange(() => this.DataSize);
-            //this.NotifyOfPropertyChange(() => this.NumberBatteryPackStr);
-            //this.NotifyOfPropertyChange(() => this.PredictedBottomRangeStr);
-            //this.NotifyOfPropertyChange(() => this.PredictedProfileRangeStr);
-            //this.NotifyOfPropertyChange(() => this.ProfileFirstBinPosition);
-            //this.NotifyOfPropertyChange(() => this.MaximumVelocity);
-            //this.NotifyOfPropertyChange(() => this.StandardDeviation);
         }
 
         #endregion

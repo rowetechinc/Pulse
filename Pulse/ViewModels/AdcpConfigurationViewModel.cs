@@ -31,6 +31,7 @@
  * 02/17/2017      RC          4.5.1      Added Compass Calibration as a button.
  * 03/30/2017      RC          4.5.2      Fixed data size in wizard for burst deployments.
  * 01/18/2017      RC          4.7.2      Updated the Prediction Model.
+ * 08/01/2018      RC          4.12.0     Pass the deployment duration based off the number of configurations.
  * 
  * 
  * 
@@ -384,11 +385,11 @@ namespace RTI
         /// <summary>
         /// Deployment days.
         /// </summary>
-        private uint _DeploymentDays;
+        private double _DeploymentDays;
         /// <summary>
         /// Deployment days.
         /// </summary>
-        public uint DeploymentDays
+        public double DeploymentDays
         {
             get { return _DeploymentDays; }
             set
@@ -654,6 +655,10 @@ namespace RTI
             // Get the configuration from the project
             GetConfiguation();
 
+            // Update the deployment duration to include all the new configurations
+            // The duration needs to be divided amoung all the configuration
+            UpdateDeploymentDuration();
+
             // Update the properites
             UpdateProperties();
         }
@@ -710,7 +715,7 @@ namespace RTI
 
             if (_pm.SelectedProject.Configuration.DeploymentOptions.Duration <= 0)
             {
-                DeploymentDays = 1;
+                DeploymentDays = 1.0;
             }
             else
             {
@@ -796,7 +801,7 @@ namespace RTI
                 //DeploymentDays = _pm.SelectedProject.Configuration.DeploymentOptions.Duration;
                 if (_pm.SelectedProject.Configuration.DeploymentOptions.Duration <= 0)
                 {
-                    DeploymentDays = 1;
+                    DeploymentDays = 1.0;
                 }
                 else
                 {
@@ -827,6 +832,10 @@ namespace RTI
                     dataSize += ssVM.GetDataSize();
                     numberBattery += ssVM.NumberBatteryPacks;
                 }
+
+                // Update the deployment duration to include all the new configurations
+                // The duration needs to be divided amoung all the configuration
+                UpdateDeploymentDuration();
 
                 // Set the combined values
                 NumberBatteryPacks = numberBattery.ToString("0.00");
@@ -925,7 +934,7 @@ namespace RTI
         /// predictors.  Then update all the properties here.
         /// </summary>
         /// <param name="days"></param>
-        private void UpdateDeploymentDays(uint days)
+        private void UpdateDeploymentDays(double days)
         {
             // Update the project and save
             if (_pm.IsProjectSelected)
@@ -941,7 +950,14 @@ namespace RTI
             // Get the latest values
             foreach (var ssVM in SubsystemConfigList)
             {
-                ssVM.UpdateDeploymentDays(days);
+                // Divide the days between all the configurations
+                double duration = days;
+                if(SubsystemConfigList.Count > 0)
+                {
+                    duration = days / SubsystemConfigList.Count;
+                }
+
+                ssVM.UpdateDeploymentDays(duration);
 
                 dataSize += ssVM.GetDataSize();
 
@@ -954,6 +970,41 @@ namespace RTI
             PredictedStorageUsed = dataSize + InternalStorageUsed;
             DataSize = MathHelper.MemorySizeString(dataSize);
 
+        }
+
+        /// <summary>
+        /// Set the new deployment duration based off the number of configurations.
+        /// The number of configurations needs to be divided by the deployment duration.  Each
+        /// configuration will used an equal amount of the duration.
+        /// </summary>
+        private void UpdateDeploymentDuration()
+        {
+            // Create temp variables
+            long dataSize = 0;
+            double numberBattery = 0.0;
+
+            // Get the latest values
+            foreach (var ssVM in SubsystemConfigList)
+            {
+                // Divide the days between all the configurations
+                double duration = _DeploymentDays;
+                if (SubsystemConfigList.Count > 0)
+                {
+                    duration = _DeploymentDays / SubsystemConfigList.Count;
+                }
+
+                ssVM.UpdateDeploymentDays(duration);
+
+                dataSize += ssVM.GetDataSize();
+
+                numberBattery += ssVM.NumberBatteryPacks;
+
+            }
+
+            // Set the combined values
+            NumberBatteryPacks = numberBattery.ToString("0.00");
+            PredictedStorageUsed = dataSize + InternalStorageUsed;
+            DataSize = MathHelper.MemorySizeString(dataSize);
         }
 
         /// <summary>

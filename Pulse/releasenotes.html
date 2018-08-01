@@ -11,6 +11,12 @@
 	<body>
         <p>
             <br /><span class="auto-style1">Pulse-4.11.5</span>
+            <br />  Pulse-4.12.0
+            <br />  * In AdcpConfigurationViewModel, pass the deployment duration based off the number of configurations.
+            <br />  * Changed Deployment Duration from an UInt to a double.
+            <br />  * Removed the Prediction Model button on the Home page. Use PredictR to reduce the number of prediction models.
+            <br />  * Removed the Export button on the Home page.  Use the Batch Exporter to reduce the number of exporters.
+            <br />
             <br />  Pulse-4.11.5
             <br />  * In AdcpSubsystemCommands, changed the CepoIndex in the command to a Hex value.
             <br />
@@ -155,6 +161,8 @@
             <br /><span class="auto-style1">RTI-3.4.8</span>
             <br />   RTI-3.4.8
             <br />   * In AdcpSubsystemCommands, changed the CepoIndex in the command to a Hex value.
+            <br />   * Made CBI command output on all the command lists.
+			<br />   * In AdcpDatabaseWriter, put a try/catch in Dispose if the writer is closed while still writing.
             <br />
             <br />   RTI-3.4.7
             <br />   * Fixed bug in DecodeCSHOW with DecodeCWPRT and only 2 parameters.

@@ -1,5 +1,11 @@
 ﻿Pulse Changelog
 
+Pulse-4.12.0
+ * In AdcpConfigurationViewModel, pass the deployment duration based off the number of configurations.
+ * Changed Deployment Duration from an UInt to a double.
+ * Removed the Prediction Model button on the Home page. Use PredictR to reduce the number of prediction models.
+ * Removed the Export button on the Home page.  Use the Batch Exporter to reduce the number of exporters.
+
 Pulse-4.11.5
  * In AdcpSubsystemCommands, changed the CepoIndex in the command to a Hex value.
 
