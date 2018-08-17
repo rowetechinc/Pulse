@@ -666,7 +666,10 @@ namespace RTI
         {
             // Wake up the thread to process data
             _continue = false;
-            _eventWaitData.Set();
+            if (!_eventWaitData.SafeWaitHandle.IsClosed)
+            {
+                _eventWaitData.Set();
+            }
 
             AmpPlot.Dispose();
             CorrPlot.Dispose();
@@ -1361,10 +1364,13 @@ namespace RTI
 
             //if ((++_displayCounter % 5) == 0)
             //{
-                // Wake up the thread to process data
+            // Wake up the thread to process data
+            if (!_eventWaitData.SafeWaitHandle.IsClosed)
+            {
                 _eventWaitData.Set();
+            }
 
-                //_displayCounter = 0;
+            //_displayCounter = 0;
             //}
         }
 
