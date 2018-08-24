@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.11.5 ChangeLog</title>
+		<title>Version 4.12.1 ChangeLog</title>
 		<style type="text/css">
             .auto-style1 {
 	            text-decoration: underline;
@@ -11,6 +11,11 @@
 	<body>
         <p>
             <br /><span class="auto-style1">Pulse-4.11.5</span>
+            <br />  Pulse-4.12.1
+            <br />  * In HeatmapPlotViewModel, fixed InterPlote flag to only change HeatmapPlotSeries.
+            <br />  * Check _eventWaitData is closed for calling set.
+            <br />  * Added SyncRoot to Ensemble to lock it when modifying it.
+            <br />
             <br />  Pulse-4.12.0
             <br />  * In AdcpConfigurationViewModel, pass the deployment duration based off the number of configurations.
             <br />  * Changed Deployment Duration from an UInt to a double.
@@ -98,6 +103,10 @@
             <br />   Pulse-Display-4.10.2
             <br />   * In PredictionModel, fixed bug with Narrowband Max Velocity.
             <br />   * In PredictionModel, updated the number of elements in E0000014.
+            <br />   * In HeatmapPlotViewModel, fixed InterPlote flag to only change HeatmapPlotSeries.
+            <br />   * Check _eventWaitData is closed for calling set.
+            <br />   * In PlaybackViewModel, lock the ensemble with SyncRoot when screening and averaging the data.
+            <br />   * In AdcpConnection, lock the ensemble with SyncRoot when screening and averaging the data.
             <br />
             <br />   Pulse-Display-4.10.1
             <br />   * In PredictionModel, updated the Prediction Model to Rev Y with the Narrowband Profile range.
@@ -158,11 +167,17 @@
             <br />   - In ScreenDataViewModel, added FillInMissingWpData() to fill in data when Water Profile is turned off.
             <br />   - Change the images in PlaybackView.xaml to VisualBrushes.  This decreased startup time dramatically.
             <br />   - In DistanceTraveled, in AccumulateGps() verify a good _FirstGpsPos is set.
-            <br /><span class="auto-style1">RTI-3.4.8</span>
+            <br /><span class="auto-style1">RTI-3.4.9</span>
+            <br />   RTI-3.4.9
+            <br />   * In Pd0BottomTrack, inverted the sign of the Bottom Track Velocity when converting from RTI to PD0.
+            <br />   * In AdcpDatabaseWriter, verify _eventWaitData is safe to use before setting.
+            <br />   * Check _eventWaitData is closed for calling set.
+            <br />   * Added SyncRoot to Ensemble to lock it when modifying it.
+            <br />
             <br />   RTI-3.4.8
             <br />   * In AdcpSubsystemCommands, changed the CepoIndex in the command to a Hex value.
             <br />   * Made CBI command output on all the command lists.
-			<br />   * In AdcpDatabaseWriter, put a try/catch in Dispose if the writer is closed while still writing.
+            <br />   * In AdcpDatabaseWriter, put a try/catch in Dispose if the writer is closed while still writing.
             <br />
             <br />   RTI-3.4.7
             <br />   * Fixed bug in DecodeCSHOW with DecodeCWPRT and only 2 parameters.

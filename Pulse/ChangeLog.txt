@@ -3,6 +3,7 @@
 Pulse-4.12.1
  * In HeatmapPlotViewModel, fixed InterPlote flag to only change HeatmapPlotSeries.
  * Check _eventWaitData is closed for calling set. 
+ * Added SyncRoot to Ensemble to lock it when modifying it.
 
 Pulse-4.12.0
  * In AdcpConfigurationViewModel, pass the deployment duration based off the number of configurations.
