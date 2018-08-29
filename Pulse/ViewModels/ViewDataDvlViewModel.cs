@@ -29,6 +29,7 @@
  * 05/19/2016      RC          4.4.7      Added GPS Heading.
  * 02/13/2017      RC          4.5.1      Fixed Display All data.
  * 08/31/2017      RC          4.5.2      Added Ship Velocity to Bottom Track and Water Track.
+ * 08/29/2018      RC          4.12.2     Verify _eventWaitHandler is not null in DisplayData().
  * 
  */
 namespace RTI
@@ -3142,7 +3143,7 @@ namespace RTI
             //if ((++_displayCounter % 5) == 0)
             //{
             // Wake up the thread to process data
-            if (!_eventWaitData.SafeWaitHandle.IsClosed)
+            if (_eventWaitData != null && !_eventWaitData.SafeWaitHandle.IsClosed)
             {
                 _eventWaitData.Set();
             }
@@ -3589,7 +3590,7 @@ namespace RTI
         public override void Handle(EnsembleEvent ensEvent)
         {
             // Check if source matches this display
-            if (_Config.Source != ensEvent.Source || ensEvent.Ensemble == null)
+            if (_Config != null || ensEvent != null || _Config.Source != ensEvent.Source || ensEvent.Ensemble == null)
             {
                 return;
             }

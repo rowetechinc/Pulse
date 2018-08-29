@@ -45,6 +45,7 @@
  * 08/13/2015      RC          4.1.5      Fixed bug with CheckData() not checking for bad ensembles.
  * 11/16/2016      RC          4.3.1      Added a thread.
  * 08/02/2016      RC          4.4.12     Removed contour plot and replaced with heatmap plot.
+ * 08/29/2018      RC          4.12.2     Verify _eventWaitHandler is not null in DisplayData().
  * 
  */
 namespace RTI
@@ -619,7 +620,6 @@ namespace RTI
 
             // Get PulseManager
             _pm = IoC.Get<PulseManager>();
-            _pm.RegisterDisplayVM(this);
 
             // Get the options from the database
             GetOptionsFromDatabase();
@@ -656,6 +656,8 @@ namespace RTI
             CloseVMCommand = ReactiveCommand.Create();
             CloseVMCommand.Subscribe(_ => _events.PublishOnUIThread(new CloseVmEvent(_Config)));
 
+            // Register to receive data
+            _pm.RegisterDisplayVM(this);
             _events.Subscribe(this);
         }
 
@@ -1365,7 +1367,7 @@ namespace RTI
             //if ((++_displayCounter % 5) == 0)
             //{
             // Wake up the thread to process data
-            if (!_eventWaitData.SafeWaitHandle.IsClosed)
+            if (_eventWaitData != null && !_eventWaitData.SafeWaitHandle.IsClosed)
             {
                 _eventWaitData.Set();
             }
@@ -1400,39 +1402,42 @@ namespace RTI
                             continue;
                         }
 
-                        // If no subsystem is given, then a project is not selected
-                        // So receive all data and display
-                        // If the serial number is not set, this may be an old ensemble
-                        // Try to display it anyway
-                        if (!_Config.SubSystem.IsEmpty() && !ensemble.EnsembleData.SysSerialNumber.IsEmpty())
-                        {
-                            // Verify the subsystem matches this viewmodel's subystem.
-                            if ((_Config.SubSystem != ensemble.EnsembleData.GetSubSystem())        // Check if Subsystem matches 
-                                    || (_Config != ensemble.EnsembleData.SubsystemConfig))         // Check if Subsystem Config matches
+                        //lock (ensemble.SyncRoot)
+                        //{
+                            // If no subsystem is given, then a project is not selected
+                            // So receive all data and display
+                            // If the serial number is not set, this may be an old ensemble
+                            // Try to display it anyway
+                            if (!_Config.SubSystem.IsEmpty() && !ensemble.EnsembleData.SysSerialNumber.IsEmpty())
                             {
-                                //_isProcessingBuffer = false;
-                                continue;
+                                // Verify the subsystem matches this viewmodel's subystem.
+                                if ((_Config.SubSystem != ensemble.EnsembleData.GetSubSystem())        // Check if Subsystem matches 
+                                        || (_Config != ensemble.EnsembleData.SubsystemConfig))         // Check if Subsystem Config matches
+                                {
+                                    //_isProcessingBuffer = false;
+                                    continue;
+                                }
                             }
-                        }
 
-                        try
-                        {
-                            // Check the data for changes
-                            CheckData(ensemble);
+                            try
+                            {
+                                // Check the data for changes
+                                CheckData(ensemble);
 
-                            // Update Plots
-                            AddSeries(ensemble);
+                                // Update Plots
+                                AddSeries(ensemble);
 
-                            // Add the ensemble to ensemble history
-                            _ensembleHistory.Add(ensemble);
+                                // Add the ensemble to ensemble history
+                                _ensembleHistory.Add(ensemble);
 
-                            // Add the data to the Text Display
-                            TextEnsembleVM.ReceiveEnsemble(ensemble);
-                        }
-                        catch (Exception e)
-                        {
-                            log.Error("Error adding ensemble to plots.", e);
-                        }
+                                // Add the data to the Text Display
+                                TextEnsembleVM.ReceiveEnsemble(ensemble);
+                            }
+                            catch (Exception e)
+                            {
+                                log.Error("Error adding ensemble to plots.", e);
+                            }
+                        //}
                     }
                 }
             }

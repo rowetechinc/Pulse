@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.12.2
+ * In ViewDataGraphicalViewModel, verify _eventWaitHandler is not null in DisplayData().
+ * In ViewDataDvlViewModel, verify _eventWaitHandler is not null in DisplayData().
+
 Pulse-4.12.1
  * In HeatmapPlotViewModel, fixed InterPlote flag to only change HeatmapPlotSeries.
  * Check _eventWaitData is closed for calling set. 
