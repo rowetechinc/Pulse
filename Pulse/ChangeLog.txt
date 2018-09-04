@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.12.3
+ * In ViewDataDvlViewModel, fixed bug in Handle when checking for NULL.
+ - Cleaned up the DVL View.
+
 Pulse-4.12.2
  * In ViewDataGraphicalViewModel, verify _eventWaitHandler is not null in DisplayData().
  * In ViewDataDvlViewModel, verify _eventWaitHandler is not null in DisplayData().

@@ -107,7 +107,7 @@
 
                         <!--Bottom Track Status-->
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Bottom Track Status: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,5" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding BtStatus}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,5"  FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom"  />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding BtStatus}" ToolTip="{Binding BtStatus}" MaxWidth="200" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,5"  FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom"  />
                     </Grid>
 
                 </StackPanel>
@@ -117,9 +117,15 @@
             <StackPanel Grid.Row="1" Grid.Column="1">
             
                 <Border Background="{StaticResource PulseBackBorder2Color}" HorizontalAlignment="Center" >
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Grid.Column="0" Text="Average Range: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,0" VerticalAlignment="Bottom" />
-                        <TextBlock Text="{Binding Path=Range}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Grid.Column="0" Text="" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,0" VerticalAlignment="Bottom" />
+                            <TextBlock Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Grid.Column="0" Text="Average Range: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,0" VerticalAlignment="Bottom" />
+                            <TextBlock Text="{Binding Path=Range}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 
@@ -326,7 +332,7 @@
                             <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="5" Width="100" HorizontalAlignment="Left" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible" >
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Path=DisplayEnsemble.BottomTrackData.Status}" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" >
 									<ToolTipService.ToolTip> 
-										<TextBlock Foreground="Black" Text="{Binding Path=DisplayEnsemble.BottomTrackData.Status}" />
+										<TextBlock Text="{Binding Path=DisplayEnsemble.BottomTrackData.Status}"  />
 									</ToolTipService.ToolTip>
 								</TextBlock>
                             </ScrollViewer>
