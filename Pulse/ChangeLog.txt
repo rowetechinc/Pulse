@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.12.4
+ * In CompassCalViewModel, wait for a reply when getting pre and post points.
+
 Pulse-4.12.3
  * In ViewDataDvlViewModel, fixed bug in Handle when checking for NULL.
  - Cleaned up the DVL View.
