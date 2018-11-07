@@ -1,7 +1,11 @@
 ﻿Pulse Changelog
 
+Pulse-4.12.5
+ - Added Lithium option for the prediction models.
+
 Pulse-4.12.4
  * In CompassCalViewModel, wait for a reply when getting pre and post points.
+ * In NmeaDataSet, fix how i check for a NaN value for the GPS speed.
 
 Pulse-4.12.3
  * In ViewDataDvlViewModel, fixed bug in Handle when checking for NULL.
