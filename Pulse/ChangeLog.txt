@@ -1,5 +1,10 @@
 ﻿Pulse Changelog
 
+Pulse-4.12.6
+ * Fixed some issues decoding PD0.
+ * Fixed some issues with NMEA data type.
+ * Fixed some issues exporting data.
+
 Pulse-4.12.5
  - Added Lithium option for the prediction models.
 
