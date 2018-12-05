@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.12.5 ChangeLog</title>
+		<title>Version 4.12.6 ChangeLog</title>
 		<style type="text/css">
             .auto-style1 {
 	            text-decoration: underline;
@@ -10,7 +10,12 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.12.5</span>
+            <br /><span class="auto-style1">Pulse-4.12.6</span>
+            <br />  Pulse-4.12.6
+            <br />  * Fixed some issues decoding PD0.
+            <br />  * Fixed some issues with NMEA data type.
+            <br />  * Fixed some issues exporting data.
+            <br />
             <br />  Pulse-4.12.5
             <br />  - Added Lithium option for the prediction models.
             <br />
@@ -114,7 +119,12 @@
             <br />   - In PredictionModel, fix bug in GetBurstDataStorage() when calculating number of burst per deployment.
             <br />   - In PredictionModel, fix bug in CalculatePowerBurst() when calculating number of burst per deployment.
             <br />
-            <br /><span class="auto-style1">Pulse-Display-4.11.0</span>
+            <br /><span class="auto-style1">Pulse-Display-4.11.1</span>
+            <br />   Pulse-Display-4.11.1
+            <br />   * In CompassCalViewModel, when getting pre and post points, wait for a reply.
+            <br />   - In AdcpConnection, Added EngBeamShowTest().
+            <br />   - In PredictionModel, updated BatteryUsage() to use Lithium batteries.
+            <br />
             <br />   Pulse-Display-4.11.0
             <br />   * Check for null in Event Handler for EnsEvent in ValidationTestViewModel.
             <br />
@@ -185,7 +195,14 @@
             <br />   - In ScreenDataViewModel, added FillInMissingWpData() to fill in data when Water Profile is turned off.
             <br />   - Change the images in PlaybackView.xaml to VisualBrushes.  This decreased startup time dramatically.
             <br />   - In DistanceTraveled, in AccumulateGps() verify a good _FirstGpsPos is set.
-            <br /><span class="auto-style1">RTI-3.4.10</span>
+            <br /><span class="auto-style1">RTI-3.4.11</span>
+            <br />   RTI-3.4.11
+            <br />   * In PD0ExporterWriter, fixed bug in PD0 Exporter with multiple configurations.
+            <br />   - Added ExportWriter to handle writing a configuration in exporter.
+            <br />   * In Pd0NmeaData, fixed the ID in the constructor.
+            <br />   * In Pd0NmeaData, initialized the string list of NMEA data.
+            <br />   - In Pd0ExporterWriter, removed the bin selection.
+            <br />   * In Transform, set the velocity bad in ProfileTransform() and BottomTrackTransform() if not good data.
             <br />   RTI-3.4.10
             <br />   * In RemoveShipSpeed, in RemoveVelocityInstrument, check if the Instrument Velocity exist instead of Earth.
             <br />   * In PD4_5Codec, check if the buffer has at least 1 byte when removing, in SearchForHeaderStart().
