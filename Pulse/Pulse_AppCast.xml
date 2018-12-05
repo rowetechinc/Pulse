@@ -2,7 +2,7 @@
 <item>
   <title>New version 4.12.6 of Pulse is available.</title>
   <version>4.12.6</version>
-  <url>http://www.rowetechinc.co/pulse/Pulse.Installer.v.4.12.6.Update.exe</url>
-  <changelog>http://www.rowetechinc.co/pulse/releasenotes.html</changelog>
+  <url>http://www.rowetechinc.com/swfw/latest/Pulse/Pulse.Installer.v.4.12.6.Update.exe</url>
+  <changelog>http://www.rowetechinc.com/swfw/latest/Pulse/releasenotes.html</changelog>
   <mandatory>true</mandatory>
 </item>

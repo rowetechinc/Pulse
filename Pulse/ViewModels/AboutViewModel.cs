@@ -486,7 +486,7 @@ namespace RTI
         /// </summary>
         private void CheckForUpdates()
         {
-            string url = @"http://www.rowetechinc.co/pulse/Pulse_AppCast.xml";
+            string url = @"http://www.rowetechinc.com/swfw/latest/Pulse/Pulse_AppCast.xml";
 
             try
             {
