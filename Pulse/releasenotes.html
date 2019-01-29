@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.12.6 ChangeLog</title>
+		<title>Version 4.12.7 ChangeLog</title>
 		<style type="text/css">
             .auto-style1 {
 	            text-decoration: underline;
@@ -10,7 +10,12 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.12.6</span>
+            <br /><span class="auto-style1">Pulse-4.12.7</span>
+            <br />  Pulse-4.12.7
+            <br />  - In TerminalAdcpViewModel, made the Wait States for Advanced BREAK doubles in SendAdvancedBreak().
+            <br />  - In MatlabMatrixExporter,  added Range of First Bin and Bin Size to ENS data.
+            <br />  * In VelocityVector, in GenerateShipVectors, fixed bug with getting the size.
+            <br />
             <br />  Pulse-4.12.6
             <br />  * Fixed some issues decoding PD0.
             <br />  * Fixed some issues with NMEA data type.
@@ -124,6 +129,7 @@
             <br />   * In CompassCalViewModel, when getting pre and post points, wait for a reply.
             <br />   - In AdcpConnection, Added EngBeamShowTest().
             <br />   - In PredictionModel, updated BatteryUsage() to use Lithium batteries.
+            <br />   - Made the Wait States for Advanced BREAK doubles in SendAdvancedBreak().
             <br />
             <br />   Pulse-Display-4.11.0
             <br />   * Check for null in Event Handler for EnsEvent in ValidationTestViewModel.
@@ -203,6 +209,10 @@
             <br />   * In Pd0NmeaData, initialized the string list of NMEA data.
             <br />   - In Pd0ExporterWriter, removed the bin selection.
             <br />   * In Transform, set the velocity bad in ProfileTransform() and BottomTrackTransform() if not good data.
+            <br />   - Made the Wait States for Advanced BREAK doubles in SendAdvancedBreak().
+            <br />   - In MatlabMatrixExporter,  added Range of First Bin and Bin Size to ENS data.
+            <br />   * In VelocityVector, in GenerateShipVectors, fixed bug with getting the size.
+            <br />
             <br />   RTI-3.4.10
             <br />   * In RemoveShipSpeed, in RemoveVelocityInstrument, check if the Instrument Velocity exist instead of Earth.
             <br />   * In PD4_5Codec, check if the buffer has at least 1 byte when removing, in SearchForHeaderStart().
