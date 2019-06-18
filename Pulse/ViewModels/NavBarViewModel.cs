@@ -33,6 +33,7 @@
  * 12/03/2015      RC          4.4.0      Added record button and recording to file to the record button.
  * 10/23/2017      RC          4.6.1      In LoadFiles() first check if its a binary file, then try all codec types. 
  * 05/01/2018      RC          4.11.0     Moved loading data with CreateProject() for playback to PulseManager.
+ * 06/18/2019      RC          4.12.8     Automatically play file when file selected.
  * 
  */
 
@@ -352,6 +353,9 @@ namespace RTI
 
                     // Go to the view page
                     _events.PublishOnUIThread(new ViewNavEvent(ViewNavEvent.ViewId.ViewDataView));
+
+                    // Display all the data
+                    _events.PublishOnUIThread(new DisplayAllEvent());
                 }
             }
             catch(AccessViolationException ae)

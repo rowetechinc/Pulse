@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.12.7 ChangeLog</title>
+		<title>Version 4.12.8 ChangeLog</title>
 		<style type="text/css">
             .auto-style1 {
 	            text-decoration: underline;
@@ -10,7 +10,13 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.12.7</span>
+            <br /><span class="auto-style1">Pulse-4.12.8</span>
+            <br />  Pulse-4.12.8
+            <br />  - Update PD0 data types to handle any number of beams including 3 beam systems.
+            <br />  - In TimeSeries, added SystemSetup Boost Pos and Neg Voltage.
+            <br />  - In Ensemble, Added Ship Water Track from PD0 data.
+            <br />  - In Ensemble, Fix the scale of the water track values in PD0
+            <br />
             <br />  Pulse-4.12.7
             <br />  - In TerminalAdcpViewModel, made the Wait States for Advanced BREAK doubles in SendAdvancedBreak().
             <br />  - In MatlabMatrixExporter,  added Range of First Bin and Bin Size to ENS data.
@@ -130,6 +136,7 @@
             <br />   - In AdcpConnection, Added EngBeamShowTest().
             <br />   - In PredictionModel, updated BatteryUsage() to use Lithium batteries.
             <br />   - Made the Wait States for Advanced BREAK doubles in SendAdvancedBreak().
+            <br />   - In TimeSeries, added SystemSetup Boost Pos and Neg Voltage.
             <br />
             <br />   Pulse-Display-4.11.0
             <br />   * Check for null in Event Handler for EnsEvent in ValidationTestViewModel.
@@ -212,6 +219,15 @@
             <br />   - Made the Wait States for Advanced BREAK doubles in SendAdvancedBreak().
             <br />   - In MatlabMatrixExporter,  added Range of First Bin and Bin Size to ENS data.
             <br />   * In VelocityVector, in GenerateShipVectors, fixed bug with getting the size.
+            <br />   * In CsvExporterWriter, fixed bug with exporting CSV data with a 3 beam system.
+            <br />   * In Pd0BottomTrack and BottomTrackDataSet, remove screening the correlation data for PD0.
+            <br />   * In FilePlayback, if the ensemble number is the same, then use datetime ticks for the key for the ensemble.
+            <br />   - IN SystemSetupDataSet, updated all values to Rev AK User guide.
+            <br />   * In MATLAB ReadRTI.m, check if all the data is available when decoding the data.
+            <br />   - Update PD0 data types to handle any number of beams including 3 beam systems.
+            <br />   - Added Pd0SubsystemGen.
+            <br />   - In AdcpPd0CodecReadFile, in FindCompleteEnsembles(), generate a Subsystem Config so the subsystems configurations are seperate.
+            <br />   - In AdcpCodec, in FindCompleteEnsembles(), generate a Subsystem Config so the subsystems configurations are seperate.
             <br />
             <br />   RTI-3.4.10
             <br />   * In RemoveShipSpeed, in RemoveVelocityInstrument, check if the Instrument Velocity exist instead of Earth.
