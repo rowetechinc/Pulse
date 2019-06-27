@@ -123,6 +123,10 @@
                             <TextBlock Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Grid.Column="0" Text="" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,0" VerticalAlignment="Bottom" />
+                            <TextBlock Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock Grid.Column="0" Text="Average Range: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,0" VerticalAlignment="Bottom" />
                             <TextBlock Text="{Binding Path=Range}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
                         </StackPanel>
@@ -147,6 +151,10 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <TextBlock Grid.Column="0" Text="BT Speed: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,0" VerticalAlignment="Bottom" />
                             <TextBlock Text="{Binding Path=BtSpeed}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Grid.Column="0" Text="WT Speed: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,0" VerticalAlignment="Bottom" />
+                            <TextBlock Text="{Binding Path=WtSpeed}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,0" FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" />
                         </StackPanel>
                     </StackPanel>
                 </Border>

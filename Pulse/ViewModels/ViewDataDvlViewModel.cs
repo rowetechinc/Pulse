@@ -31,6 +31,7 @@
  * 08/31/2017      RC          4.5.2      Added Ship Velocity to Bottom Track and Water Track.
  * 08/29/2018      RC          4.12.2     Verify _eventWaitHandler is not null in DisplayData().
  * 08/31/2018      RC          4.12.3     Fixed bug in Handle when checking for NULL.
+ * 06/26/2019      RC          4.12.9     Added Water Track Speed.
  * 
  */
 namespace RTI
@@ -602,11 +603,11 @@ namespace RTI
         #region Velocity Plot
 
         /// <summary>
-        /// Speed in meters per second.
+        /// Bottom Track Speed in meters per second.
         /// </summary>
         private string _BtSpeed;
         /// <summary>
-        /// Speed in meters per second.
+        /// Bottom Track Speed in meters per second.
         /// </summary>
         public string BtSpeed
         {
@@ -615,6 +616,23 @@ namespace RTI
             {
                 _BtSpeed = value;
                 this.NotifyOfPropertyChange(() => this.BtSpeed);
+            }
+        }
+
+        /// <summary>
+        /// Water Track Speed in meters per second.
+        /// </summary>
+        private string _WtSpeed;
+        /// <summary>
+        /// Water Track Speed in meters per second.
+        /// </summary>
+        public string WtSpeed
+        {
+            get { return _WtSpeed; }
+            set
+            {
+                _WtSpeed = value;
+                this.NotifyOfPropertyChange(() => this.WtSpeed);
             }
         }
 
@@ -3316,6 +3334,41 @@ namespace RTI
                 if (ensemble.NmeaData.IsGphdtAvail())
                 {
                     _SatHeading = ensemble.NmeaData.GPHDT.Heading.DecimalDegrees.ToString() + "°";
+                }
+            }
+
+            // Water Track Speed
+            if(ensemble.IsEarthWaterMassAvail)
+            {
+                // Ensure the velocities are good
+                // They could be set to bad velocity or 0.0.  So check for both for bad values.
+                if (((ensemble.EarthWaterMassData.VelocityEast != DataSet.Ensemble.BAD_VELOCITY) && (ensemble.EarthWaterMassData.VelocityNorth != DataSet.Ensemble.BAD_VELOCITY) && (ensemble.EarthWaterMassData.VelocityVertical != DataSet.Ensemble.BAD_VELOCITY)) && 
+                    ((ensemble.EarthWaterMassData.VelocityEast != 0.0) && (ensemble.EarthWaterMassData.VelocityNorth != 0.0) && (ensemble.EarthWaterMassData.VelocityVertical != 0.0)))
+                {
+                    double speed = Math.Sqrt((ensemble.EarthWaterMassData.VelocityEast * ensemble.EarthWaterMassData.VelocityEast) + (ensemble.EarthWaterMassData.VelocityNorth * ensemble.EarthWaterMassData.VelocityNorth) + (ensemble.EarthWaterMassData.VelocityVertical * ensemble.EarthWaterMassData.VelocityVertical));
+                    _WtSpeed = speed.ToString("0.000") + " m/s";
+                }
+            }
+            if (ensemble.IsInstrumentWaterMassAvail)
+            {
+                // Ensure the velocities are good
+                // They could be set to bad velocity or 0.0.  So check for both for bad values.
+                if (((ensemble.InstrumentWaterMassData.VelocityX != DataSet.Ensemble.BAD_VELOCITY) && (ensemble.InstrumentWaterMassData.VelocityY != DataSet.Ensemble.BAD_VELOCITY) && (ensemble.InstrumentWaterMassData.VelocityZ != DataSet.Ensemble.BAD_VELOCITY)) &&
+                    ((ensemble.InstrumentWaterMassData.VelocityX != 0.0) && (ensemble.InstrumentWaterMassData.VelocityY != 0.0) && (ensemble.InstrumentWaterMassData.VelocityZ != 0.0)))
+                {
+                    double speed = Math.Sqrt((ensemble.InstrumentWaterMassData.VelocityX * ensemble.InstrumentWaterMassData.VelocityX) + (ensemble.InstrumentWaterMassData.VelocityY * ensemble.InstrumentWaterMassData.VelocityY) + (ensemble.InstrumentWaterMassData.VelocityZ * ensemble.InstrumentWaterMassData.VelocityZ));
+                    _WtSpeed = speed.ToString("0.000") + " m/s";
+                }
+            }
+            if (ensemble.IsShipWaterMassAvail)
+            {
+                // Ensure the velocities are good
+                // They could be set to bad velocity or 0.0.  So check for both for bad values.
+                if (((ensemble.ShipWaterMassData.VelocityLongitudinal != DataSet.Ensemble.BAD_VELOCITY) && (ensemble.ShipWaterMassData.VelocityTransverse != DataSet.Ensemble.BAD_VELOCITY) && (ensemble.ShipWaterMassData.VelocityNormal != DataSet.Ensemble.BAD_VELOCITY)) &&
+                    ((ensemble.ShipWaterMassData.VelocityLongitudinal != 0.0) && (ensemble.ShipWaterMassData.VelocityTransverse != 0.0) && (ensemble.ShipWaterMassData.VelocityNormal != 0.0)))
+                {
+                    double speed = Math.Sqrt((ensemble.ShipWaterMassData.VelocityLongitudinal * ensemble.ShipWaterMassData.VelocityLongitudinal) + (ensemble.ShipWaterMassData.VelocityTransverse * ensemble.ShipWaterMassData.VelocityTransverse) + (ensemble.ShipWaterMassData.VelocityNormal * ensemble.ShipWaterMassData.VelocityNormal));
+                    _WtSpeed = speed.ToString("0.000") + " m/s";
                 }
             }
 
