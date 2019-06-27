@@ -3391,6 +3391,7 @@ namespace RTI
             Roll = "0°";
             Range = "0.0 m";
             BtSpeed = "0.0 m/s";
+            WtSpeed = "0.0 m/s";
             BtStatus = "";
             Date = "";
             Time = "";
