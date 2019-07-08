@@ -1107,6 +1107,83 @@ namespace RTI
         }
 
         /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 0.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB0
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams >= 1)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_0_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 1.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB1
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams > 1)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_1_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 2.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB2
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams > 2)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_2_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Bottom Track Ship Velocity for Beam 3.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string BtShipVelB3
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsBottomTrackAvail && _DisplayEnsemble.BottomTrackData.NumBeams > 3)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.BottomTrackData.ShipVelocity[DataSet.Ensemble.BEAM_3_INDEX], "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Get the Bottom Track Signal To Noise Ratio for Beam 0.
         /// Round to 3 decimal places.
         /// </summary>
@@ -1499,6 +1576,63 @@ namespace RTI
                 if (_DisplayEnsemble != null && _DisplayEnsemble.IsEarthWaterMassAvail)
                 {
                     return SetMeasurementValue(_DisplayEnsemble.EarthWaterMassData.VelocityVertical, "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Water Track Ship Velocity for Beam 0.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string WtShipVelB0
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsShipWaterMassAvail)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.ShipWaterMassData.VelocityTransverse, "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Water Track Ship Velocity for Beam 1.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string WtShipVelB1
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsShipWaterMassAvail)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.ShipWaterMassData.VelocityLongitudinal, "0.000");
+                }
+                else
+                {
+                    return "-";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the Water Track Ship Velocity for Beam 2.
+        /// Round to 3 decimal places.
+        /// </summary>
+        public string WtShipVelB2
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsShipWaterMassAvail)
+                {
+                    return SetMeasurementValue(_DisplayEnsemble.ShipWaterMassData.VelocityNormal, "0.000");
                 }
                 else
                 {
@@ -2726,71 +2860,6 @@ namespace RTI
         /// </summary>
         private void UpdateDisplay()
         {
-            //#region BT
-
-            //this.NotifyOfPropertyChange(() => this.BtRangeB0);
-            //this.NotifyOfPropertyChange(() => this.BtRangeB1);
-            //this.NotifyOfPropertyChange(() => this.BtRangeB2);
-            //this.NotifyOfPropertyChange(() => this.BtRangeB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtBeamVelB0);
-            //this.NotifyOfPropertyChange(() => this.BtBeamVelB1);
-            //this.NotifyOfPropertyChange(() => this.BtBeamVelB2);
-            //this.NotifyOfPropertyChange(() => this.BtBeamVelB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtGoodBeamB0);
-            //this.NotifyOfPropertyChange(() => this.BtGoodBeamB1);
-            //this.NotifyOfPropertyChange(() => this.BtGoodBeamB2);
-            //this.NotifyOfPropertyChange(() => this.BtGoodBeamB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtInstrVelB0);
-            //this.NotifyOfPropertyChange(() => this.BtInstrVelB1);
-            //this.NotifyOfPropertyChange(() => this.BtInstrVelB2);
-            //this.NotifyOfPropertyChange(() => this.BtInstrVelB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtGoodInstrB0);
-            //this.NotifyOfPropertyChange(() => this.BtGoodInstrB1);
-            //this.NotifyOfPropertyChange(() => this.BtGoodInstrB2);
-            //this.NotifyOfPropertyChange(() => this.BtGoodInstrB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtEarthVelB0);
-            //this.NotifyOfPropertyChange(() => this.BtEarthVelB1);
-            //this.NotifyOfPropertyChange(() => this.BtEarthVelB2);
-            //this.NotifyOfPropertyChange(() => this.BtEarthVelB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtGoodEarthB0);
-            //this.NotifyOfPropertyChange(() => this.BtGoodEarthB1);
-            //this.NotifyOfPropertyChange(() => this.BtGoodEarthB2);
-            //this.NotifyOfPropertyChange(() => this.BtGoodEarthB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtSnrB0);
-            //this.NotifyOfPropertyChange(() => this.BtSnrB1);
-            //this.NotifyOfPropertyChange(() => this.BtSnrB2);
-            //this.NotifyOfPropertyChange(() => this.BtSnrB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtAmpB0);
-            //this.NotifyOfPropertyChange(() => this.BtAmpB1);
-            //this.NotifyOfPropertyChange(() => this.BtAmpB2);
-            //this.NotifyOfPropertyChange(() => this.BtAmpB3);
-
-            //this.NotifyOfPropertyChange(() => this.BtCorrB0);
-            //this.NotifyOfPropertyChange(() => this.BtCorrB1);
-            //this.NotifyOfPropertyChange(() => this.BtCorrB2);
-            //this.NotifyOfPropertyChange(() => this.BtCorrB3);
-
-            //#endregion
-
-            //this.NotifyOfPropertyChange(() => this.WtEarthDepthLayer);
-            //this.NotifyOfPropertyChange(() => this.WtEarthVelB0);
-            //this.NotifyOfPropertyChange(() => this.WtEarthVelB1);
-            //this.NotifyOfPropertyChange(() => this.WtEarthVelB2);
-
-            //this.NotifyOfPropertyChange(() => this.WtInstrumentDepthLayer);
-            //this.NotifyOfPropertyChange(() => this.WtInstrVelB0);
-            //this.NotifyOfPropertyChange(() => this.WtInstrVelB1);
-            //this.NotifyOfPropertyChange(() => this.WtInstrVelB2);
-            //this.NotifyOfPropertyChange(() => this.WtInstrVelB3);
-
             // Update all the displays
             this.NotifyOfPropertyChange(null);
         }
