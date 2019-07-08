@@ -2,6 +2,7 @@
 
 Pulse-4.12.9
  - Added Water Track Speed on DVL Page.
+ - Added Ship Velocity and Ship WaterMass to View Data VM and View.
 
 Pulse-4.12.8
  - Update PD0 data types to handle any number of beams including 3 beam systems.
