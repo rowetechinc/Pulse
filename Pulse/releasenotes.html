@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.12.9 ChangeLog</title>
+		<title>Version 4.12.10 ChangeLog</title>
 		<style type="text/css">
             .auto-style1 {
 	            text-decoration: underline;
@@ -10,7 +10,14 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.12.9</span>
+            <br /><span class="auto-style1">Pulse-4.12.10</span>
+            <br />  Pulse-4.12.10
+            <br />  - Added features to view the data from upward looking ADCP
+            <br />  - Added screening in TimeSeries for Range Tracking
+            <br />  - Flip HeatMap plots on upward looking ADCP
+            <br />  - Fix Profile plots with last bin.
+            <br />  - Flip Profile plots on upward looking ADCP
+            <br />
             <br />  Pulse-4.12.9
             <br />  - Added Water Track Speed on DVL Page.
             <br />  - Added Ship Velocity and Ship WaterMass to View Data VM and View.
@@ -134,7 +141,17 @@
             <br />   - In PredictionModel, fix bug in GetBurstDataStorage() when calculating number of burst per deployment.
             <br />   - In PredictionModel, fix bug in CalculatePowerBurst() when calculating number of burst per deployment.
             <br />
-            <br /><span class="auto-style1">Pulse-Display-4.11.2</span>
+            <br /><span class="auto-style1">Pulse-Display-4.11.3</span>
+            <br />   Pulse-Display-4.11.3
+            <br />   - Added ScreenMarkBadAbove Surface to screening.
+            <br />   - In ScreenSubsystemConfigOptions, Added IsMarkBadAboveSurface.
+            <br />   * Fixed UpdateMeterAxis() max value.
+            <br />   - In HeatmapPlotViewModel, Added SetUpwardOrDownwardPlotAxis() to flip axis based on upward or downward looking.
+            <br />   * In ProfileSeries, Fixed bug with max bin set on plots.
+            <br />   - In TimeSeries, Filter Range Tracking Plots for Bad Range.
+            <br />   - In HeatmapPlotViewModel, In AddBottomTrackData() Added Range Tracking data to be used to get the surface height to draw line.
+            <br />   - ProfilePlotViewModel, Added SetUpwardOrDownwardPlotAxis() to flip axis based on upward or downward looking.
+            <br />
             <br />   Pulse-Display-4.11.2
             <br />   * In AdcpConnection::TestEthernetConnection(), check if Ethernet Port is created.
             <br />   - In SeriesType, Added Ship Velocity to Bottom Track and Water Track Time Series.
@@ -217,7 +234,19 @@
             <br />   - In ScreenDataViewModel, added FillInMissingWpData() to fill in data when Water Profile is turned off.
             <br />   - Change the images in PlaybackView.xaml to VisualBrushes.  This decreased startup time dramatically.
             <br />   - In DistanceTraveled, in AccumulateGps() verify a good _FirstGpsPos is set.
-            <br /><span class="auto-style1">RTI-3.4.12</span>
+            <br /><span class="auto-style1">RTI-3.4.14</span>
+            <br />   RTI-3.4.14
+            <br />   - In RangeTrackingDataSet, added AverageRange().
+            <br />   - Added ScreenMarkBadAboveSurface.cs.
+            <br />   - Moved GetBottomBin() from ScreenMarkBadBelowBottom to Ensemble.
+            <br />   - In AdcpSerialPort, In Reboot, changed SLEEP to SLEEPA and wait 11 seconds.
+            <br />
+            <br />   RTI-3.4.13
+            <br />   * In CsvExporterWriter, replaced Y North with X North for Velocity Vector.
+            <br />   - In ExportOptions, made Remove Ship Speed and Mark Bad Below Bottom default to True.
+            <br />   - In RemoveShipSpeed, Added GetPreviousShipSpeedGPS to get the good GPS speed to use as a backup.
+            <br />   - In CsvExporterWriter, added Speed to NMEA CSV data.
+            <br />
             <br />   RTI-3.4.12
             <br />   * Added decoding ShipVelocity in BottomTrackDataSet::Decode().
             <br />   * Added setting the Ship Velocity in BottomTrackDataSet::DecodePd0Ensemble().
