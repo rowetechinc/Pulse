@@ -5,6 +5,7 @@ Pulse-4.12.10
  - Added screening in TimeSeries for Range Tracking
  - Flip HeatMap plots on upward looking ADCP
  - Fix Profile plots with last bin.
+ - Flip Profile plots on upward looking ADCP
 
 Pulse-4.12.9
  - Added Water Track Speed on DVL Page.
