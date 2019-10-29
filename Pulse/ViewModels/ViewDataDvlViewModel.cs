@@ -3594,7 +3594,10 @@ namespace RTI
             float rollConv = 180.0f + roll;
             //float pitchConv = 90.0f + pitch; 
 
-            CompassRoseVM.AddIncomingData(heading, pitch, rollConv);
+            if (CompassRoseVM != null)
+            {
+                CompassRoseVM.AddIncomingData(heading, pitch, rollConv);
+            }
         }
 
         #endregion

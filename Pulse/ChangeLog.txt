@@ -1,5 +1,10 @@
 ﻿Pulse Changelog
 
+Pulse-4.13.0
+ - Added Larger 3D Profile Plot
+ - Added ViewDataProfile3DPViewModel and View
+ - Added ViewDataProfile3DBaseViewModel and View.
+
 Pulse-4.12.10
  - Added features to view the data from upward looking ADCP
  - Added screening in TimeSeries for Range Tracking

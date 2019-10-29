@@ -126,6 +126,11 @@ namespace RTI
         public ReactiveCommand<object> BackscatterViewCommand { get; protected set; }
 
         /// <summary>
+        /// Commnad to view Profile 3D data.
+        /// </summary>
+        public ReactiveCommand<object> Profile3DViewCommand { get; protected set; }
+
+        /// <summary>
         /// Command to view Diagnostic data.
         /// </summary>
         public ReactiveCommand<object> DiagnosticViewCommand { get; protected set; }
@@ -168,9 +173,13 @@ namespace RTI
             DvlViewCommand = ReactiveCommand.Create();
             DvlViewCommand.Subscribe(_ => ActivateItem(IoC.Get<ViewDataBaseDvlViewModel>()));
 
-            // Command to view DVL data
+            // Command to view Backscatter data
             BackscatterViewCommand = ReactiveCommand.Create();
             BackscatterViewCommand.Subscribe(_ => ActivateItem(IoC.Get<ViewDataBaseBackscatterViewModel>()));
+
+            // Command to view 3D Profile data
+            Profile3DViewCommand = ReactiveCommand.Create();
+            Profile3DViewCommand.Subscribe(_ => ActivateItem(IoC.Get<ViewDataBaseProfile3DViewModel>()));
 
             // Command to view Diagnotics data
             DiagnosticViewCommand = ReactiveCommand.Create();

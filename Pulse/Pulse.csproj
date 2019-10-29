@@ -256,6 +256,7 @@
     <Compile Include="ViewModels\AdcpConfigurationViewModel.cs" />
     <Compile Include="ViewModels\AdcpSubsystemConfigurationViewModel.cs" />
     <Compile Include="ViewModels\AdcpUtilitiesViewModel.cs" />
+    <Compile Include="ViewModels\ViewDataProfile3DViewModel.cs" />
     <Compile Include="ViewModels\BackscatterViewModel.cs" />
     <Compile Include="ViewModels\BaseDataOutputViewModel.cs" />
     <Compile Include="ViewModels\BinsViewModel.cs" />
@@ -264,6 +265,7 @@
     <Compile Include="ViewModels\BurstModeViewModel.cs" />
     <Compile Include="ViewModels\CommunicationViewModel.cs" />
     <Compile Include="ViewModels\TemperatureViewModel.cs" />
+    <Compile Include="ViewModels\ViewDataBaseProfile3DViewModel.cs" />
     <Compile Include="ViewModels\WpMagDirOutputViewModel.cs" />
     <Compile Include="ViewModels\DataOutputViewModel.cs" />
     <Compile Include="ViewModels\DvlSetupViewModel.cs" />
@@ -319,6 +321,12 @@
     </Compile>
     <Compile Include="Views\AdcpSubsystemConfigurationView.xaml.cs">
       <DependentUpon>AdcpSubsystemConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewDataBaseProfile3DView.xaml.cs">
+      <DependentUpon>ViewDataBaseProfile3DView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewDataProfile3DView.xaml.cs">
+      <DependentUpon>ViewDataProfile3DView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BackscatterView.xaml.cs">
       <DependentUpon>BackscatterView.xaml</DependentUpon>
@@ -498,6 +506,14 @@
     <Page Include="Views\AdcpSubsystemConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewDataBaseProfile3DView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ViewDataProfile3DView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BackscatterView.xaml">
       <SubType>Designer</SubType>

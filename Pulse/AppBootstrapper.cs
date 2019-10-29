@@ -55,6 +55,7 @@
  * 08/28/2017      RC          4.5.2       Added OutputDataViewModel
  * 09/02/2017      RC          4.5.3       Added WpMagDirViewModel and BaseDataOutputViewModel.
  * 03/28/2018      RC          4.10.0      Added DataFormatViewModel.
+ * 10/28/2019      RC          4/13/0      Added ViewDataBaseProfile3DViewModel
  * 
  */
 
@@ -321,6 +322,9 @@ namespace RTI
 
             // Register the WpMagDirOutputViewModel
             ContainerExtensions.Singleton<WpMagDirOutputViewModel, WpMagDirOutputViewModel>(_container);
+
+            // Register the ViewDataBaseProfile3DViewModel
+            ContainerExtensions.Singleton<ViewDataBaseProfile3DViewModel, ViewDataBaseProfile3DViewModel>(_container);
 
             // Register the BaseDataOutputViewModel
             ContainerExtensions.Singleton<BaseDataOutputViewModel, BaseDataOutputViewModel>(_container);
