@@ -114,6 +114,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Row="0" Text="Number of Beams:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="1" Text="Number of Bins:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
@@ -123,6 +125,8 @@
                         <TextBlock Grid.Row="5" Text="Actual Ping Count:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="6" Text="First Ping Time:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="7" Text="Last Ping Time:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="8" Text="Burst ID:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="9" Text="Burst Index:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                     </Grid>
                 </Border>
             </Grid>
@@ -133,6 +137,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -161,6 +167,12 @@
 
                 <TextBlock Grid.Column="0" Grid.Row="7" Text="{Binding Path=LastPingTimeRounded}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <TextBlock Grid.Column="1" Grid.Row="7" Text="Sec" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="{Binding Path=BurstID}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="8" Text="Sec" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+
+                <TextBlock Grid.Column="0" Grid.Row="9" Text="{Binding Path=BurstIndex}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="9" Text="Sec" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
             </Grid>
 
             <!-- Speed of Sound data -->

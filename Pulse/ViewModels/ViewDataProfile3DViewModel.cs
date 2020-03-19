@@ -407,7 +407,7 @@ namespace RTI
             {
                 //VelPlot.AddIncomingDataBulk(ensembles, _Config.SubSystem, _Config, maxEnsembles);
                 var lastEns = ensembles.GetLast();
-                VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(lastEns));
+                VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(lastEns), !lastEns.AncillaryData.IsUpwardFacing());
             }
             catch (Exception e)
             {
@@ -457,9 +457,9 @@ namespace RTI
 
                         try
                         {
-                            if (ensemble.IsEarthVelocityAvail && ensemble.EarthVelocityData.IsVelocityVectorAvail)
+                            if (ensemble.IsEarthVelocityAvail && ensemble.EarthVelocityData.IsVelocityVectorAvail && ensemble.IsAncillaryAvail)
                             {
-                                Task.Run(() => VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(ensemble)));
+                                Task.Run(() => VelPlot.AddIncomingData(DataSet.VelocityVectorHelper.GetEarthVelocityVectors(ensemble), !ensemble.AncillaryData.IsUpwardFacing()));
                             }
                         }
                         catch (Exception e)

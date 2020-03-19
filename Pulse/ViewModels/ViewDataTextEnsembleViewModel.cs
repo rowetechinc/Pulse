@@ -32,6 +32,7 @@
  * 08/12/2014      RC          4.0.0      Removed the plots.
  * 11/11/2015      RC          4.3.1      Added timer to limit the update speed.
  * 05/19/2016      RC          4.4.7      Added GPS Heading.
+ * 03/19/2020      RC          4.13.1     Added BurstIndex and BurstID.
  * 
  */
 
@@ -387,6 +388,54 @@ namespace RTI
 
 
                     return _DisplayEnsemble.EnsembleData.SysFirmware.ToString();
+                }
+
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// Burst ID to label the data.
+        /// This will also check if its a DVL and change
+        /// the serial number to DVL.
+        /// </summary>
+        public string BurstID
+        {
+            get
+            {
+                if (_DisplayEnsemble != null)
+                {
+                    if (_DisplayEnsemble.EnsembleData.SysSerialNumber == SerialNumber.DVL)
+                    {
+                        return "DVL";
+                    }
+
+
+                    return _DisplayEnsemble.EnsembleData.BurstID.ToString();
+                }
+
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// Burst Index to track the burst data.
+        /// This will also check if its a DVL and change
+        /// the serial number to DVL.
+        /// </summary>
+        public string BurstIndex
+        {
+            get
+            {
+                if (_DisplayEnsemble != null)
+                {
+                    if (_DisplayEnsemble.EnsembleData.SysSerialNumber == SerialNumber.DVL)
+                    {
+                        return "DVL";
+                    }
+
+
+                    return _DisplayEnsemble.EnsembleData.BurstIndex.ToString();
                 }
 
                 return "";
