@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.13.1
+ - Added BurstIndex and BurstID to ViewDataTextEnsembleViewModel.
+
 Pulse-4.13.0
  - Added Larger 3D Profile Plot
  - Added ViewDataProfile3DPViewModel and View
