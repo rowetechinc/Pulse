@@ -1,6 +1,9 @@
 Pulse README
 
-Build
+# Dependencies
+Install packages/BlendWPFSDK_en.exe
+
+# Build
 ------------------------
  - Release Build
 	Builds all projects, installer and documentation.
