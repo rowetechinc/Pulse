@@ -6,6 +6,7 @@ Pulse-4.13.2
  - Relayed out the ADCP Configuration in Project setup.
  - Added Ship Track view to Views page.
  - In Project Setup, fixed displaying timing for Burst Mode
+ - When creating a new subsystem configuration, check if burst mode is used.
 
 Pulse-4.13.1
  - Added BurstIndex and BurstID to ViewDataTextEnsembleViewModel.
