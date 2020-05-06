@@ -337,7 +337,7 @@ namespace RTI
                         _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Second = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstInterval.Second;
                         _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_NumEnsembles;
                         _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstPairFlag;
-                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstID = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstID;
+                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstID = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstID + 1;     // Add 1 to make it unique
 
                         // Set the view model values
                         _CBI_BurstInterval_Hour = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Hour;
