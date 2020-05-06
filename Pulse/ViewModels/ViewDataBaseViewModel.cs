@@ -29,6 +29,7 @@
  * 06/10/2014      RC          3.3.0      Added a warning if not recording live data.
  * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
  * 09/29/2015      RC          4.2.2      Update warning message using a timer.
+ * 05/06/2020      RC          4.13.2     Added Ship Track view (VT).     
  * 
  */
 
@@ -135,6 +136,11 @@ namespace RTI
         /// </summary>
         public ReactiveCommand<object> DiagnosticViewCommand { get; protected set; }
 
+        /// <summary>
+        /// Command to view Ship Track data.
+        /// </summary>
+        public ReactiveCommand<object> ShipTrackViewCommand { get; protected set; }
+
         #endregion
 
         /// <summary>
@@ -184,6 +190,10 @@ namespace RTI
             // Command to view Diagnotics data
             DiagnosticViewCommand = ReactiveCommand.Create();
             DiagnosticViewCommand.Subscribe(_ => ActivateItem(IoC.Get<DiagnosticsBaseViewModel>()));
+
+            // Command to view Diagnotics data
+            ShipTrackViewCommand = ReactiveCommand.Create();
+            ShipTrackViewCommand.Subscribe(_ => ActivateItem(IoC.Get<ValidationTestBaseViewModel>()));
 
             // Display Graphical view by default
             ActivateItem(IoC.Get<ViewDataBaseGraphicalViewModel>());

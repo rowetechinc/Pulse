@@ -27,6 +27,7 @@
 * 11/07/2013      RC          3.2.0      Initial coding
 * 08/07/2014      RC          4.0.0      Updated ReactiveCommand to 6.0.
 * 10/31/2016      RC          4.4.17     Fixed the CEI command only being an integer.
+* 05/06/2020      RC          4.13.2     Fixed CEI to display double value.
 * 
 * 
 */
@@ -168,7 +169,7 @@ namespace RTI
         /// </summary>
         private void InitializeValue()
         {
-            _CEI = _pm.SelectedProject.Configuration.Commands.CEI.ToSeconds();
+            _CEI = _pm.SelectedProject.Configuration.Commands.CEI.ToSecondsD();
             this.NotifyOfPropertyChange(() => this.CEI);
 
             // Display the timespan

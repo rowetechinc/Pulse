@@ -56,7 +56,7 @@
 				</Grid.RowDefinitions>
     
 				<!--Title-->
-				<TextBlock Grid.Row="0" Text="Scan the ADCP for its Configuration" HorizontalAlignment="Center" Margin="5,60"  FontSize="26.667" Foreground="#FF1585B5"/>	
+				<TextBlock Grid.Row="0" Text="ADCP Configuration" HorizontalAlignment="Center" Margin="5,60"  FontSize="26.667" Foreground="#FF1585B5"/>	
 				
 				<!--Options-->
 				<Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >
@@ -66,32 +66,32 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
-					
-					<Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >			
-						<Button Content="Scan ADCP" Margin="5" Command="{Binding Path=ScanAdcpCommand}" FontSize="26.667" Foreground="{StaticResource ClockFontColor}" Background="{StaticResource ClockBackgroundColor}" BorderBrush="{StaticResource ClockFontColor}" />			
-					</Grid>
+
+                    <Border Grid.Row="0" Background="#FF3E3E42" Margin="5" CornerRadius="5" MinHeight="170" MinWidth="200">
+                        <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >
+                            <TextBlock Text="Check the ADCP based on the COMM port selected previously" FontSize="20" Margin="5,10,5,20" Foreground="#FFFBC865" HorizontalAlignment="Center" />
+                            <Button Content="Scan ADCP" Margin="5" Command="{Binding Path=ScanAdcpCommand}" FontSize="26.667" Foreground="{StaticResource ClockFontColor}" Background="{StaticResource ClockBackgroundColor}" BorderBrush="{StaticResource ClockFontColor}" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
 
                     <TextBlock Grid.Row="1" Text="OR" Foreground="{StaticResource PulseFontBrightColor}" HorizontalAlignment="Center" FontSize="50" Margin="5, 40,5,40" />
 
                     <!--Serial Number-->
-                    <Border Grid.Row="2" Background="#FF3E3E42" Margin="5" CornerRadius="5">
+                    <Border Grid.Row="2" Background="#FF3E3E42" Margin="5" CornerRadius="5" MinHeight="150" MinWidth="200">
                         <StackPanel Grid.Row="2" Margin="5">
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="If an ADCP is not connected," FontSize="20" Margin="5,5,5,5" Foreground="#FFFBC865" HorizontalAlignment="Center" />
+                            <TextBlock Text="If an ADCP is not connected," FontSize="20" Margin="5,10,5,5" Foreground="#FFFBC865" HorizontalAlignment="Center" />
                             <TextBlock Text="use the Serial Number Generator to add a Subsystem:" FontSize="20" Margin="5,0,5,5" Foreground="#FFFBC865" HorizontalAlignment="Center" />
-                            <ContentControl Grid.Row="2" Grid.Column="1" cal:View.Model="{Binding SerialNumberGeneratorVM}" />
+                            <TextBlock Text="Select a Subsystem Frequency and press the Plus (+) button.  You can select multiple frequencies."  Margin="20,25,20,5" Foreground="CornflowerBlue" HorizontalAlignment="Center" />
+                            <ContentControl Grid.Row="2" Grid.Column="1" cal:View.Model="{Binding SerialNumberGeneratorVM}" Margin="5,5,5,10" />
                         </StackPanel>
                     </Border>
 
                     <!--Config Info-->
-                    <Border Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5, 40" Background="#FF2D2D30" CornerRadius="5">
-                        <Grid Margin="10">
-                            <Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
-						
-						<TextBlock Grid.Row="0" Text="{Binding Path=AdcpSerialNumber}" FontSize="26.667" />
-				    </Grid>
+                    <Border Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" MinHeight="150" MinWidth="650" Margin="5, 40" Background="#FF2D2D30" CornerRadius="5">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="ADCP Configuration Found" FontSize="20" Margin="5,10,5,5" Foreground="#FFFBC865" HorizontalAlignment="Center" />
+                            <TextBlock Grid.Row="0" Text="{Binding Path=AdcpSerialNumber}" FontSize="26.667" Margin="20" />
+                        </StackPanel>
                     </Border>
 					
 					<!--Progress Ring-->	

@@ -12,6 +12,6 @@
 			</Grid.RowDefinitions-->
 			
 			<ContentPresenter Content="{Binding PingModelCanvas}" Focusable="true" Grid.Row="0" />
-			<ContentPresenter Content="{Binding PingTimingTotalCanvas}" Focusable="true" Grid.Row="1" Margin="5" />
+			<ContentPresenter Content="{Binding PingTimingTotalCanvas}" Focusable="true" Grid.Row="1" Margin="5,40" />
     </StackPanel>
 </UserControl>

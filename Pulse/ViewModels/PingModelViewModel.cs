@@ -27,7 +27,7 @@
  * 01/03/2014      RC          3.2.3      Initial coding
  * 02/18/2014      RC          3.2.3      Fixed spacing for TotalPingTime in AddTotalConfigTime().
  * 02/18/2017      RC          4.5.1      Fixed the timing and display.
- * 
+ * 05/06/2020      RC          4.13.2     Fixed displaying timing for Burst Mode
  * 
  * 
  */
@@ -207,12 +207,27 @@ namespace RTI
 
             // Add all the configurations to the image
             double startPixel = 0;
+            double burstInterleaveIndex = 0;
             foreach (var ssConfig in config.SubsystemConfigDict.Values)
             {
+                // Check for burst leaving
+                if (ssConfig.Commands.CBI_BurstPairFlag > 0)
+                {
+                    burstInterleaveIndex = ssConfig.Commands.CBI_BurstPairFlag;
+                }
+
                 //AddConfig(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSeconds());
                 //startPixel += AddConfigStaggered(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSeconds(), pixelsPerSecond, startPixel * pixelsPerSecond);
-                startPixel += AddConfigCanvas(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSecondsD(), pixelsPerSecond, startPixel * pixelsPerSecond);
+                // Create the canvas and get the overall ensemble time
+                double lastEnsTime = AddConfigCanvas(ssConfig, config.SubsystemConfigDict.Count, config.Commands.CEI.ToSecondsD(), pixelsPerSecond, startPixel * pixelsPerSecond);
 
+                // Keep track of interleaving
+                // If interleaved, then do not move the burst, make them line up
+                if(burstInterleaveIndex <= 0)
+                {
+                    startPixel += lastEnsTime;
+                }
+                burstInterleaveIndex--;
             }
 
             // Add Total Config time label
@@ -252,11 +267,32 @@ namespace RTI
             }
             double ensembleLength = (pingTime * pixelsPerSecond);
 
-            // CEI length
+            // CEI length or CBI Length
             double ceiLength = (CEI * pixelsPerSecond) - ensembleLength;
             if(ceiLength < 0)
             {
                 ceiLength = 0;
+            }
+
+            // Calculate the ping time
+            double ceiTimeLeft = CEI - pingTime;
+            if (ceiTimeLeft < 0)
+            {
+                ceiTimeLeft = 0;                                                    // Set 0 as the smallest
+            }
+
+            // If Burst Mode is used, replace the values
+            if (ssConfig.Commands.CBI_BurstInterval.ToSecondsD() > 0)
+            {
+                // Burst Pinging
+                pingTime = ssConfig.Commands.CBI_NumEnsembles * CEI;
+                ensembleLength = (pingTime * pixelsPerSecond);
+
+                // Burst Length
+                ceiLength = (ssConfig.Commands.CBI_BurstInterval.ToSecondsD() * pixelsPerSecond) - ensembleLength;
+
+                // Time Remaining
+                ceiTimeLeft = ssConfig.Commands.CBI_BurstInterval.ToSecondsD() - pingTime;
             }
 
             // Width
@@ -312,7 +348,7 @@ namespace RTI
 
             // Add the Ensemble Length labels
             TextBlock textBlockEns = new TextBlock();
-            if(pingTime > CEI)
+            if(ssConfig.Commands.CBI_BurstInterval.ToSecondsD() <= 0 && pingTime > CEI)
             {
                 textBlockEns.Foreground = Brushes.Red;                              // Give a warning that the ping time exceeds CEI 
             }
@@ -324,17 +360,17 @@ namespace RTI
 
             // Add the CEI Length labels
             TextBlock textBlockCei = new TextBlock();
-            // Calculate the ping time
-            double ceiTimeLeft = CEI - pingTime;
-            if(ceiTimeLeft < 0)
-            {
-                ceiTimeLeft = 0;                                                    // Set 0 as the smallest
-            }
             textBlockCei.Text =  ceiTimeLeft.ToString("0.000") + " sec";
             textBlockCei.FontSize = 40;                                             // Font size
             Canvas.SetLeft(textBlockCei, widthCeiStart + (ceiLength / 2));          // Put in the middle of the box Width
             Canvas.SetTop(textBlockCei, heightCeiStart + (endHeight));              // Put in the middle of the box Height
             PingTimingCanvas.Children.Add(textBlockCei);                            // Add the text to the canvas
+
+            // If burst mode, return the burst length
+            if(ssConfig.Commands.CBI_BurstInterval.ToSecondsD() > 0)
+            {
+                return ssConfig.Commands.CBI_BurstInterval.ToSecondsD();
+            }
 
             // IF the CWPP and CWPTBP exceeds CEI
             // Then return the larger time
@@ -387,22 +423,41 @@ namespace RTI
         private double TotalPingTime(AdcpConfiguration config)
         {
             double pingTime = 0;
+            int interleaveIndex = 0;
 
             // Accumulate all the ping time length and CEI for each config
             foreach (var ssConfig in config.SubsystemConfigDict.Values)
             {
-
-                double ping = ssConfig.Commands.CWPTBP * ssConfig.Commands.CWPP;
-
-                // If more than 1 ping is in the ensemble
-                // check if it exceeds CEI
-                if (ssConfig.Commands.CWPP > 1 && ping > config.Commands.CEI.ToSecondsD())
+                if (ssConfig.Commands.CBI_BurstInterval.ToSecondsD() > 0)
                 {
-                    pingTime += ping;
+                    // Check for interleaving
+                    if (ssConfig.Commands.CBI_BurstPairFlag > 0)
+                    {
+                        interleaveIndex = ssConfig.Commands.CBI_BurstPairFlag;
+                    }
+
+                    // Skip if interleaved
+                    if (interleaveIndex <= 0)
+                    {
+                        pingTime += ssConfig.Commands.CBI_BurstInterval.ToSecondsD();
+                    }
+
+                    interleaveIndex--;
                 }
                 else
                 {
-                    pingTime += config.Commands.CEI.ToSecondsD();
+                    double ping = ssConfig.Commands.CWPTBP * ssConfig.Commands.CWPP;
+
+                    // If more than 1 ping is in the ensemble
+                    // check if it exceeds CEI
+                    if (ssConfig.Commands.CWPP > 1 && ping > config.Commands.CEI.ToSecondsD())
+                    {
+                        pingTime += ping;
+                    }
+                    else
+                    {
+                        pingTime += config.Commands.CEI.ToSecondsD();
+                    }
                 }
             }
 

@@ -615,7 +615,7 @@ namespace RTI
 
             int _CBI_EnsemblesPerBurst_ = 4096;
             double _CBI_BurstInterval_ = 3600;
-            bool _CBI_IsInterleaved_ = false;
+            int _CBI_IsInterleaved_ = 0;
 
             double _BatteryCapacity_ = 440.0;
             double _BatteryDerate_ = 0.85;
@@ -673,7 +673,7 @@ namespace RTI
 
             int _CBI_EnsemblesPerBurst_ = 4096;
             double _CBI_BurstInterval_ = 3600;
-            bool _CBI_IsInterleaved_ = false;
+            int _CBI_IsInterleaved_ = 0;
 
             double _BatteryCapacity_ = 440.0;
             double _BatteryDerate_ = 0.85;

@@ -65,6 +65,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -73,7 +74,7 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 				
-					<Border Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Margin="5" Background="Black" CornerRadius="5"><TextBlock Text="CBI" FontSize="26.667" Margin="10,5" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+					<Border Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" Margin="5" Background="Black" CornerRadius="5"><TextBlock Text="CBI" FontSize="26.667" Margin="10,5" HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
 				
 					<!--Burst Length-->
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="Burst length: " VerticalAlignment="Center" />
@@ -134,10 +135,13 @@
 					<TextBlock Grid.Row="1" Grid.Column="3" Text=" ensembles" VerticalAlignment="Center" />
 					
 					<TextBlock Grid.Row="2" Grid.Column="1" Text="Interleave ensembles? " VerticalAlignment="Center" />
-					<CheckBox Grid.Row="2" Grid.Column="2" Margin="5" IsChecked="{Binding CBI_BurstPairFlag}" Background="{StaticResource ClockBackgroundColor}" Foreground="{StaticResource ClockFontColor}" Style="{StaticResource OnOffSwitchStyle}" />
-				
-				
-				</Grid>
+                    <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="2" Margin="5" Value="{Binding CBI_BurstPairFlag}" Minimum="0" Increment="1" Background="{StaticResource ClockBackgroundColor}" Foreground="{StaticResource ClockFontColor}" FontSize="26.667" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="Burst ID " VerticalAlignment="Center" />
+                    <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="2" Margin="5" Value="{Binding CBI_BurstID}" Minimum="0" Increment="1" Background="{StaticResource ClockBackgroundColor}" Foreground="{StaticResource ClockFontColor}" FontSize="26.667" />
+
+
+                </Grid>
 			</Grid>
 		</ScrollViewer>
 				

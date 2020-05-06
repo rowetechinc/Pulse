@@ -185,13 +185,13 @@ namespace RTI
         }
 
         /// <summary>
-        /// Interleave the burst interval subsystem configurations flag.
+        /// The number of configurations to interleave together.
         /// </summary>
-        private bool _CBI_BurstPairFlag;
+        private int _CBI_BurstPairFlag;
         /// <summary>
-        /// Interleave the burst interval subsystem configurations flag.
+        /// The number of configurations to interleave together.
         /// </summary>
-        public bool CBI_BurstPairFlag
+        public int CBI_BurstPairFlag
         {
             get { return _CBI_BurstPairFlag; }
             set
@@ -207,9 +207,32 @@ namespace RTI
             }
         }
 
+        /// <summary>
+        /// Burst ID to give an unique identify and group ensembles.
+        /// </summary>
+        private int _CBI_BurstID;
+        /// <summary>
+        /// Burst ID to give an unique identify and group ensembles.
+        /// </summary>
+        public int CBI_BurstID
+        {
+            get { return _CBI_BurstID; }
+            set
+            {
+                _CBI_BurstID = value;
+                this.NotifyOfPropertyChange(() => this.CBI_BurstID);
+
+                if (_pm.IsProjectSelected)
+                {
+                    _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstID = value;
+                    _pm.SelectedProject.Save();
+                }
+            }
+        }
+
         #endregion
 
-                /// <summary>
+        /// <summary>
         /// Initialize the view model.
         /// </summary>
         public BurstModeViewModel()
@@ -272,19 +295,69 @@ namespace RTI
         {
             if (_pm.SelectedProject.Configuration.SubsystemConfigDict.ContainsKey(ConfigKey))
             {
-                _CBI_BurstInterval_Hour = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Hour;
-                _CBI_BurstInterval_Minute = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Minute;
-                _CBI_BurstInterval_Seconds = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Second;
-                this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Hour);
-                this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Minute);
-                this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Seconds);
+                // If burst mode is enabled already, display the information
+                if (_pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.ToSecondsD() > 0)
+                {
+                    _CBI_BurstInterval_Hour = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Hour;
+                    _CBI_BurstInterval_Minute = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Minute;
+                    _CBI_BurstInterval_Seconds = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Second;
+                    this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Hour);
+                    this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Minute);
+                    this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Seconds);
 
 
-                _CBI_NumEnsembles = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles;
-                this.NotifyOfPropertyChange(() => this.CBI_NumEnsembles);
+                    _CBI_NumEnsembles = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles;
+                    this.NotifyOfPropertyChange(() => this.CBI_NumEnsembles);
 
-                _CBI_BurstPairFlag = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag;
-                this.NotifyOfPropertyChange(() => this.CBI_BurstPairFlag);
+                    _CBI_BurstPairFlag = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag;
+                    this.NotifyOfPropertyChange(() => this.CBI_BurstPairFlag);
+
+                    _CBI_BurstID = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstID;
+                    this.NotifyOfPropertyChange(() => this.CBI_BurstID);
+                }
+                else
+                {
+                    // If burst mode is not enabled, but any other configuration contains burst mode, then this configuration
+                    // must also be burst mode.  Reuse the previous burst mode
+                    string burstConfigKey = String.Empty;
+                    foreach (var configKey in _pm.SelectedProject.Configuration.SubsystemConfigDict.Keys)
+                    {
+                        // Check if any of the configurations have burst enabled
+                        if (_pm.SelectedProject.Configuration.SubsystemConfigDict[configKey].Commands.CBI_BurstInterval.ToSecondsD() > 0)
+                        {
+                            burstConfigKey = configKey;
+                        }
+                    }
+
+                    if(!string.IsNullOrEmpty(burstConfigKey))
+                    {
+                        // Use the previous burst mode settings for this configuration
+                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Hour = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstInterval.Hour;
+                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Minute = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstInterval.Minute;
+                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Second = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstInterval.Second;
+                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_NumEnsembles;
+                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstPairFlag;
+                        _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstID = _pm.SelectedProject.Configuration.SubsystemConfigDict[burstConfigKey].Commands.CBI_BurstID;
+
+                        // Set the view model values
+                        _CBI_BurstInterval_Hour = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Hour;
+                        _CBI_BurstInterval_Minute = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Minute;
+                        _CBI_BurstInterval_Seconds = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstInterval.Second;
+                        this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Hour);
+                        this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Minute);
+                        this.NotifyOfPropertyChange(() => this.CBI_BurstInterval_Seconds);
+
+
+                        _CBI_NumEnsembles = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_NumEnsembles;
+                        this.NotifyOfPropertyChange(() => this.CBI_NumEnsembles);
+
+                        _CBI_BurstPairFlag = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag;
+                        this.NotifyOfPropertyChange(() => this.CBI_BurstPairFlag);
+
+                        _CBI_BurstID = _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstID;
+                        this.NotifyOfPropertyChange(() => this.CBI_BurstID);
+                    }
+                }
             }
         }
 

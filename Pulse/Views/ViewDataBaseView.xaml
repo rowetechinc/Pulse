@@ -19,6 +19,7 @@
 				<Button Content="Tabular" Margin="5" Command="{Binding Path=TextViewCommand}" />
                 <Button Content="Graphical" Margin="5" Command="{Binding Path=GraphicalViewCommand}" />
                 <Button Content="DVL" Margin="5" Command="{Binding Path=DvlViewCommand}" />
+                <Button Content="Ship Track" Margin="5" Command="{Binding Path=ShipTrackViewCommand}" />
                 <Button Content="Diagnostic" Margin="5" Command="{Binding Path=DiagnosticViewCommand}" />
                 <Button Content="Backscatter" Margin="5" Command="{Binding Path=BackscatterViewCommand}" />
                 <Button Content="3D Profile" Margin="5" Command="{Binding Path=Profile3DViewCommand}" />

@@ -20,7 +20,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	;Name and file
 	Name "BTIC - Pulse"
-	OutFile "BTIC.Pulse.Installer.v.4.12.10.Update.exe"
+	OutFile "BTIC.Pulse.Installer.v.4.13.1.Update.exe"
 
 	;Default installation folder
 	InstallDir "$PROGRAMFILES\BTIC\Pulse"
@@ -70,9 +70,9 @@ Var /GLOBAL VERSION_MINOR
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Section "Core" SecCore
 
-	StrCpy $VERSION_NUM "4.12.10" 
+	StrCpy $VERSION_NUM "4.13.1" 
 	StrCpy $VERSION_MAJOR "4"
-	StrCpy $VERSION_MINOR "12"
+	StrCpy $VERSION_MINOR "13"
 
 	SetOutPath $INSTDIR
 

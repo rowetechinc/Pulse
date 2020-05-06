@@ -287,7 +287,7 @@ namespace RTI
             {
                 if (_pm.IsProjectSelected && _pm.SelectedProject.Configuration.SubsystemConfigDict.ContainsKey(ConfigKey))
                 {
-                    return MathHelper.BoolToOnOffStr(_pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag);
+                    return _pm.SelectedProject.Configuration.SubsystemConfigDict[ConfigKey].Commands.CBI_BurstPairFlag.ToString();
                 }
 
                 return "OFF"; 
