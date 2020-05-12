@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.13.1 ChangeLog</title>
+		<title>Version 4.13.2 ChangeLog</title>
 		<style type="text/css">
             .auto-style1 {
 	            text-decoration: underline;
@@ -10,7 +10,17 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.13.1</span>
+            <br /><span class="auto-style1">Pulse-4.13.2</span>
+            <br />  Pulse-4.13.2
+            <br />  * Fixed the bugs with Status2.
+            <br />  - Fixed EnsembleInterval to show a double value and not Int in Project Setup.
+            <br />  - Relayed out the ADCP Configuration in Project setup.
+            <br />  - Added Ship Track view to Views page.
+            <br />  - In Project Setup, fixed displaying timing for Burst Mode
+            <br />  - When creating a new subsystem configuration, check if burst mode is used.
+            <br />  - Fix the tooltips in the displays.
+            <br />  * In ViewDataTextViewModel, fixed bug if no WP velocity data is present.
+            <br />
             <br />  Pulse-4.13.1
             <br />  - Added BurstIndex and BurstID to ViewDataTextEnsembleViewModel.
             <br />
@@ -243,6 +253,36 @@
             <br />   - Change the images in PlaybackView.xaml to VisualBrushes.  This decreased startup time dramatically.
             <br />   - In DistanceTraveled, in AccumulateGps() verify a good _FirstGpsPos is set.
             <br /><span class="auto-style1">RTI-3.4.14</span>
+            <br />   RTI-3.4.17
+            <br />   - In Project and AdcpDatabaseWriter, added BurstID to project table.
+            <br />   - In EnsembleDataSet, added BurstID and BurstIndex.
+            <br />   - In AdcpDatabaseWriter, added BurstIndex and BurstID.
+            <br />   - In AdcpBinaryCodecReadFile, Added events to monitor the process.
+            <br />   - In RtiWavesEncoder, Handling new firmware version with BurstID and BurstIndex.
+            <br />   * Fixed bug in AdcpUdp when UDP is not initialized.
+            <br />
+            <br />   RTI-3.4.16
+            <br />   - Adding Ethernet Upload.
+            <br />   - In BaseDataSet, added JSON WaterMass WT PD0 Values.
+            <br />   - In ShipWaterMassDataSet, InstrumentWaterMassDataSet and EarthWaterMassDataSet, added PD0 Missing Values and DecodePd0Ensemble().
+            <br />   - In PD0 class, fixed how Water Mass values are set.
+            <br />   - In Ensemble class, use DecodePd0Ensemble() to decode the Water Mass values.
+            <br />   - In CsvExporterWriter, added Water Track (Water Mass) values.
+            <br />   - In ShipVelocityDataSet, remapped beams for PD0 decode to match X,Y,Z.
+            <br />   - In CsvExporterWriter, Relabed RefLayer to RefLayerMidPosition.  Divided by 10 the ReflayerMin,Far and Near.
+            <br />
+            <br />   RTI-3.4.15
+            <br />   - In ExportOptions, Added HeadingOffset, PitchOffset and RollOffset.
+            <br />   * In Tansform, If more than 3 beams are bad set all velocity to BAD_VELOCITY and not 0.0.
+            <br />   - In VmTiltOffset, Add option to retransform the data after applying the offset.
+            <br />   - In VmHeadingOffset, Add option to retransform the data after applying the offset.
+            <br />   - In VmHeadingOffset, Normalize the heading value.
+            <br />   - Added Normalise to MathHelper.
+            <br />   - In VmTiltOffset, Normalize the pitch and roll value after offset added.
+            <br />   - Added ReplacePressureVerticalBeam to replace the pressure data with vertical beam data.
+            <br />   - In EnsembleHelper, Added AddRangeTracking().
+            <br />   - In ReplacePressureVerticalBeam, fixed logic.
+            <br />
             <br />   RTI-3.4.14
             <br />   - In RangeTrackingDataSet, added AverageRange().
             <br />   - Added ScreenMarkBadAboveSurface.cs.

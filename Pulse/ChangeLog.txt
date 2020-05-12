@@ -7,6 +7,8 @@ Pulse-4.13.2
  - Added Ship Track view to Views page.
  - In Project Setup, fixed displaying timing for Burst Mode
  - When creating a new subsystem configuration, check if burst mode is used.
+ - Fix the tooltips in the displays.
+ * In ViewDataTextViewModel, fixed bug if no WP velocity data is present.
 
 Pulse-4.13.1
  - Added BurstIndex and BurstID to ViewDataTextEnsembleViewModel.

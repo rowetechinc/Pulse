@@ -14,8 +14,17 @@
 			 >
     <ScrollViewer ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <Grid Background="Black" Grid.IsSharedSizeScope="True">
-    	
-		    <Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="{x:Type ToolTip}">
+                    <Setter Property = "Background" Value="Black"/>
+                    <Setter Property = "Foreground" Value="White"/>
+                    <Setter Property = "FontSize" Value="14"/>
+                    <Setter Property = "FontWeight" Value="Bold"/>
+                    <Setter Property = "FontFamily" Value="Courier New"/>
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
 			    <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -103,11 +112,11 @@
                     
                         <!--Status-->
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Status: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,5" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Status}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,5"  FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom"  />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Status}" ToolTip="{Binding Status}" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,5"  FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom" MaxWidth="250" />
 
                         <!--Bottom Track Status-->
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Bottom Track Status: " Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,0,5,5" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding BtStatus}" ToolTip="{Binding BtStatus}" MaxWidth="200" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,5"  FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom"  />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding BtStatus}" ToolTip="{Binding BtStatus}" MaxWidth="250" Foreground="{StaticResource PulseFontBrightColor}" Margin="5,0,5,5"  FontWeight="Bold" FontSize="20" VerticalAlignment="Bottom"  />
                     </Grid>
 
                 </StackPanel>

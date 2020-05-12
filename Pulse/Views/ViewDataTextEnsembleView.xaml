@@ -9,7 +9,17 @@
 	
 	<!-- Display Dataset data -->
 	<Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
-		<Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style TargetType="{x:Type ToolTip}">
+                <Setter Property = "Background" Value="Black"/>
+                <Setter Property = "Foreground" Value="White"/>
+                <Setter Property = "FontSize" Value="14"/>
+                <Setter Property = "FontWeight" Value="Bold"/>
+                <Setter Property = "FontFamily" Value="Courier New"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
@@ -76,28 +86,13 @@
                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="{Binding Path=EnsembleNumber}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Text="{Binding Path=EnsDateString}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Text="{Binding Path=EnsTimeString}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
-                <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" MaxWidth="150" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible" Margin="5,3,5,3" >
-                    <!--Viewbox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Margin="5,3,5,3" MaxWidth="150" MaxHeight="15" HorizontalAlignment="Left"-->
-                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=Status}" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" >
-						<ToolTipService.ToolTip> 
-							<TextBlock Foreground="{StaticResource PulseFontHighlightColor}" Text="{Binding Path=Status}" Background="White" />
-						</ToolTipService.ToolTip>
-					</TextBlock>
-                    <!--/Viewbox-->
-                </ScrollViewer>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Width="150" HorizontalAlignment="Left" Text="{Binding Path=Status}" ToolTip="{Binding Status}" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" Margin="5,3,5,3" />
                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Text="{Binding Path=Subsystems}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" Text="{Binding Path=SystemSerialNumber}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Text="{Binding Path=Firmware}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <!--TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="5,3,5,3" MaxWidth="150" HorizontalAlignment="Left" Text="{Binding Path=DisplayEnsemble.EnsembleData.SubsystemConfig.StringDesc}" Foreground="{StaticResource PulseFontHighlightColor}"  FontWeight="Bold" /-->
-                <ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="5,3,5,3" MaxWidth="150" HorizontalAlignment="Left" Height="35" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
-                    <!--Viewbox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Margin="5,3,5,3" MaxWidth="150"-->
-                    <TextBlock VerticalAlignment="Center" Text="{Binding Path=StringDesc}" Foreground="{StaticResource PulseFontHighlightColor}" FontSize="10.667" FontWeight="Bold" >
-						<ToolTipService.ToolTip> 
-				            <TextBlock Foreground="{StaticResource PulseFontHighlightColor}" Text="{Binding Path=StringDesc}" Background="White" />
-				        </ToolTipService.ToolTip>
-					</TextBlock>
-                    <!--/Viewbox-->
-                </ScrollViewer>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Width="150" HorizontalAlignment="Left" Text="{Binding Path=StringDesc}" ToolTip="{Binding StringDesc}" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" Margin="5,3,5,3" />
+
                 <!--oxy:Plot x:Name="sysTempPlot" Grid.Column="2" Grid.Row="8" Model="{Binding Path=SystemTempPlot}" MinWidth="50" MinHeight="20" VerticalAlignment="Top" Background="#00FFFFFF" /-->
             </Grid>
 

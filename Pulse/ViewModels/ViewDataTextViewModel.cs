@@ -77,6 +77,7 @@
  * 11/13/2015      RC          4.3.1      Added RangeTracking info.
  * 11/16/2016      RC          4.3.1      Added a thread.
  * 08/28/2017      RC          4.5.2      Added Ship Velocities.
+ * 05/11/2020      RC          4.13.2     Fixed bug if no WP velocity data is present.
  * 
  */
 
@@ -3215,175 +3216,188 @@ namespace RTI
 
                     binData.Append((SetMeasurementValue((float)((bin * binSize) + firstBinDepth), "0.000") + MeasurementLabel()).PadLeft(DepthPad) + "    ");
 
-                    //----------------------------------------------------------------------
-                    // Velocity Beam 0
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && velData != null)
+                    // Verify the data exist
+                    if (velData != null && velData.GetLength(0) > bin)
                     {
-                        binData.Append((SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_0_INDEX], "0.000")).PadLeft(VelPad) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((VelPad)) + " "));
-                    }
+                        //----------------------------------------------------------------------
+                        // Velocity Beam 0
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && velData != null)
+                        {
+                            binData.Append((SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_0_INDEX], "0.000")).PadLeft(VelPad) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((VelPad)) + " "));
+                        }
 
-                    // Velocity Beam 1
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && velData != null)
-                    {
-                        binData.Append(
-                            (SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_1_INDEX], "0.000")).PadLeft(VelPad) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((VelPad)) + " "));
-                    }
+                        // Velocity Beam 1
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && velData != null)
+                        {
+                            binData.Append(
+                                (SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_1_INDEX], "0.000")).PadLeft(VelPad) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((VelPad)) + " "));
+                        }
 
-                    // Velocity Beam 2
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && velData != null)
-                    {
-                        binData.Append((SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_2_INDEX], "0.000")).PadLeft(VelPad) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((VelPad)) + " "));
-                    }
+                        // Velocity Beam 2
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && velData != null)
+                        {
+                            binData.Append((SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_2_INDEX], "0.000")).PadLeft(VelPad) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((VelPad)) + " "));
+                        }
 
-                    // Velocity Beam 3
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && velData != null)
-                    {
-                        binData.Append((SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_3_INDEX], "0.000")).PadLeft(VelPad) + "   ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((VelPad)) + "   "));
-                    }
-
-                    //----------------------------------------------------------------------
-                    // Good Ping Beam 0
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && goodPingData != null)
-                    {
-                        binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_0_INDEX]).ToString()).PadLeft(1) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((1)) + " "));
-                    }
-
-                    // Good Ping Beam 1
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && goodPingData != null)
-                    {
-                        binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_1_INDEX]).ToString()).PadLeft(1) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((1)) + " "));
-                    }
-
-                    // Good Ping Beam 2
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && goodPingData != null)
-                    {
-                        binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_2_INDEX]).ToString()).PadLeft(1) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((1)) + " "));
-                    }
-
-                    // Good Ping Beam 3
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && goodPingData != null)
-                    {
-                        binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_3_INDEX]).ToString()).PadLeft(1) + "   ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((1)) + "   "));
+                        // Velocity Beam 3
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && velData != null)
+                        {
+                            binData.Append((SetMeasurementValue(velData[bin, DataSet.Ensemble.BEAM_3_INDEX], "0.000")).PadLeft(VelPad) + "   ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((VelPad)) + "   "));
+                        }
                     }
 
                     //----------------------------------------------------------------------
-                    // Amplitude Beam 0
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && ampData != null)
-                    {
-                        binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_0_INDEX]).ToString("0.0")).PadLeft(6) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6)) + " "));
-                    }
+                    if (goodPingData != null && goodPingData.GetLength(0) > bin)
+                    { 
+                        // Good Ping Beam 0
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && goodPingData != null)
+                        {
+                            binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_0_INDEX]).ToString()).PadLeft(1) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((1)) + " "));
+                        }
 
-                    // Amplitude Beam 1
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && ampData != null)
-                    {
-                        binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_1_INDEX]).ToString("0.0")).PadLeft(6) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6)) + " "));
-                    }
+                        // Good Ping Beam 1
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && goodPingData != null)
+                        {
+                            binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_1_INDEX]).ToString()).PadLeft(1) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((1)) + " "));
+                        }
 
-                    // Amplitude Beam 2
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && ampData != null)
-                    {
-                        binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_2_INDEX]).ToString("0.0")).PadLeft(6) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6)) + " "));
-                    }
+                        // Good Ping Beam 2
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && goodPingData != null)
+                        {
+                            binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_2_INDEX]).ToString()).PadLeft(1) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((1)) + " "));
+                        }
 
-                    // Amplitude Beam 3
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && ampData != null)
-                    {
-                        binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_3_INDEX]).ToString("0.0")).PadLeft(6) + "   ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6)) + "   "));
+                        // Good Ping Beam 3
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && goodPingData != null)
+                        {
+                            binData.Append(((goodPingData[bin, DataSet.Ensemble.BEAM_3_INDEX]).ToString()).PadLeft(1) + "   ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((1)) + "   "));
+                        }
                     }
 
                     //----------------------------------------------------------------------
-                    // Correlation Beam 0
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && corrData != null)
+                    if (ampData != null && ampData.GetLength(0) > bin)
                     {
-                        binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_0_INDEX]).ToString("0.000")).PadLeft(6) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6)) + " "));
+                        // Amplitude Beam 0
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && ampData != null)
+                        {
+                            binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_0_INDEX]).ToString("0.0")).PadLeft(6) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6)) + " "));
+                        }
+
+                        // Amplitude Beam 1
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && ampData != null)
+                        {
+                            binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_1_INDEX]).ToString("0.0")).PadLeft(6) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6)) + " "));
+                        }
+
+                        // Amplitude Beam 2
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && ampData != null)
+                        {
+                            binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_2_INDEX]).ToString("0.0")).PadLeft(6) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6)) + " "));
+                        }
+
+                        // Amplitude Beam 3
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && ampData != null)
+                        {
+                            binData.Append(((ampData[bin, DataSet.Ensemble.BEAM_3_INDEX]).ToString("0.0")).PadLeft(6) + "   ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6)) + "   "));
+                        }
                     }
 
-                    // Correlation Beam 1
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && corrData != null)
+                    //----------------------------------------------------------------------
+                    if (corrData != null && corrData.GetLength(0) > bin)
                     {
-                        binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_1_INDEX]).ToString("0.000")).PadLeft(6) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6)) + " "));
-                    }
+                        // Correlation Beam 0
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_0_INDEX && corrData != null)
+                        {
+                            binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_0_INDEX]).ToString("0.000")).PadLeft(6) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6)) + " "));
+                        }
 
-                    // Correlation Beam 2
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && corrData != null)
-                    {
-                        binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_2_INDEX]).ToString("0.000")).PadLeft(6) + " ");
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6)) + " "));
-                    }
+                        // Correlation Beam 1
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_1_INDEX && corrData != null)
+                        {
+                            binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_1_INDEX]).ToString("0.000")).PadLeft(6) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6)) + " "));
+                        }
 
-                    // Correlation Beam 3
-                    if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && corrData != null)
-                    {
-                        binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_3_INDEX]).ToString("0.000")).PadLeft(6));
-                    }
-                    else
-                    {
-                        binData.Append(("-".PadLeft((6))));
-                    }
+                        // Correlation Beam 2
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_2_INDEX && corrData != null)
+                        {
+                            binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_2_INDEX]).ToString("0.000")).PadLeft(6) + " ");
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6)) + " "));
+                        }
 
-                    if (VV != null)
-                    {
-                        binData.Append(SetMeasurementValue((float)VV[bin].Magnitude, "0.00").PadLeft(9));
-                        binData.Append(SetDegreeValue(VV[bin].DirectionXNorth, "0.00").PadLeft(12));
+                        // Correlation Beam 3
+                        if (adcpData.EnsembleData.NumBeams > DataSet.Ensemble.BEAM_3_INDEX && corrData != null)
+                        {
+                            binData.Append(((corrData[bin, DataSet.Ensemble.BEAM_3_INDEX]).ToString("0.000")).PadLeft(6));
+                        }
+                        else
+                        {
+                            binData.Append(("-".PadLeft((6))));
+                        }
+
+                        if (VV != null)
+                        {
+                            binData.Append(SetMeasurementValue((float)VV[bin].Magnitude, "0.00").PadLeft(9));
+                            binData.Append(SetDegreeValue(VV[bin].DirectionXNorth, "0.00").PadLeft(12));
+                        }
                     }
 
                     // Add the string to the list

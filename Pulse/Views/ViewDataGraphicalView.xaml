@@ -14,8 +14,8 @@
              d:DesignWidth="1000" d:DesignHeight="525"
 			 >
     <Grid Background="Black">
-    	
-		<Grid.ColumnDefinitions>
+
+        <Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions> 

@@ -10,7 +10,17 @@
              d:DesignHeight="2000" d:DesignWidth="800">
 <ScrollViewer HorizontalScrollBarVisibility="Auto">
 	<Grid>
-		<Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <Style TargetType="{x:Type ToolTip}">
+                <Setter Property = "Background" Value="Black"/>
+                <Setter Property = "Foreground" Value="White"/>
+                <Setter Property = "FontSize" Value="14"/>
+                <Setter Property = "FontWeight" Value="Bold"/>
+                <Setter Property = "FontFamily" Value="Courier New"/>
+            </Style>
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions> 
@@ -89,13 +99,7 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-							<ScrollViewer Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="5" Width="100" HorizontalAlignment="Left" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible" >
-								<TextBlock VerticalAlignment="Center" Text="{Binding Path=DisplayEnsemble.BottomTrackData.Status}" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" >
-									<ToolTipService.ToolTip> 
-										<TextBlock Foreground="{StaticResource PulseFontHighlightColor}" Background="White" Text="{Binding Path=DisplayEnsemble.BottomTrackData.Status}"  />
-									</ToolTipService.ToolTip>
-								</TextBlock>
-							</ScrollViewer>
+                            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Width="100" HorizontalAlignment="Left" Text="{Binding Path=DisplayEnsemble.BottomTrackData.Status}" ToolTip="{Binding DisplayEnsemble.BottomTrackData.Status}" Foreground="{StaticResource PulseFontHighlightColor}" FontWeight="Bold" Margin="5,3,5,3" />
 							
 							<TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Text="{Binding DisplayEnsemble.BottomTrackData.ActualPingCount}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5" FontWeight="Bold" />
 							
