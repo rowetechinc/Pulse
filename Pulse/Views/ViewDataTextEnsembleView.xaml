@@ -345,8 +345,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="Lag:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
-                        <TextBlock Grid.Row="1" Text="CPCE:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="0" Text="WP Lag Length:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                        <TextBlock Grid.Row="1" Text="BT Lag Length:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="2" Text="NCE:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="3" Text="RepeatN:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
                         <TextBlock Grid.Row="4" Text="Gap:" HorizontalAlignment="Right" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
@@ -360,17 +360,17 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Lag}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
-                <TextBlock Grid.Column="1" Grid.Row="0" Text=" Samples" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=WpLagLength}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontColor}" Margin="5,3,5,3" />
 
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=CPCE}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=BtLagLength}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
 
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=NCE}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />
                 <TextBlock Grid.Column="0" Grid.Row="3" Text="{Binding Path=RepeatN}" HorizontalAlignment="Left" Foreground="{StaticResource PulseFontHighlightColor}" Margin="5,3,5,3" FontWeight="Bold" />

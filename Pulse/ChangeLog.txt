@@ -1,5 +1,10 @@
 ﻿Pulse Changelog
 
+Pulse-4.13.3
+ * Only apply VM Heading or Tilt offset if value is given.
+ * In Transform, check if the ADCP has more than 3 beams (SeaSEVEN).
+ - Display lag length in View.
+
 Pulse-4.13.2
  * Fixed the bugs with Status2. 
  - Fixed EnsembleInterval to show a double value and not Int in Project Setup.

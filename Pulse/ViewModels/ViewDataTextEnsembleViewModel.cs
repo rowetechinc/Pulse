@@ -721,6 +721,36 @@ namespace RTI
             }
         }
 
+        public string WpLagLength
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsSystemSetupAvail)
+                {
+                    return (_DisplayEnsemble.SystemSetupData.WpLagLength.ToString("0.000"));
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public string BtLagLength
+        {
+            get
+            {
+                if (_DisplayEnsemble != null && _DisplayEnsemble.IsSystemSetupAvail)
+                {
+                    return (_DisplayEnsemble.SystemSetupData.BtLagLength.ToString("0.000"));
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
         #endregion
 
         #region Nmea Properties
