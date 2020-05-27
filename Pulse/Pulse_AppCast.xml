@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <item>
-  <title>New version 4.13.2 of Pulse is available.</title>
-  <version>4.13.2</version>
-  <url>http://www.rowetechinc.com/swfw/latest/Pulse/Pulse.Installer.v.4.13.2.Update.exe</url>
+  <title>New version 4.13.3 of Pulse is available.</title>
+  <version>4.13.3</version>
+  <url>http://www.rowetechinc.com/swfw/latest/Pulse/Pulse.Installer.v.4.13.3.Update.exe</url>
   <changelog>http://www.rowetechinc.com/swfw/latest/Pulse/releasenotes.html</changelog>
   <mandatory>true</mandatory>
 </item>

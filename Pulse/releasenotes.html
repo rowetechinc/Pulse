@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 	<head>
-		<title>Version 4.13.2 ChangeLog</title>
+		<title>Version 4.13.3 ChangeLog</title>
 		<style type="text/css">
             .auto-style1 {
 	            text-decoration: underline;
@@ -10,7 +10,12 @@
 	</head>
 	<body>
         <p>
-            <br /><span class="auto-style1">Pulse-4.13.2</span>
+            <br /><span class="auto-style1">Pulse-4.13.3</span>
+            <br />  Pulse-4.13.3
+            <br />  * Only apply VM Heading or Tilt offset if value is given.
+            <br />  * In Transform, check if the ADCP has more than 3 beams (SeaSEVEN).
+            <br />  - Display lag length in View.
+            <br />
             <br />  Pulse-4.13.2
             <br />  * Fixed the bugs with Status2.
             <br />  - Fixed EnsembleInterval to show a double value and not Int in Project Setup.
@@ -159,7 +164,17 @@
             <br />   - In PredictionModel, fix bug in GetBurstDataStorage() when calculating number of burst per deployment.
             <br />   - In PredictionModel, fix bug in CalculatePowerBurst() when calculating number of burst per deployment.
             <br />
-            <br /><span class="auto-style1">Pulse-Display-4.11.3</span>
+            <br /><span class="auto-style1">Pulse-Display-4.13.1</span>
+            <br />   Pulse-Display-4.13.1
+            <br />   - Fixed bug in BinPlot3D if no water profile data is available.
+            <br />
+            <br />   Pulse-Display-4.13.0
+            <br />   - In PulseManager, if error reading in Pulse Options, create a clean options.
+            <br />
+            <br />   Pulse-Display-4.12.0
+            <br />   - Added Profile3DPlotViewModel and View.
+            <br />   - Check if the folder exist when getting the default project folder in Commons.
+            <br />
             <br />   Pulse-Display-4.11.3
             <br />   - Added ScreenMarkBadAbove Surface to screening.
             <br />   - In ScreenSubsystemConfigOptions, Added IsMarkBadAboveSurface.
@@ -252,7 +267,13 @@
             <br />   - In ScreenDataViewModel, added FillInMissingWpData() to fill in data when Water Profile is turned off.
             <br />   - Change the images in PlaybackView.xaml to VisualBrushes.  This decreased startup time dramatically.
             <br />   - In DistanceTraveled, in AccumulateGps() verify a good _FirstGpsPos is set.
-            <br /><span class="auto-style1">RTI-3.4.14</span>
+            <br /><span class="auto-style1">RTI-3.4.18</span>
+            <br />   RTI-3.4.18
+            <br />   * Only apply VM Heading or Tilt offset if value is given.
+            <br />   * In Transform, check if the ADCP has more than 3 beams (SeaSEVEN).
+            <br />   * In Pd0Correlation, handle converting RTI to PD0 with 3 beam (SeaSEVEN).
+            <br />   * In Pd0EchoIntensity, handle converting RTI to PD0 with 3 beam (SeaSEVEN).
+            <br />
             <br />   RTI-3.4.17
             <br />   - In Project and AdcpDatabaseWriter, added BurstID to project table.
             <br />   - In EnsembleDataSet, added BurstID and BurstIndex.

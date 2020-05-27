@@ -721,6 +721,9 @@ namespace RTI
             }
         }
 
+        /// <summary>
+        /// Water Profile Lag Length.
+        /// </summary>
         public string WpLagLength
         {
             get
@@ -736,6 +739,9 @@ namespace RTI
             }
         }
 
+        /// <summary>
+        /// Bottom Track Lag Length.
+        /// </summary>
         public string BtLagLength
         {
             get
