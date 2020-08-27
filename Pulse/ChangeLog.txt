@@ -1,5 +1,8 @@
 ﻿Pulse Changelog
 
+Pulse-4.13.5
+ * Fixed bug when Bottom Track is NaN and removing ship speed.
+
 Pulse-4.13.4
   - Added options to turn on or off MarkBadBelowBottom and MarkBadAboveSurface for Amplitude and Correlation.
 

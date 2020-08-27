@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the ranges or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.13.4.*")]
-[assembly: AssemblyFileVersion("4.13.4.0")]
+[assembly: AssemblyVersion("4.13.5.*")]
+[assembly: AssemblyFileVersion("4.13.5.0")]
