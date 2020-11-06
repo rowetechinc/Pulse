@@ -519,7 +519,7 @@
                                 <TextBlock Grid.Column="0" Grid.Row="0" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtRangeB0}" Margin="5" FontWeight="Bold" />
                                 <TextBlock Grid.Column="1" Grid.Row="0" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtRangeB1}" Margin="5" FontWeight="Bold"/>
                                 <TextBlock Grid.Column="2" Grid.Row="0" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtRangeB2}" Margin="5" FontWeight="Bold"/>
-                                <TextBlock Grid.Column="3" Grid.Row="0" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtRangeB2}" Margin="5" FontWeight="Bold"/>
+                                <TextBlock Grid.Column="3" Grid.Row="0" Foreground="{StaticResource PulseFontHighlightColor}" HorizontalAlignment="Center" Text="{Binding Path=RtRangeB3}" Margin="5" FontWeight="Bold"/>
                             </Grid>
 
                             <!-- Range Track Good Pings -->

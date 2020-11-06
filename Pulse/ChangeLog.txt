@@ -1,5 +1,9 @@
 ﻿Pulse Changelog
 
+Pulse-4.13.6
+ * Fixed bug in Tabular data not displaying Beam 4 Range tracking value.
+ - In Pd0PercentGood, fixed bug remapping beams GoodEarth data. 
+
 Pulse-4.13.5
  * Fixed bug when Bottom Track is NaN and removing ship speed.
 
